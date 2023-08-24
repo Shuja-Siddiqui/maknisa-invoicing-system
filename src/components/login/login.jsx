@@ -10,12 +10,6 @@ const StyledLoginPage = styled("div")(({ theme }) => ({
   flexDirection: "column",
 }));
 
-// const StyledPaper = styled(Paper)(({ theme }) => ({
-//   padding: theme.spacing(4),
-//   textAlign: "center",
-//   background: "rgba(235, 229, 229, 0.8)",
-// }));
-
 const StyledTextField = styled(TextField)(({ theme }) => ({
   "& label.Mui-focused": {
     color: "#FA9105",
@@ -43,7 +37,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const StyledButton = styled(Button)(({ theme }) => ({
+export const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
   color: "white",
   backgroundColor: "#F98E0A",
