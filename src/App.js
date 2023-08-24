@@ -1,5 +1,11 @@
 import "./app.css";
-import { Header, InvoiceButtonCard, InvoiceTable, Login } from "./components";
+import {
+  Header,
+  InvoiceButtonCard,
+  InvoiceForm,
+  InvoiceTable,
+  Login,
+} from "./components";
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
@@ -31,7 +37,8 @@ function App() {
         actions={["click"]}
       /> */}
       {/* <Login /> */}
-      <InvoiceTable rows={rows} />
+      {/* <InvoiceTable rows={rows} /> */}
+      <InvoiceForm />
     </>
   );
 }
