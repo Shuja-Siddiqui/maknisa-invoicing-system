@@ -7,7 +7,9 @@ import {
   MenuItem,
   Button,
   Container,
+  Box,
 } from "@mui/material";
+import { AddItemForm } from "./AdditemForm";
 
 const initialFormState = {
   client_name: "",
@@ -16,6 +18,7 @@ const initialFormState = {
     area: "",
     city: "",
     province: "",
+    making_time: "",
   },
   estimate_time: "",
   terms:
@@ -26,9 +29,12 @@ const initialFormState = {
 
 export const InvoiceForm = () => {
   const [formData, setFormData] = useState(initialFormState);
-  const [terms, setTerms] = useState(
-    "Foam quality - Master Molty Furniture to be delivered after construction completion of house Wood quality - Sheesham Wood Polish included Imported fabric on sofas same quality as pictures Cushions as per client demand Carriage will be paid by customer Mattress will not be included 50% payment in advance 30% before polish and poshish 20% before delivery"
-  );
+  const [items, setItems] = useState([]);
+  const [editableTerms, setEditableTerms] = useState(false);
+  const [isAddItemFormVisible, setAddItemFormVisible] = useState(false);
+  const handleToggleEdit = () => {
+    setEditableTerms(!editableTerms);
+  };
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -46,6 +52,9 @@ export const InvoiceForm = () => {
     }));
   };
 
+  const handleAddItem = (itemData) => {
+    setItems([...items, itemData]);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
@@ -55,6 +64,7 @@ export const InvoiceForm = () => {
     <Container maxWidth="md">
       <form onSubmit={handleSubmit}>
         <TextField
+          sx={{ mb: 2, mt: 2 }}
           label="Client Name"
           fullWidth
           value={formData.client_name}
@@ -63,7 +73,7 @@ export const InvoiceForm = () => {
 
         <InputLabel>Location</InputLabel>
 
-        <FormControl sx={{ display: "flex", flexDirection: "row" }}>
+        <FormControl sx={{ display: "flex", flexDirection: "row", mb: 2 }}>
           <TextField
             label="Details"
             value={formData.location.details}
@@ -86,7 +96,31 @@ export const InvoiceForm = () => {
           />
         </FormControl>
 
-        {/* ... Other fields ... */}
+        <TextField
+          sx={{ mb: 2 }}
+          label=" Makign Time"
+          fullWidth
+          value={formData.making_time}
+          onChange={(e) => handleInputChange("making-time", e.target.value)}
+        />
+        <InputLabel>Terms & Conditions</InputLabel>
+
+        <TextField
+          fullWidth
+          multiline
+          rows={6}
+          value={formData.terms}
+          onChange={(e) => handleInputChange("terms", e.target.value)}
+          disabled={!editableTerms}
+          sx={{ maxHeight: 200, overflowY: "auto", marginBottom: 2 }}
+        />
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button variant="outlined" color="primary" onClick={handleToggleEdit}>
+            {editableTerms ? "Save" : "Edit"}
+          </Button>
+        </Box>
+
+        <Box>{<AddItemForm />}</Box>
 
         <Button type="submit" variant="contained" color="primary">
           Submit
