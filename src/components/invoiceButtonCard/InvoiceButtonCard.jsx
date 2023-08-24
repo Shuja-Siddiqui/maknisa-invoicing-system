@@ -20,13 +20,19 @@ export const InvoiceButtonCard = ({ color, actions, text }) => {
           padding: {
             xl: "2rem",
             lg: "2rem",
-            md: "1.5rem",
+            md: "2rem",
             sm: "1rem",
             xs: "0.8rem",
           },
         }}
       >
-        <CardContent>
+        <CardContent
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <StyledHeading>{text}</StyledHeading>
         </CardContent>
       </Card>

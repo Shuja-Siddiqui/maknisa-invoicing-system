@@ -1,8 +1,8 @@
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import styled from "styled-components";
 
 export const StyledHeading = styled(Typography)(({ theme }) => ({
-  fontSize: "2rem",
+  fontSize: "4rem",
   fontWeight: "bold",
   color: "#F98E0A",
 }));
