@@ -5,11 +5,12 @@ function App() {
     <>
       <Header />
 
-      <InvoiceButtonCard
+      {/* <InvoiceButtonCard
         text={"New Invoice"}
         color={"black"}
         actions={["click"]}
-      />
+      /> */}
+      <Login />
     </>
   );
 }

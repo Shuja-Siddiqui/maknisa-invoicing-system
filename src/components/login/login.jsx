@@ -60,11 +60,21 @@ export const Login = () => {
           height: "400px",
           width: "400px",
           marginBottom: "1rem",
+          display: {
+            xl: "flex",
+            lg: "flex",
+            md: "flex",
+            sm: "none",
+            xs: "none",
+          },
         }}
       ></Box>
       <Container
-        maxWidth="sm"
-        sx={{ alignItems: "center", textAlign: "center" }}
+        sx={{
+          alignItems: "center",
+          textAlign: "center",
+          maxWidth: { xl: "md", lg: "md", sm: "sm", xs: "sm" },
+        }}
       >
         <form>
           <StyledTextField
