@@ -4,8 +4,7 @@ function App() {
   return (
     <>
       <Header />
-
-      <InvoiceButtonCard text={"New Invoice"} color={"black"} actions={null} />
+      <Login />
     </>
   );
 }
