@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, Button, styled } from "@mui/material";
+import { Card, CardContent, Button, styled, Box } from "@mui/material";
 import { StyledHeading } from "../../utils/elements";
 export const StyledActionButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
@@ -12,11 +12,22 @@ export const StyledActionButton = styled(Button)(({ theme }) => ({
 }));
 export const InvoiceButtonCard = ({ color, actions, text }) => {
   return (
-    <div onClick={actions}>
+    <Box
+      onClick={actions}
+      sx={{
+        gap: "10px",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "2rem",
+        cursor: "pointer",
+      }}
+    >
       <Card
         sx={{
-          maxWidth: 300,
+          width: 300,
           backgroundColor: color || "#fff",
+          borderRadius: "5%",
+          border: "1px solid white",
           padding: {
             xl: "2rem",
             lg: "2rem",
@@ -36,6 +47,6 @@ export const InvoiceButtonCard = ({ color, actions, text }) => {
           <StyledHeading>{text}</StyledHeading>
         </CardContent>
       </Card>
-    </div>
+    </Box>
   );
 };

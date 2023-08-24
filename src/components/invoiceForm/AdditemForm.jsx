@@ -1,22 +1,16 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Container,
-  FormControl,
-  Typography,
-} from "@mui/material";
+import { Button, Container, FormControl, Typography, Box } from "@mui/material";
+import { StyledTextField } from "../../utils/elements";
+import { StyledButton } from "../../pages";
 
-export const AddItemForm = () => {
+
+export const AddItemForm = ({
+  itemData,
+  setItemData,
+  formData,
+  setFormData,
+}) => {
   const [isFormVisible, setFormVisible] = useState(false);
-  const [itemData, setItemData] = useState({
-    description: "",
-    dimension: "",
-    rate: "",
-    quantity: "",
-    price: "",
-    avatar: null,
-  });
 
   const handleToggleForm = () => {
     setFormVisible(!isFormVisible);
@@ -30,11 +24,8 @@ export const AddItemForm = () => {
     });
   };
 
-  const handleInputChange = (field, value) => {
-    setItemData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
+  const handleChange = (e) => {
+    setItemData({ ...itemData, [e.target.name]: e.target.value });
   };
 
   const handleAvatarChange = (e) => {
@@ -46,10 +37,8 @@ export const AddItemForm = () => {
   };
 
   const handleAddItem = () => {
-    // Handle adding the item to your state or perform necessary actions
-    // ...
+    setFormData({ ...formData, items: [...formData.items, itemData] });
 
-    // Clear the form fields
     setItemData({
       description: "",
       dimension: "",
@@ -62,62 +51,101 @@ export const AddItemForm = () => {
 
   return (
     <Container maxWidth="md">
-      <Typography variant="h5" gutterBottom>
-        Add Item
-      </Typography>
       {isFormVisible && (
-        <form>
-          <FormControl fullWidth>
-            <TextField
+        <>
+          <Typography variant="h5" gutterBottom>
+            Add Item
+          </Typography>
+          <form>
+            <StyledTextField
               label="Description"
+              name="description"
               fullWidth
               value={itemData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
+              onChange={handleChange}
               sx={{ marginBottom: 2 }}
             />
-            <TextField
-              label="Dimension"
-              fullWidth
-              value={itemData.dimension}
-              onChange={(e) => handleInputChange("dimension", e.target.value)}
-              sx={{ marginBottom: 2 }}
-            />
-            <TextField
-              label="Rate"
-              fullWidth
-              value={itemData.rate}
-              onChange={(e) => handleInputChange("rate", e.target.value)}
-              sx={{ marginBottom: 2 }}
-            />
-            <TextField
-              label="Quantity"
-              fullWidth
-              value={itemData.quantity}
-              onChange={(e) => handleInputChange("quantity", e.target.value)}
-              sx={{ marginBottom: 2 }}
-            />
-            <TextField
+            <FormControl
+              sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
+            >
+              <StyledTextField
+                label="Dimension"
+                name="dimension"
+                fullWidth
+                value={itemData.dimension}
+                onChange={handleChange}
+                sx={{ marginBottom: 2 }}
+              />
+              <StyledTextField
+                label="Rate"
+                name="rate"
+                fullWidth
+                value={itemData.rate}
+                onChange={handleChange}
+                sx={{ marginBottom: 2 }}
+              />
+              <StyledTextField
+                label="Quantity"
+                name="quantity"
+                fullWidth
+                value={itemData.quantity}
+                onChange={handleChange}
+                sx={{ marginBottom: 2 }}
+              />
+            </FormControl>
+            <StyledTextField
               label="Price"
+              name="price"
               fullWidth
               value={itemData.price}
-              onChange={(e) => handleInputChange("price", e.target.value)}
+              onChange={handleChange}
               sx={{ marginBottom: 2 }}
             />
             <input
               type="file"
               accept="image/*"
               onChange={handleAvatarChange}
-              sx={{ marginBottom: 2 }}
+              style={{
+                marginBottom: 2,
+                appearance: "none",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "4px",
+                background: "#f98e0a",
+                color: "white",
+                cursor: "pointer",
+                transition: "background 0.3s",
+                "&:hover": {
+                  background: "#e57905",
+                },
+              }}
             />
-            <Button variant="contained" color="primary" onClick={handleAddItem}>
-              Add Item
-            </Button>
-          </FormControl>
-        </form>
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "2rem",
+              }}
+            >
+              <StyledButton
+                variant="contained"
+                color="primary"
+                onClick={handleAddItem}
+              >
+                Save
+              </StyledButton>
+            </Box>
+          </form>
+        </>
       )}
-      <Button variant="contained" color="primary" onClick={handleToggleForm}>
+      <StyledButton
+        variant="contained"
+        color="primary"
+        onClick={handleToggleForm}
+      >
         {isFormVisible ? "Cancel" : "Add Item"}
-      </Button>
+      </StyledButton>
     </Container>
   );
 };

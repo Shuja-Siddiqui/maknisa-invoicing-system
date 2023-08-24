@@ -1,6 +1,8 @@
 import React from "react";
-import { Container, TextField, Button, styled, Box } from "@mui/material";
-import image from "../../assets/png/maknisa-logo.png";
+import { Container, Button, styled, Box } from "@mui/material";
+import image from "../assets/png/maknisa-logo.png";
+import { StyledTextField } from "../utils/elements";
+import { useNavigate } from "react-router-dom";
 const StyledLoginPage = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
@@ -8,33 +10,6 @@ const StyledLoginPage = styled("div")(({ theme }) => ({
   minHeight: "100vh",
   background: "#000",
   flexDirection: "column",
-}));
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  "& label.Mui-focused": {
-    color: "#FA9105",
-  },
-  "& .MuiInput-underline:after": {
-    borderBottomColor: "#FA9105",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "#FA9105",
-    },
-    "&:hover fieldset": {
-      borderColor: "#0a0909",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#ffffff",
-    },
-  },
-  "& label": {
-    color: "white", // Initial label color
-  },
-  "& input": {
-    color: "white",
-  },
-  marginBottom: theme.spacing(2),
 }));
 
 export const StyledButton = styled(Button)(({ theme }) => ({
@@ -48,6 +23,10 @@ export const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export const Login = () => {
+  const navigate = useNavigate();
+  const goDashBoard = () => {
+    navigate("/dashboard");
+  };
   return (
     <StyledLoginPage>
       <Box
@@ -90,7 +69,12 @@ export const Login = () => {
             fullWidth
             required
           />
-          <StyledButton variant="contained" fullWidth type="submit">
+          <StyledButton
+            variant="contained"
+            fullWidth
+            type="submit"
+            onClick={goDashBoard}
+          >
             Login
           </StyledButton>
         </form>
