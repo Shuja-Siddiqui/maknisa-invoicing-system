@@ -12,7 +12,7 @@ export const StyledActionButton = styled(Button)(({ theme }) => ({
 }));
 export const InvoiceButtonCard = ({ color, actions, text }) => {
   return (
-    <div onClick={actions}>
+    <div onClick={actions} style={{ cursor: "pointer" }}>
       <Card
         sx={{
           maxWidth: 300,
