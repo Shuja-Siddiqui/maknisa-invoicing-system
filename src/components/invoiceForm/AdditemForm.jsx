@@ -1,8 +1,15 @@
-import React, { useState } from "react";
-import { Button, Container, FormControl, Typography, Box } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  Container,
+  FormControl,
+  Typography,
+  Box,
+  Modal,
+} from "@mui/material";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
-
+import { BasicCard } from "./BasicCard";
 
 export const AddItemForm = ({
   itemData,
@@ -11,7 +18,8 @@ export const AddItemForm = ({
   setFormData,
 }) => {
   const [isFormVisible, setFormVisible] = useState(false);
-
+  const [addedItems, setAddedItems] = useState([]);
+  const [selected, setSelected] = useState(-1);
   const handleToggleForm = () => {
     setFormVisible(!isFormVisible);
     setItemData({
@@ -30,23 +38,32 @@ export const AddItemForm = ({
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
+    const imageUrl = URL.createObjectURL(file);
     setItemData((prevData) => ({
       ...prevData,
-      avatar: file,
+      avatar: imageUrl,
     }));
+  };
+
+  const updateItem = () => {
+    const oldItems = [...formData.items];
+    oldItems[selected] = itemData;
+    console.log((oldItems[selected] = itemData), "dfdsjkfjdsf");
+    setFormData({ ...formData, items: [...oldItems] });
+    setSelected(-1);
   };
 
   const handleAddItem = () => {
     setFormData({ ...formData, items: [...formData.items, itemData] });
-
-    // setItemData({
-    //   description: "",
-    //   dimension: "",
-    //   rate: "",
-    //   quantity: "",
-    //   price: "",
-    //   avatar: null,
-    // });
+    setAddedItems([...addedItems, itemData]);
+    setItemData({
+      description: "",
+      dimension: "",
+      rate: "",
+      quantity: "",
+      price: "",
+      avatar: null,
+    });
   };
 
   return (
@@ -131,14 +148,42 @@ export const AddItemForm = ({
               <StyledButton
                 variant="contained"
                 color="primary"
-                onClick={handleAddItem}
+                onClick={selected < 0 ? handleAddItem : updateItem}
               >
-                Save
+                {selected < 0 ? "Save" : "Done"}
               </StyledButton>
             </Box>
           </form>
         </>
       )}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "10px",
+        }}
+      >
+        {addedItems.map((item, index) => (
+          <>
+            {console.log(index, "index")}
+            <BasicCard
+              key={index}
+              number={index}
+              img={item.avatar}
+              rate={item.rate}
+              quantity={item.quantity}
+              price={item.price}
+              description={item.description}
+              setItemData={setItemData}
+              setSelected={setSelected}
+              setAddedItems={setAddedItems}
+              addedItems={addedItems}
+            />
+          </>
+        ))}
+      </div>
+
       <StyledButton
         variant="contained"
         color="primary"
