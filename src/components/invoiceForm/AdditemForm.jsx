@@ -39,14 +39,14 @@ export const AddItemForm = ({
   const handleAddItem = () => {
     setFormData({ ...formData, items: [...formData.items, itemData] });
 
-    setItemData({
-      description: "",
-      dimension: "",
-      rate: "",
-      quantity: "",
-      price: "",
-      avatar: null,
-    });
+    // setItemData({
+    //   description: "",
+    //   dimension: "",
+    //   rate: "",
+    //   quantity: "",
+    //   price: "",
+    //   avatar: null,
+    // });
   };
 
   return (

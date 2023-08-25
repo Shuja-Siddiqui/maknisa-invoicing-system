@@ -13,7 +13,6 @@ const initialFormState = {
     province: "",
     making_time: "",
   },
-  estimate_time: "",
   terms:
     "Foam quality - Master Molty Furniture to be delivered after construction completion of house Wood quality - Sheesham Wood Polish included Imported fabric on sofas same quality as pictures Cushions as per client demand Carriage will be paid by customer Mattress will not be included 50% payment in advance 30% before polish and poshish 20% before delivery",
   discount: "",
@@ -67,9 +66,9 @@ export const InvoiceForm = () => {
             value={formData.client_name}
             onChange={(e) => handleInputChange("client_name", e.target.value)}
           />
-
-          <InputLabel>Location</InputLabel>
-
+          <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
+            Location
+          </InputLabel>
           <FormControl
             sx={{
               display: "flex",
@@ -107,7 +106,6 @@ export const InvoiceForm = () => {
               sx={{ width: "50%" }}
             />
           </FormControl>
-
           <StyledTextField
             sx={{ mb: 2 }}
             label=" Makign Time"
@@ -115,8 +113,16 @@ export const InvoiceForm = () => {
             value={formData.making_time}
             onChange={(e) => handleInputChange("making-time", e.target.value)}
           />
-          <InputLabel>Terms & Conditions</InputLabel>
-
+          <StyledTextField
+            sx={{ mb: 2 }}
+            label="discount"
+            fullWidth
+            value={formData.making_time}
+            onChange={(e) => handleInputChange("discount", e.target.value)}
+          />
+          <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
+            Terms & Conditions
+          </InputLabel>
           <textarea
             label="Terms"
             fullWidth
@@ -138,6 +144,7 @@ export const InvoiceForm = () => {
           >
             {formData.terms}
           </textarea>
+
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <StyledButton
               variant="outlined"
@@ -147,14 +154,12 @@ export const InvoiceForm = () => {
               {editableTerms ? "Save" : "Edit"}
             </StyledButton>
           </Box>
-
           <AddItemForm
             itemData={itemData}
             setItemData={setItemData}
             formData={formData}
             setFormData={setFormData}
           />
-
           <StyledButton type="submit" variant="contained" color="primary">
             Submit
           </StyledButton>

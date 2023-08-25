@@ -12,8 +12,9 @@ export const DashboardWrapper = () => {
           <Box
             sx={{
               justifyContent: "center",
-              alignItems: "start",
+              alignItems: "center",
               display: "flex",
+              height:"500px",
               flexDirection: {
                 xl: "row",
                 lg: "row",
