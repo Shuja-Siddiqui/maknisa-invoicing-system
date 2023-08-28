@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FormControl, InputLabel, Container, Box } from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
-import { StyledTextArea, StyledTextField } from "../../utils/elements";
+import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 
 const initialFormState = {
