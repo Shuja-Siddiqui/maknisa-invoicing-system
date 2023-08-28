@@ -48,7 +48,6 @@ export const AddItemForm = ({
   const updateItem = () => {
     const oldItems = [...formData.items];
     oldItems[selected] = itemData;
-    console.log((oldItems[selected] = itemData), "dfdsjkfjdsf");
     setFormData({ ...formData, items: [...oldItems] });
     setSelected(-1);
   };
@@ -166,7 +165,6 @@ export const AddItemForm = ({
       >
         {addedItems.map((item, index) => (
           <>
-            {console.log(index, "index")}
             <BasicCard
               key={index}
               number={index}
