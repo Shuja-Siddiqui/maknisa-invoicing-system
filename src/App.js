@@ -1,5 +1,5 @@
 import "./app.css";
-import { Header, InvoiceButtonCard, InvoiceTable, Login } from "./components";
+import { Header, InvoiceTable, Login } from "./components";
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
@@ -24,14 +24,8 @@ function App() {
   return (
     <>
       <Header />
-
-      {/* <InvoiceButtonCard
-        text={"New Invoice"}
-        color={"black"}
-        actions={["click"]}
-      /> */}
-      {/* <Login /> */}
       <InvoiceTable rows={rows} />
+      <Login />
     </>
   );
 }
