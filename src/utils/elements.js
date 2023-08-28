@@ -1,8 +1,8 @@
-import { Typography } from "@mui/material";
+import { Typography,TextField } from "@mui/material";
 import styled from "styled-components";
 
 export const StyledHeading = styled(Typography)(({ theme }) => ({
-  fontSize: "4rem",
+  fontSize: "2.5rem",
   fontWeight: "bold",
   color: "#F98E0A",
 }));
@@ -17,3 +17,28 @@ export const StyledParagraph = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
+export const StyledTextField = styled(TextField)(({ theme }) => ({
+  "& label.Mui-focused": {
+    color: "#FA9105",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#FA9105",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#FA9105",
+    },
+    "&:hover fieldset": {
+      borderColor: "#ffffff",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#ffffff",
+    },
+  },
+  "& label": {
+    color: "white", // Initial label color
+  },
+  "& input": {
+    color: "white",
+  },
+}));
