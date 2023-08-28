@@ -14,7 +14,7 @@ export const DashboardWrapper = () => {
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
-              height:"500px",
+              height: "500px",
               flexDirection: {
                 xl: "row",
                 lg: "row",
@@ -33,12 +33,12 @@ export const DashboardWrapper = () => {
             <InvoiceButtonCard
               text={"Draft Invoice"}
               color={"black"}
-              actions={null}
+              actions={() => navigate("/all-drafts")}
             />
             <InvoiceButtonCard
               text={" Invoice"}
               color={"black"}
-              actions={null}
+              actions={() => navigate("/all-invoices")}
             />
           </Box>
         </Container>
