@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Button, Container, FormControl, Typography, Box } from "@mui/material";
+import {Container, FormControl, Typography, Box } from "@mui/material";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
-
 
 export const AddItemForm = ({
   itemData,
@@ -39,14 +38,14 @@ export const AddItemForm = ({
   const handleAddItem = () => {
     setFormData({ ...formData, items: [...formData.items, itemData] });
 
-    // setItemData({
-    //   description: "",
-    //   dimension: "",
-    //   rate: "",
-    //   quantity: "",
-    //   price: "",
-    //   avatar: null,
-    // });
+    setItemData({
+      description: "",
+      dimension: "",
+      rate: "",
+      quantity: "",
+      price: "",
+      avatar: null,
+    });
   };
 
   return (
