@@ -1,16 +1,18 @@
 import React from "react";
-import { Container, Button, styled, Box } from "@mui/material";
+import { Container, Button, styled, Box, Typography } from "@mui/material";
 import image from "../assets/png/maknisa-logo.png";
 import { StyledTextField } from "../utils/elements";
 import { useNavigate } from "react-router-dom";
 import { forgetPass, login } from "../api/config";
 import { useState } from "react";
+import { Logo } from "../assets";
+
 const StyledLoginPage = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   minHeight: "100vh",
-  background: "#000",
+  background: "#fff",
   flexDirection: "column",
 }));
 
@@ -18,9 +20,10 @@ export const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
   color: "white",
   backgroundColor: "#EC7C34",
+  border: "1px solid #EC7C34",
   "&:hover": {
     background: "none",
-    border: "1px solid #EC7C34",
+    color: "#EC7C34",
   },
 }));
 
@@ -51,6 +54,7 @@ export const Login = () => {
     const data = { userEmail: "nomibabaoo82@gmail.com" };
     try {
       forgetPass({ data }).then((res) => console.log(res));
+      alert("Check your mail and reset your password");
     } catch (error) {
       console.log(error);
     }
@@ -62,12 +66,11 @@ export const Login = () => {
         sx={{
           alignItems: "center",
           textAlign: "center",
-          backgroundImage: `url(${image})`, // Set the background image
           backgroundSize: "contain", // Adjust the background size
           backgroundRepeat: "no-repeat", // Prevent repetition
-          height: "400px",
           width: "400px",
           marginBottom: "1rem",
+          justifyContent: "center",
           display: {
             xl: "flex",
             lg: "flex",
@@ -76,7 +79,16 @@ export const Login = () => {
             xs: "none",
           },
         }}
-      ></Box>
+      >
+        <img
+          src={Logo}
+          alt="logo"
+          style={{
+            maxWidth: "200px",
+            filter: "drop-shadow(2px 4px 6px black)",
+          }}
+        />
+      </Box>
       <Container
         sx={{
           alignItems: "center",
@@ -86,29 +98,45 @@ export const Login = () => {
       >
         <form onSubmit={handleLogin}>
           <StyledTextField
-            label="Username"
+            placeholder="Username"
             variant="outlined"
             fullwidth="true"
+            sx={{ mb: 2 }}
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <StyledTextField
-            label="Password"
-            variant="outlined"
-            type="password"
-            fullwidth="true"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <StyledButton variant="contained" fullwidth="true" type="submit">
-            Login
-          </StyledButton>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <StyledTextField
+              placeholder="Password"
+              variant="outlined"
+              type="password"
+              fullwidth="true"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <StyledButton variant="contained" fullwidth="true" type="submit">
+              Login
+            </StyledButton>
+            <Typography
+              sx={{
+                color: "#EC7C34",
+                marginTop: "5px",
+                cursor: "pointer",
+              }}
+              onClick={handleForgetPass}
+            >
+              Forgot Password
+            </Typography>
+          </Box>
         </form>
-        <StyledButton variant="contained" fullwidth="true" onClick={handleForgetPass}>
-          Forgot Password
-        </StyledButton>
       </Container>
     </StyledLoginPage>
   );

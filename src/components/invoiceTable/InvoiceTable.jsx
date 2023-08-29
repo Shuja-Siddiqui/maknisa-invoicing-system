@@ -17,7 +17,7 @@ const StyledTableCell = styled(TableCell)({
 });
 
 const WhiteTextTableCell = styled(TableCell)({
-  color: "white",
+  color: "black",
 });
 
 export const InvoiceTable = ({ rows, headings, Actions }) => {
@@ -46,7 +46,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
   );
 
   return (
-    <TableContainer component={Paper} sx={{ bgcolor: "#000000" }}>
+    <TableContainer component={Paper} sx={{ bgcolor: "white" }}>
       <div
         sx={{
           borderBottom: "1px solid #f98e0a",
@@ -106,7 +106,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
                     key={i}
                     component="th"
                     scope="row"
-                    sx={{ borderBottom: "1px solid #f98e0a", color: "#ffffff" }}
+                    sx={{ borderBottom: "1px solid #f98e0a", color: "black" }}
                   >
                     {row[_]}
                   </WhiteTextTableCell>
@@ -116,7 +116,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
                     align={"center"}
                     component="th"
                     scope="row"
-                    sx={{ borderBottom: "1px solid #f98e0a", color: "#ffffff" }}
+                    sx={{ borderBottom: "1px solid #f98e0a", color: "black" }}
                   >
                     <Actions />
                   </WhiteTextTableCell>
@@ -139,7 +139,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        sx={{ borderBottom: "1px solid #f98e0a", color: "#ffffff" }}
+        sx={{ borderBottom: "1px solid #f98e0a", color: "black" }}
       />
     </TableContainer>
   );

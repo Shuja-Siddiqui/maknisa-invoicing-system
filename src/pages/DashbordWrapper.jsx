@@ -25,19 +25,19 @@ export const DashboardWrapper = () => {
           >
             <InvoiceButtonCard
               text={"New Invoice"}
-              color={"black"}
+              color={"white"}
               path={"/invoice-form"}
               action={"newForm"}
             />
             <InvoiceButtonCard
               text={"Draft Invoice"}
-              color={"black"}
+              color={"white"}
               path={"/all-drafts"}
               action={"draftForm"}
             />
             <InvoiceButtonCard
               text={" Invoice"}
-              color={"black"}
+              color={"white"}
               path={"/all-invoices"}
               action={"invoices"}
             />

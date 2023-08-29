@@ -108,7 +108,7 @@ export const InvoiceForm = () => {
   }, []);
 
   return (
-    <Box sx={{ backgroundColor: "#000000" }}>
+    <Box sx={{ backgroundColor: "#fff", marginTop:"20px" }}>
       <Container maxWidth="md">
         <form onSubmit={handleSubmit}>
           <StyledTextField
@@ -187,9 +187,9 @@ export const InvoiceForm = () => {
               maxHeight: 200,
               overflowY: "auto",
               mb: 2,
-              color: !editableTerms ? "#aaa" : "#fff",
+              color: !editableTerms ? "#aaa" : "black",
               width: "100%",
-              background: "#000",
+              background: "#fff",
               border: "1px solid orange",
               borderRadius: 5,
               padding: "1em",
@@ -215,7 +215,7 @@ export const InvoiceForm = () => {
             setFormData={setFormData}
           />
           <StyledButton type="submit" variant="contained" color="primary">
-            Submit
+            Generate Invoice
           </StyledButton>
         </form>
       </Container>
