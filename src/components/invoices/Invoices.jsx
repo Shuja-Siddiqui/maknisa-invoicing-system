@@ -1,30 +1,34 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-import { getInvoices } from "../../api/config";
-import { InvoiceTable } from "../invoiceTable";
+import { getInvoices } from "../../api";
+import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
+import { Button } from "@mui/material";
+import { RemoveRedEye } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 // Define your data creation function
-function createData(Invoice_Id, Client_Name, House_No, Area, Status, Actions) {
-  return { Invoice_Id, Client_Name, House_No, Area, Status, Actions };
+function createData(_id, Client_Name, House_No, Area, Status, Actions) {
+  return { _id, Client_Name, House_No, Area, Status, Actions };
 }
 
 export const Invoices = () => {
-  const [invoicesData, setInvoicesData] = useState([]);
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
+  const viewInvoice = (id) => {
+    localStorage.setItem("@invoiceId", id);
+    navigate("/print-invoice");
+  };
 
   useEffect(() => {
     getInvoices()
       .then((res) => {
-        setInvoicesData(res);
-        // Create rows from fetched data
         const rows = res.map((data) =>
           createData(
-            data?.invoice_id,
+            data?._id,
             data?.client_name,
             data?.location?.city,
             data?.location?.area,
-            data?.status,
-            data?.actions
+            data?.status
           )
         );
         setData(rows);
@@ -36,14 +40,29 @@ export const Invoices = () => {
     <>
       <InvoiceTable
         rows={data}
-        headings={[
-          "Invoice_Id",
-          "Client_Name",
-          "House_No",
-          "Area",
-          "Status",
-          "Actions",
-        ]}
+        headings={["_id", "Client_Name", "House_No", "Area", "Actions"]}
+        Actions={({ id }) => (
+          <WhiteTextTableCell
+            align={"center"}
+            component="th"
+            scope="row"
+            sx={{
+              borderColor: "#f98e0a",
+              color: "#ffffff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Button onClick={() => viewInvoice(id)}>
+              <RemoveRedEye
+                sx={{
+                  color: " #f98e0a",
+                }}
+              />
+            </Button>
+          </WhiteTextTableCell>
+        )}
       />
     </>
   );

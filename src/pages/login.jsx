@@ -3,7 +3,7 @@ import { Container, Button, styled, Box } from "@mui/material";
 import image from "../assets/png/maknisa-logo.png";
 import { StyledTextField } from "../utils/elements";
 import { useNavigate } from "react-router-dom";
-import { forgetPass, login } from "../api/config";
+import { forgetPass, login } from "../api";
 import { useState } from "react";
 const StyledLoginPage = styled("div")(({ theme }) => ({
   display: "flex",
@@ -17,10 +17,10 @@ const StyledLoginPage = styled("div")(({ theme }) => ({
 export const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
   color: "white",
-  backgroundColor: "#EC7C34",
+  backgroundColor: "#F98E0A",
   "&:hover": {
     background: "none",
-    border: "1px solid #EC7C34",
+    border: "1px solid #F98E0A",
   },
 }));
 
@@ -29,14 +29,11 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handleLogin = async (event) => {
-    event.preventDefault(); // Prevent form submission
-
-    // Prepare the data for login API call
+    event.preventDefault(); 
     const loginData = {
       username: username,
       password: password,
     };
-
     try {
       console.log(loginData);
       const userData = await login(loginData);
@@ -106,7 +103,11 @@ export const Login = () => {
             Login
           </StyledButton>
         </form>
-        <StyledButton variant="contained" fullwidth="true" onClick={handleForgetPass}>
+        <StyledButton
+          variant="contained"
+          fullwidth="true"
+          onClick={handleForgetPass}
+        >
           Forgot Password
         </StyledButton>
       </Container>

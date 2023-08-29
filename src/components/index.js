@@ -5,3 +5,4 @@ export * from "./invoiceForm";
 export * from "./invoices";
 export * from "./invoiceDrafts";
 export * from "./invoicePage";
+export * from "./UpdatePasswordModal";

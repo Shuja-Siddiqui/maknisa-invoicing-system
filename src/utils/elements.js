@@ -1,4 +1,4 @@
-import { Typography,TextField } from "@mui/material";
+import { Typography, TextField } from "@mui/material";
 import styled from "styled-components";
 
 export const StyledHeading = styled(Typography)(({ theme }) => ({

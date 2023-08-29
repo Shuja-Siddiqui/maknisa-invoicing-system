@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -13,12 +13,34 @@ import {
 } from "@mui/material";
 import pic from "../../assets/png/wallpaperflare.com_wallpaper.jpg";
 import logo from "../../assets/png/maknisa-removebg-preview.png";
+import { getInvoiceById } from "../../api";
+import { initialFormState } from "../invoiceForm";
+import moment from "moment/moment";
 
 export const InvoicePage = () => {
-  const tableData = [
-    { id: 1, pic: "", dimension: "10x15", price: "$50" },
-    { id: 2, pic: "pic2.jpg", dimension: "12x18", price: "$65" },
-  ];
+  const [formData, setFormData] = useState(initialFormState);
+  const [printable, setPrintable] = useState(false);
+
+  const fetchData = () => {
+    const id = localStorage.getItem("@invoiceId");
+    if (id) {
+      getInvoiceById(localStorage.getItem("@invoiceId")).then((res) => {
+        setFormData(res);
+        setPrintable(true);
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (printable) {
+      setTimeout(() => window.print(), 300);
+    }
+  }, [printable]);
+
+  useLayoutEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>
@@ -37,11 +59,13 @@ export const InvoicePage = () => {
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
           <Box>
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>Name:</strong> John Doe
+              <strong>Name:</strong> {formData?.client_name}
               <br />
-              <strong>Address:</strong> 123 Main St
+              <strong>Address:</strong>
+              {`${formData?.location?.area}, ${formData?.location?.city}, ${formData?.location?.province}`}
               <br />
-              <strong>House No:</strong>456
+              <strong>House No:</strong>
+              {formData?.location?.details}
             </Typography>
           </Box>
           <Box
@@ -52,10 +76,11 @@ export const InvoicePage = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: "#000000" }}>
-            <strong>InvoiceID:</strong> ######
+              <strong>InvoiceID:</strong> ######
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
-            <strong>Date:</strong> 12-13-23
+              <strong>Date:</strong>{" "}
+              {moment(formData?.updatedAt).format("DD-MM-YYYY")}
             </Typography>
           </Box>
         </Box>
@@ -72,9 +97,9 @@ export const InvoicePage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData.map((row) => (
+            {formData.items.map((row, index) => (
               <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.dimension}</TableCell>
                 <TableCell>{row.quantity}</TableCell>
