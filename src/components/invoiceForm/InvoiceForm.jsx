@@ -3,7 +3,8 @@ import { FormControl, InputLabel, Container, Box } from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
-
+import { updateInvoice, genrateInvoice } from "../../api/config";
+import debounce from "lodash.debounce";
 const initialFormState = {
   client_name: "",
   location: {
@@ -30,14 +31,26 @@ export const InvoiceForm = () => {
     avatar: null,
   });
   const [editableTerms, setEditableTerms] = useState(false);
+  const [isDebouncing, setIsDebouncing] = useState(false);
+  const [debounceTimer, setDebounceTimer] = useState(null);
+
   const handleToggleEdit = () => {
     setEditableTerms(!editableTerms);
   };
+
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
+
+    // If debounceTimer exists, cancel the debounce
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    // Set a new debounce timer after input change
+    setDebounceTimer(setTimeout(saveDraftDebounced, 4000));
   };
 
   const handleLocationChange = (field, value) => {
@@ -48,11 +61,35 @@ export const InvoiceForm = () => {
         [field]: value,
       },
     }));
+
+    // If debounceTimer exists, cancel the debounce
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    // Set a new debounce timer after input change
+    setDebounceTimer(setTimeout(saveDraftDebounced, 4000));
   };
 
-  const handleSubmit = (e) => {
+  const saveDraftDebounced = async () => {
+    try {
+      setIsDebouncing(true);
+      await updateInvoice({ ...formData });
+      setIsDebouncing(false);
+      clearTimeout(debounceTimer); // Clear the debounce timer after saving
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      await genrateInvoice({ ...formData});
+      console.log("Invoice data saved");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -62,7 +99,7 @@ export const InvoiceForm = () => {
           <StyledTextField
             sx={{ mb: 2, mt: 2 }}
             label="Client Name"
-            fullWidth
+            fullwidth="true"
             value={formData.client_name}
             onChange={(e) => handleInputChange("client_name", e.target.value)}
           />
@@ -109,14 +146,14 @@ export const InvoiceForm = () => {
           <StyledTextField
             sx={{ mb: 2 }}
             label=" Makign Time"
-            fullWidth
+            fullwidth="true"
             value={formData.making_time}
             onChange={(e) => handleInputChange("making-time", e.target.value)}
           />
           <StyledTextField
             sx={{ mb: 2 }}
             label="discount"
-            fullWidth
+            fullwidth="true"
             value={formData.making_time}
             onChange={(e) => handleInputChange("discount", e.target.value)}
           />
@@ -125,8 +162,9 @@ export const InvoiceForm = () => {
           </InputLabel>
           <textarea
             label="Terms"
-            fullWidth
+            fullwidth="true"
             rows={6}
+            value={formData.terms}
             onChange={(e) => handleInputChange("terms", e.target.value)}
             disabled={!editableTerms}
             style={{
@@ -140,7 +178,7 @@ export const InvoiceForm = () => {
               borderRadius: 5,
               padding: "1em",
             }}
-            inputProps={{ style: { color: "red" } }}
+            inputprops={{ style: { color: "red" } }}
           >
             {formData.terms}
           </textarea>

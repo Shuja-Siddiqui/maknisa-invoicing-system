@@ -1,12 +1,13 @@
 import "./app.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
-  DashboardWrapper,
   Login,
   InvoiceFormWrapper,
   AllDrafts,
   AllInvoices,
+  DashboardWrapper,
 } from "./pages";
+import { InvoiceDrafts, Invoices } from "./components";
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +17,8 @@ function App() {
         <Route path="/invoice-form" element={<InvoiceFormWrapper />} />
         <Route path="/all-drafts" element={<AllDrafts />} />
         <Route path="/all-invoices" element={<AllInvoices />} />
+        <Route path="/invoices" element={<Invoices />} />
+        <Route path="/drafts" element={<InvoiceDrafts />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,9 +1,7 @@
 import { Header, InvoiceButtonCard } from "../components";
 import { Layout } from "../utils/theme";
 import { Box, Container } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 export const DashboardWrapper = () => {
-  const navigate = useNavigate();
   return (
     <Layout>
       <Header />
@@ -28,17 +26,20 @@ export const DashboardWrapper = () => {
             <InvoiceButtonCard
               text={"New Invoice"}
               color={"black"}
-              actions={() => navigate("/invoice-form")}
+              path={"/invoice-form"}
+              action={"newForm"}
             />
             <InvoiceButtonCard
               text={"Draft Invoice"}
               color={"black"}
-              actions={() => navigate("/all-drafts")}
+              path={"/all-drafts"}
+              action={"draftForm"}
             />
             <InvoiceButtonCard
               text={" Invoice"}
               color={"black"}
-              actions={() => navigate("/all-invoices")}
+              path={"/all-invoices"}
+              action={"invoices"}
             />
           </Box>
         </Container>

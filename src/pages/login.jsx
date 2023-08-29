@@ -3,6 +3,8 @@ import { Container, Button, styled, Box } from "@mui/material";
 import image from "../assets/png/maknisa-logo.png";
 import { StyledTextField } from "../utils/elements";
 import { useNavigate } from "react-router-dom";
+import { forgetPass, login } from "../api/config";
+import { useState } from "react";
 const StyledLoginPage = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
@@ -23,10 +25,37 @@ export const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const goDashBoard = () => {
-    navigate("/dashboard");
+  const handleLogin = async (event) => {
+    event.preventDefault(); // Prevent form submission
+
+    // Prepare the data for login API call
+    const loginData = {
+      username: username,
+      password: password,
+    };
+
+    try {
+      console.log(loginData);
+      const userData = await login(loginData);
+      localStorage.setItem("@token", userData.token);
+      console.log("User Data:", userData);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login Error:", error);
+    }
   };
+  const handleForgetPass = () => {
+    const data = { userEmail: "nomibabaoo82@gmail.com" };
+    try {
+      forgetPass({ data }).then((res) => console.log(res));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <StyledLoginPage>
       <Box
@@ -55,29 +84,31 @@ export const Login = () => {
           maxWidth: { xl: "md", lg: "md", sm: "sm", xs: "sm" },
         }}
       >
-        <form>
+        <form onSubmit={handleLogin}>
           <StyledTextField
             label="Username"
             variant="outlined"
-            fullWidth
+            fullwidth="true"
             required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <StyledTextField
             label="Password"
             variant="outlined"
             type="password"
-            fullWidth
+            fullwidth="true"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <StyledButton
-            variant="contained"
-            fullWidth
-            type="submit"
-            onClick={goDashBoard}
-          >
+          <StyledButton variant="contained" fullwidth="true" type="submit">
             Login
           </StyledButton>
         </form>
+        <StyledButton variant="contained" fullwidth="true" onClick={handleForgetPass}>
+          Forgot Password
+        </StyledButton>
       </Container>
     </StyledLoginPage>
   );

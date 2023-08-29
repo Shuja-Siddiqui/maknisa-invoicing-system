@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   TableContainer,
   Table,
@@ -28,25 +28,26 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  let count = 2;
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
-    setPage(0); // Reset the page when the search query changes
+    setPage(0); 
   };
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-  const filteredRows = rows.filter((row) =>
+    rowsPerPage - Math.min(rowsPerPage, rows?.length - page * rowsPerPage);
+  const filteredRows = rows?.filter((row) =>
     headings.some((heading) =>
-      row[heading].toString().toLowerCase().includes(searchQuery.toLowerCase())
+      row[heading]?.toString().toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
+
   return (
     <TableContainer component={Paper} sx={{ bgcolor: "#000000" }}>
-      <StyledTableCell
+      <div
         sx={{
           borderBottom: "1px solid #f98e0a",
           color: "#f98e0a",
@@ -62,7 +63,8 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
           placeholder="Search..."
           style={{ marginLeft: "8px", padding: "2px" }}
         />
-      </StyledTableCell>
+      </div>
+
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -95,7 +97,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
         </TableHead>
         <TableBody>
           {filteredRows
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row, index) => (
               <TableRow key={index}>
                 {headings.map((_, i) => (

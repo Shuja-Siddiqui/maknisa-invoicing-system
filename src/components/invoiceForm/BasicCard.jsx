@@ -5,6 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardMedia } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
+import { getInvoiceById, updateItem } from "../../api/config";
 
 export const BasicCard = ({
   number,
@@ -17,19 +18,24 @@ export const BasicCard = ({
   setSelected,
   setAddedItems,
   addedItems,
+  itemData,
 }) => {
-  console.log(number);
   const handleEditItem = () => {
-    setSelected(number);
-    setAddedItems([...addedItems.slice(0, number)]);
-    setItemData({
-      description: description,
-      dimension: "",
-      rate: rate,
-      quantity: quantity,
-      price: price,
-      avatar: img,
-    });
+    try {
+      // updateItem().then((res) => console.log(res));
+      getInvoiceById(localStorage.getItem("@invoiceId"))
+        .then((res) => {
+          setItemData((prev) => {
+            return { ...prev, ...res };
+          });
+          console.log(itemData);
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log(error);
+    }
+    // setSelected(number);
+    // setAddedItems([...addedItems.slice(0, number)]);
   };
   return (
     <Card sx={{ width: "50%", display: "flex" }}>

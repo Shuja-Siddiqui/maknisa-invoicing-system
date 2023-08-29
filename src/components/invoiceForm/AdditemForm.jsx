@@ -10,6 +10,7 @@ import {
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { BasicCard } from "./BasicCard";
+import { updateItemsArray } from "../../api/config";
 
 export const AddItemForm = ({
   itemData,
@@ -22,14 +23,14 @@ export const AddItemForm = ({
   const [selected, setSelected] = useState(-1);
   const handleToggleForm = () => {
     setFormVisible(!isFormVisible);
-    setItemData({
-      description: "",
-      dimension: "",
-      rate: "",
-      quantity: "",
-      price: "",
-      avatar: null,
-    });
+    // setItemData({
+    //   description: "",
+    //   dimension: "",
+    //   rate: "",
+    //   quantity: "",
+    //   price: "",
+    //   avatar: null,
+    // });
   };
 
   const handleChange = (e) => {
@@ -52,9 +53,15 @@ export const AddItemForm = ({
     setSelected(-1);
   };
 
-  const handleAddItem = () => {
+  const handleAddItem = async () => {
     setFormData({ ...formData, items: [...formData.items, itemData] });
     setAddedItems([...addedItems, itemData]);
+    try {
+      console.log(itemData, "added items");
+      await updateItemsArray({ addedItems: itemData });
+    } catch (err) {
+      console.log(err);
+    }
     setItemData({
       description: "",
       dimension: "",
@@ -76,7 +83,7 @@ export const AddItemForm = ({
             <StyledTextField
               label="Description"
               name="description"
-              fullWidth
+              fullwidth="true"
               value={itemData.description}
               onChange={handleChange}
               sx={{ marginBottom: 2 }}
@@ -87,7 +94,7 @@ export const AddItemForm = ({
               <StyledTextField
                 label="Dimension"
                 name="dimension"
-                fullWidth
+                fullwidth="true"
                 value={itemData.dimension}
                 onChange={handleChange}
                 sx={{ marginBottom: 2 }}
@@ -95,24 +102,26 @@ export const AddItemForm = ({
               <StyledTextField
                 label="Rate"
                 name="rate"
-                fullWidth
+                fullwidth="true"
                 value={itemData.rate}
                 onChange={handleChange}
                 sx={{ marginBottom: 2 }}
               />
               <StyledTextField
+                type="Number"
                 label="Quantity"
                 name="quantity"
-                fullWidth
+                fullwidth="true"
                 value={itemData.quantity}
                 onChange={handleChange}
                 sx={{ marginBottom: 2 }}
               />
             </FormControl>
             <StyledTextField
+              type="Number"
               label="Price"
               name="price"
-              fullWidth
+              fullwidth="true"
               value={itemData.price}
               onChange={handleChange}
               sx={{ marginBottom: 2 }}
@@ -164,21 +173,20 @@ export const AddItemForm = ({
         }}
       >
         {addedItems.map((item, index) => (
-          <>
-            <BasicCard
-              key={index}
-              number={index}
-              img={item.avatar}
-              rate={item.rate}
-              quantity={item.quantity}
-              price={item.price}
-              description={item.description}
-              setItemData={setItemData}
-              setSelected={setSelected}
-              setAddedItems={setAddedItems}
-              addedItems={addedItems}
-            />
-          </>
+          <BasicCard
+            key={index}
+            number={index}
+            img={item.avatar}
+            rate={item.rate}
+            quantity={item.quantity}
+            price={item.price}
+            description={item.description}
+            setItemData={setItemData}
+            setSelected={setSelected}
+            setAddedItems={setAddedItems}
+            addedItems={addedItems}
+            itemData={itemData}
+          />
         ))}
       </div>
 
