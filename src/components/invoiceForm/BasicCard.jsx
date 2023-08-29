@@ -19,16 +19,15 @@ export const BasicCard = ({
   setAddedItems,
   addedItems,
   itemData,
+  key
 }) => {
   const handleEditItem = () => {
     try {
-      // updateItem().then((res) => console.log(res));
+
       getInvoiceById(localStorage.getItem("@invoiceId"))
         .then((res) => {
-          setItemData((prev) => {
-            return { ...prev, ...res };
-          });
-          console.log(itemData);
+          setItemData({...itemData, ...res?.items[number]});
+
         })
         .catch((err) => console.log(err));
     } catch (error) {

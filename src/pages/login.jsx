@@ -17,10 +17,10 @@ const StyledLoginPage = styled("div")(({ theme }) => ({
 export const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
   color: "white",
-  backgroundColor: "#F98E0A",
+  backgroundColor: "#EC7C34",
   "&:hover": {
     background: "none",
-    border: "1px solid #F98E0A",
+    border: "1px solid #EC7C34",
   },
 }));
 

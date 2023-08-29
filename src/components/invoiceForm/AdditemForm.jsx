@@ -57,7 +57,7 @@ export const AddItemForm = ({
     setFormData({ ...formData, items: [...formData.items, itemData] });
     setAddedItems([...addedItems, itemData]);
     try {
-      console.log(itemData, "added items");
+  
       await updateItemsArray({ addedItems: itemData });
     } catch (err) {
       console.log(err);

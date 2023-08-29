@@ -7,7 +7,7 @@ import {
   AllInvoices,
   DashboardWrapper,
 } from "./pages";
-import { InvoiceDrafts, Invoices } from "./components";
+import { InvoiceDrafts, InvoicePage, Invoices } from "./components";
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +19,7 @@ function App() {
         <Route path="/all-invoices" element={<AllInvoices />} />
         <Route path="/invoices" element={<Invoices />} />
         <Route path="/drafts" element={<InvoiceDrafts />} />
+        <Route path="/print-invoice" element={<InvoicePage />} />
       </Routes>
     </BrowserRouter>
   );

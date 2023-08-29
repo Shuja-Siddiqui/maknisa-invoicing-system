@@ -46,10 +46,9 @@ export const updateInvoice = (data) => {
   console.log(token, "token");
   const headers = {
     Authorization: `JWT ${token}`,
-    id: invoiceId,
   };
   return axios
-    .put(`${url}/invoice/update-invoice`, data, { headers })
+    .put(`${url}/invoice/update-invoice/${invoiceId}`, data, { headers })
     .then((res) => {
       return res.data?.data;
     })
@@ -139,6 +138,7 @@ export const getDrafts = () => {
 };
 
 export const getInvoiceById = (id) => {
+  console.log(id, "API")
   const token = localStorage.getItem("@token");
   const headers = {
     Authorization: `JWT ${token}`,
@@ -146,6 +146,7 @@ export const getInvoiceById = (id) => {
   return axios
     .get(`${url}/invoice/${id}`, { headers })
     .then((res) => {
+      console.log(res?.data?.data, "API")
       return res?.data?.data;
     })
     .catch((err) => {

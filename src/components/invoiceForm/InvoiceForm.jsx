@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { FormControl, InputLabel, Container, Box } from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
-import { updateInvoice, genrateInvoice } from "../../api/config";
+import {
+  updateInvoice,
+  genrateInvoice,
+  getInvoiceById,
+} from "../../api/config";
 import debounce from "lodash.debounce";
 const initialFormState = {
   client_name: "",
@@ -12,8 +16,9 @@ const initialFormState = {
     area: "",
     city: "",
     province: "",
-    making_time: "",
   },
+
+  making_time: "",
   terms:
     "Foam quality - Master Molty Furniture to be delivered after construction completion of house Wood quality - Sheesham Wood Polish included Imported fabric on sofas same quality as pictures Cushions as per client demand Carriage will be paid by customer Mattress will not be included 50% payment in advance 30% before polish and poshish 20% before delivery",
   discount: "",
@@ -85,12 +90,22 @@ export const InvoiceForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await genrateInvoice({ ...formData});
+      await genrateInvoice({ ...formData });
       console.log("Invoice data saved");
     } catch (err) {
       console.error(err);
     }
   };
+
+  useLayoutEffect(() => {
+    const id = localStorage.getItem("@invoiceId");
+
+    if (id) {
+      getInvoiceById(localStorage.getItem("@invoiceId")).then((res) =>
+        setFormData(res)
+      );
+    }
+  }, []);
 
   return (
     <Box sx={{ backgroundColor: "#000000" }}>
@@ -145,16 +160,17 @@ export const InvoiceForm = () => {
           </FormControl>
           <StyledTextField
             sx={{ mb: 2 }}
-            label=" Makign Time"
+            label=" Making Time"
             fullwidth="true"
             value={formData.making_time}
-            onChange={(e) => handleInputChange("making-time", e.target.value)}
+            onChange={(e) => handleInputChange("making_time", e.target.value)}
           />
           <StyledTextField
             sx={{ mb: 2 }}
             label="discount"
             fullwidth="true"
-            value={formData.making_time}
+            type="Number"
+            value={formData.dis}
             onChange={(e) => handleInputChange("discount", e.target.value)}
           />
           <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
@@ -166,7 +182,7 @@ export const InvoiceForm = () => {
             rows={6}
             value={formData.terms}
             onChange={(e) => handleInputChange("terms", e.target.value)}
-            disabled={!editableTerms}
+            readOnly={!editableTerms}
             style={{
               maxHeight: 200,
               overflowY: "auto",
