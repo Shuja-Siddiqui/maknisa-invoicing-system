@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Container,
-  FormControl,
-  Typography,
-  Box,
-  Modal,
-} from "@mui/material";
+import { Container, FormControl, Typography, Box } from "@mui/material";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { BasicCard } from "./BasicCard";
 import { updateItemsArray, updateSelectedItem } from "../../api";
+import axios from "axios";
+import { url } from "../../api/config";
 
 export const AddItemForm = ({
   itemData,
@@ -42,15 +37,6 @@ export const AddItemForm = ({
     setItemData({ ...itemData, [e.target.name]: e.target.value });
   };
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    const imageUrl = URL.createObjectURL(file);
-    setItemData((prevData) => ({
-      ...prevData,
-      avatar: imageUrl,
-    }));
-  };
-
   const updateItem = () => {
     setLoading(true);
     const oldItems = [...formData.items];
@@ -58,6 +44,7 @@ export const AddItemForm = ({
     updateSelectedItem({ ...itemData, index: selected })
       .then(() => {
         setLoading(false);
+        setFormVisible(false);
         setFormData({ ...formData, items: [...oldItems] });
       })
       .catch((err) => console.log(err));
@@ -67,11 +54,27 @@ export const AddItemForm = ({
   const handleAddItem = async () => {
     setLoading(true);
     try {
-      await updateItemsArray({ addedItems: itemData }).then(() => {
-        setLoading(false);
-        setFormData({ ...formData, items: [...formData.items, itemData] });
-        setAddedItems([...addedItems, itemData]);
-      });
+      const formData0 = new FormData();
+      formData0.append("avatar", itemData?.avatar);
+      axios
+        .post(`${url}/files`, formData0, {
+          headers: { Authorization: `JWT ${localStorage.getItem("@token")}` },
+        })
+        .then(async (res) => {
+          const { fileName } = res?.data?.data;
+          await updateItemsArray({
+            addedItems: { ...itemData, avatar: fileName },
+          }).then(() => {
+            setLoading(false);
+            setFormVisible(false);
+            setFormData({
+              ...formData,
+              items: [...formData.items, { ...itemData, avatar: fileName }],
+            });
+            setAddedItems([...addedItems, { ...itemData, avatar: fileName }]);
+          });
+        })
+        .catch((err) => console.error(err));
     } catch (err) {
       console.log(err);
     }
@@ -88,7 +91,10 @@ export const AddItemForm = ({
   return (
     <Container maxWidth="md">
       {isFormVisible && (
-        <>
+        <form
+          encType="multipart/form-data"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <Typography variant="h5" gutterBottom>
             Add Item
           </Typography>
@@ -135,14 +141,17 @@ export const AddItemForm = ({
             label="Price"
             name="price"
             fullwidth="true"
-            value={itemData.price}
+            value={itemData.rate * itemData.quantity}
             onChange={handleChange}
             sx={{ marginBottom: 2 }}
           />
           <input
             type="file"
             accept="image/*"
-            onChange={handleAvatarChange}
+            name="avatar"
+            onChange={(e) => {
+              setItemData({ ...itemData, avatar: e.target.files[0] });
+            }}
             style={{
               marginBottom: 2,
               appearance: "none",
@@ -169,13 +178,14 @@ export const AddItemForm = ({
             <StyledButton
               variant="contained"
               disabled={loading}
+              type="submit"
               color="primary"
               onClick={selected < 0 ? handleAddItem : updateItem}
             >
               {selected < 0 ? "Save" : "Update"}
             </StyledButton>
           </Box>
-        </>
+        </form>
       )}
       <div
         style={{

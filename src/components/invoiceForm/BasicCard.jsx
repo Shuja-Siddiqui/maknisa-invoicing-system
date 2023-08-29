@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Box, Button, CardMedia } from "@mui/material";
 import { Delete, Edit, Update } from "@mui/icons-material";
 import { deleteSelectedItem, getInvoiceById, updateItem } from "../../api";
+import { file_url } from "../../api/config";
 
 export const BasicCard = ({
   number,
@@ -52,8 +53,8 @@ export const BasicCard = ({
       <CardMedia
         component="img"
         sx={{ width: "50%" }}
-        image={img}
-        alt="Live from space album cover"
+        image={`${file_url}/${img}`}
+        alt={description}
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>

@@ -111,12 +111,12 @@ export const InvoiceForm = () => {
   }, []);
 
   return (
-    <Box sx={{ backgroundColor: "#000000" }}>
+    <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
       <Container maxWidth="md">
         <form onSubmit={handleSubmit}>
           <StyledTextField
             sx={{ mb: 2, mt: 2 }}
-            label="Client Name"
+            placeholder="Client Name"
             fullwidth="true"
             value={formData.client_name}
             onChange={(e) => handleInputChange("client_name", e.target.value)}
@@ -133,13 +133,13 @@ export const InvoiceForm = () => {
             }}
           >
             <StyledTextField
-              label="Details"
+              placeholder="Details"
               value={formData.location.details}
               onChange={(e) => handleLocationChange("details", e.target.value)}
               sx={{ width: "50%" }}
             />
             <StyledTextField
-              label="Area"
+              placeholder="Area"
               value={formData.location.area}
               onChange={(e) => handleLocationChange("area", e.target.value)}
               sx={{ width: "50%" }}
@@ -149,13 +149,13 @@ export const InvoiceForm = () => {
             sx={{ display: "flex", flexDirection: "row", mb: 2, gap: "10px" }}
           >
             <StyledTextField
-              label="City"
+              placeholder="City"
               value={formData.location.city}
               onChange={(e) => handleLocationChange("city", e.target.value)}
               sx={{ width: "50%" }}
             />
             <StyledTextField
-              label="Province"
+              placeholder="Province"
               value={formData.location.province}
               onChange={(e) => handleLocationChange("province", e.target.value)}
               sx={{ width: "50%" }}
@@ -163,14 +163,14 @@ export const InvoiceForm = () => {
           </FormControl>
           <StyledTextField
             sx={{ mb: 2 }}
-            label=" Making Time"
+            placeholder=" Making Time"
             fullwidth="true"
             value={formData.making_time}
             onChange={(e) => handleInputChange("making_time", e.target.value)}
           />
           <StyledTextField
             sx={{ mb: 2 }}
-            label="discount"
+            placeholder="Discount"
             fullwidth="true"
             type="Number"
             value={formData.discount}
@@ -180,7 +180,7 @@ export const InvoiceForm = () => {
             Terms & Conditions
           </InputLabel>
           <textarea
-            label="Terms"
+            placeholder="Terms"
             fullwidth="true"
             rows={6}
             value={formData.terms}
@@ -190,9 +190,9 @@ export const InvoiceForm = () => {
               maxHeight: 200,
               overflowY: "auto",
               mb: 2,
-              color: !editableTerms ? "#aaa" : "#fff",
+              color: !editableTerms ? "#aaa" : "black",
               width: "100%",
-              background: "#000",
+              background: "#fff",
               border: "1px solid orange",
               borderRadius: 5,
               padding: "1em",
@@ -219,7 +219,7 @@ export const InvoiceForm = () => {
             fetchData={fetchData}
           />
           <StyledButton type="submit" variant="contained" color="primary">
-            Submit
+            Generate Invoice
           </StyledButton>
         </form>
       </Container>

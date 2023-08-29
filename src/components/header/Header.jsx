@@ -8,6 +8,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Settings } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/png/maknisa-removebg-preview.png";
+import { Logo } from "../../assets";
 
 export const Header = ({ setShow }) => {
   const navigate = useNavigate();
@@ -28,15 +30,23 @@ export const Header = ({ setShow }) => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ bgcolor: "black" }}>
+    <Box sx={{ flexGrow: 1, background: "none" }}>
+      <AppBar position="static" sx={{ background: "none", boxShadow: "none" }}>
         <Toolbar>
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, color: "#F98E0A" }}
           >
-            MAKNISA
+            <img
+              src={Logo}
+              alt="logo"
+              style={{
+                maxWidth: "40px",
+                filter: "drop-shadow(2px 4px 6px black)",
+              }}
+            />
+            <img src={logo} alt="logo" style={{ maxWidth: "200px" }} />
           </Typography>
 
           <IconButton
@@ -45,7 +55,7 @@ export const Header = ({ setShow }) => {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenu}
-            color="inherit"
+            color="black"
           >
             <Settings />
           </IconButton>

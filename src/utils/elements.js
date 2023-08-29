@@ -18,6 +18,7 @@ export const StyledParagraph = styled(Typography)(({ theme }) => ({
 }));
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
+  width: "100%",
   "& label.Mui-focused": {
     color: "#FA9105",
   },
@@ -29,16 +30,16 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
       borderColor: "#FA9105",
     },
     "&:hover fieldset": {
-      borderColor: "#ffffff",
+      borderColor: "#FA9105",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#ffffff",
+      borderColor: "#FA9105",
     },
   },
   "& label": {
-    color: "white", // Initial label color
+    color: "black", // Initial label color
   },
   "& input": {
-    color: "white",
+    color: "black",
   },
 }));
