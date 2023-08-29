@@ -3,7 +3,7 @@ import { Container, Button, styled, Box, Typography } from "@mui/material";
 import image from "../assets/png/maknisa-logo.png";
 import { StyledTextField } from "../utils/elements";
 import { useNavigate } from "react-router-dom";
-import { forgetPass, login } from "../api/config";
+import { forgetPass, login } from "../api";
 import { useState } from "react";
 import { Logo } from "../assets";
 
@@ -32,14 +32,11 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handleLogin = async (event) => {
-    event.preventDefault(); // Prevent form submission
-
-    // Prepare the data for login API call
+    event.preventDefault();
     const loginData = {
       username: username,
       password: password,
     };
-
     try {
       console.log(loginData);
       const userData = await login(loginData);
@@ -122,7 +119,12 @@ export const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <StyledButton variant="contained" fullwidth="true" type="submit">
+            <StyledButton
+              variant="contained"
+              fullwidth="true"
+              sx={{ mb: 2 }}
+              type="submit"
+            >
               Login
             </StyledButton>
             <Typography

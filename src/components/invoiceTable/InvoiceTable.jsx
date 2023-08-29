@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState } from "react";
 import {
   TableContainer,
   Table,
@@ -11,12 +11,12 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 
-const StyledTableCell = styled(TableCell)({
+export const StyledTableCell = styled(TableCell)({
   borderBottom: "1px solid #f98e0a",
   color: "#f98e0a",
 });
 
-const WhiteTextTableCell = styled(TableCell)({
+export const WhiteTextTableCell = styled(TableCell)({
   color: "black",
 });
 
@@ -28,14 +28,13 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  let count = 2;
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
-    setPage(0); 
+    setPage(0);
   };
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows?.length - page * rowsPerPage);
@@ -44,7 +43,6 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
       row[heading]?.toString().toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
-
   return (
     <TableContainer component={Paper} sx={{ bgcolor: "white" }}>
       <div
@@ -68,30 +66,30 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            {headings?.map((_, index) => (
-              <StyledTableCell
-                sx={{
-                  borderBottom: "1px solid #f98e0a",
-                  color: "#f98e0a",
-                  width: "20%",
-                }}
-                align={_ === "name" ? "left" : "center"}
-                key={index}
-              >
-                {_.replace("_", " ")}
-              </StyledTableCell>
-            ))}
-            {Actions && (
-              <StyledTableCell
-                sx={{
-                  borderBottom: "1px solid #f98e0a",
-                  color: "#f98e0a",
-                  width: "20%",
-                }}
-                align={"center"}
-              >
-                Actions
-              </StyledTableCell>
+            <StyledTableCell
+              sx={{
+                borderBottom: "1px solid #f98e0a",
+                color: "#f98e0a",
+                width: "20%",
+              }}
+              align={"center"}
+            >
+              #
+            </StyledTableCell>
+            {headings?.map((_, index) =>
+              _ !== "_id" ? (
+                <StyledTableCell
+                  sx={{
+                    borderBottom: "1px solid #f98e0a",
+                    color: "#f98e0a",
+                    width: "20%",
+                  }}
+                  align={_ === "name" ? "left" : "center"}
+                  key={index}
+                >
+                  {_.replace("_", " ")}
+                </StyledTableCell>
+              ) : null
             )}
           </TableRow>
         </TableHead>
@@ -100,26 +98,32 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row, index) => (
               <TableRow key={index}>
-                {headings.map((_, i) => (
-                  <WhiteTextTableCell
-                    align={_ === "name" ? "left" : "center"}
-                    key={i}
-                    component="th"
-                    scope="row"
-                    sx={{ borderBottom: "1px solid #f98e0a", color: "black" }}
-                  >
-                    {row[_]}
-                  </WhiteTextTableCell>
-                ))}
-                {Actions && (
-                  <WhiteTextTableCell
-                    align={"center"}
-                    component="th"
-                    scope="row"
-                    sx={{ borderBottom: "1px solid #f98e0a", color: "black" }}
-                  >
-                    <Actions />
-                  </WhiteTextTableCell>
+                <WhiteTextTableCell
+                  align={"center"}
+                  component="th"
+                  scope="row"
+                  sx={{
+                    borderBottom: "1px solid #f98e0a",
+                  }}
+                >
+                  {index + 1}
+                </WhiteTextTableCell>
+                {headings.map((_, i) =>
+                  _ === "Actions" ? (
+                    <Actions id={row["_id"]} />
+                  ) : _ === "_id" ? null : (
+                    <WhiteTextTableCell
+                      align={_ === "name" ? "left" : "center"}
+                      key={i}
+                      component="th"
+                      scope="row"
+                      sx={{
+                        borderBottom: "1px solid #f98e0a",
+                      }}
+                    >
+                      {row[_]}
+                    </WhiteTextTableCell>
+                  )
                 )}
               </TableRow>
             ))}

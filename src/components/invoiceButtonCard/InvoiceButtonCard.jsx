@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { Card, CardContent, Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { drawInvoiceTemplate } from "../../api/config";
+import { drawInvoiceTemplate } from "../../api";
 
 export const InvoiceButtonCard = ({ text, color, path, action }) => {
   const navigate = useNavigate();
@@ -12,14 +12,15 @@ export const InvoiceButtonCard = ({ text, color, path, action }) => {
         drawInvoiceTemplate()
           .then((res) => {
             localStorage.setItem("@invoiceId", res._id);
+            navigate(path);
           })
 
           .catch((err) => console.log(err));
         break;
       default:
+        navigate(path);
         break;
     }
-    navigate(path);
   };
   return (
     <Card

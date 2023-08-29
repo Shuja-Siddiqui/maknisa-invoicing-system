@@ -3,13 +3,10 @@ import { FormControl, InputLabel, Container, Box } from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
-import {
-  updateInvoice,
-  genrateInvoice,
-  getInvoiceById,
-} from "../../api/config";
+import { updateInvoice, genrateInvoice, getInvoiceById } from "../../api";
 import debounce from "lodash.debounce";
-const initialFormState = {
+import { useNavigate } from "react-router-dom";
+export const initialFormState = {
   client_name: "",
   location: {
     details: "",
@@ -19,8 +16,7 @@ const initialFormState = {
   },
 
   making_time: "",
-  terms:
-    "Foam quality - Master Molty Furniture to be delivered after construction completion of house Wood quality - Sheesham Wood Polish included Imported fabric on sofas same quality as pictures Cushions as per client demand Carriage will be paid by customer Mattress will not be included 50% payment in advance 30% before polish and poshish 20% before delivery",
+  terms: "",
   discount: "",
   items: [],
 };
@@ -36,8 +32,8 @@ export const InvoiceForm = () => {
     avatar: null,
   });
   const [editableTerms, setEditableTerms] = useState(false);
-  const [isDebouncing, setIsDebouncing] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState(null);
+  const navigate = useNavigate();
 
   const handleToggleEdit = () => {
     setEditableTerms(!editableTerms);
@@ -78,9 +74,7 @@ export const InvoiceForm = () => {
 
   const saveDraftDebounced = async () => {
     try {
-      setIsDebouncing(true);
       await updateInvoice({ ...formData });
-      setIsDebouncing(false);
       clearTimeout(debounceTimer); // Clear the debounce timer after saving
     } catch (err) {
       console.error(err);
@@ -91,29 +85,38 @@ export const InvoiceForm = () => {
     e.preventDefault();
     try {
       await genrateInvoice({ ...formData });
-      console.log("Invoice data saved");
+      navigate("/print-invoice");
     } catch (err) {
       console.error(err);
     }
   };
 
-  useLayoutEffect(() => {
+  const fetchData = () => {
     const id = localStorage.getItem("@invoiceId");
-
     if (id) {
       getInvoiceById(localStorage.getItem("@invoiceId")).then((res) =>
         setFormData(res)
       );
+    } else {
+      console.error("no id ");
+      setTimeout(() => {
+        navigate("/");
+      }, 300);
     }
+  };
+
+  useLayoutEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Box sx={{ backgroundColor: "#fff", marginTop:"20px" }}>
+    <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
       <Container maxWidth="md">
         <form onSubmit={handleSubmit}>
           <StyledTextField
             sx={{ mb: 2, mt: 2 }}
-            label="Client Name"
+            placeholder="Client Name"
             fullwidth="true"
             value={formData.client_name}
             onChange={(e) => handleInputChange("client_name", e.target.value)}
@@ -130,13 +133,13 @@ export const InvoiceForm = () => {
             }}
           >
             <StyledTextField
-              label="Details"
+              placeholder="Details"
               value={formData.location.details}
               onChange={(e) => handleLocationChange("details", e.target.value)}
               sx={{ width: "50%" }}
             />
             <StyledTextField
-              label="Area"
+              placeholder="Area"
               value={formData.location.area}
               onChange={(e) => handleLocationChange("area", e.target.value)}
               sx={{ width: "50%" }}
@@ -146,13 +149,13 @@ export const InvoiceForm = () => {
             sx={{ display: "flex", flexDirection: "row", mb: 2, gap: "10px" }}
           >
             <StyledTextField
-              label="City"
+              placeholder="City"
               value={formData.location.city}
               onChange={(e) => handleLocationChange("city", e.target.value)}
               sx={{ width: "50%" }}
             />
             <StyledTextField
-              label="Province"
+              placeholder="Province"
               value={formData.location.province}
               onChange={(e) => handleLocationChange("province", e.target.value)}
               sx={{ width: "50%" }}
@@ -160,24 +163,24 @@ export const InvoiceForm = () => {
           </FormControl>
           <StyledTextField
             sx={{ mb: 2 }}
-            label=" Making Time"
+            placeholder=" Making Time"
             fullwidth="true"
             value={formData.making_time}
             onChange={(e) => handleInputChange("making_time", e.target.value)}
           />
           <StyledTextField
             sx={{ mb: 2 }}
-            label="discount"
+            placeholder="Discount"
             fullwidth="true"
             type="Number"
-            value={formData.dis}
+            value={formData.discount}
             onChange={(e) => handleInputChange("discount", e.target.value)}
           />
           <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
             Terms & Conditions
           </InputLabel>
           <textarea
-            label="Terms"
+            placeholder="Terms"
             fullwidth="true"
             rows={6}
             value={formData.terms}
@@ -213,6 +216,7 @@ export const InvoiceForm = () => {
             setItemData={setItemData}
             formData={formData}
             setFormData={setFormData}
+            fetchData={fetchData}
           />
           <StyledButton type="submit" variant="contained" color="primary">
             Generate Invoice

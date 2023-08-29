@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -13,14 +13,45 @@ import {
 } from "@mui/material";
 import pic from "../../assets/png/wallpaperflare.com_wallpaper.jpg";
 import logo from "../../assets/png/maknisa-removebg-preview.png";
+import { getInvoiceById } from "../../api";
+import { initialFormState } from "../invoiceForm";
+import moment from "moment/moment";
 import { Logo } from "../../assets";
 import { StyledButton } from "../../pages";
 
 export const InvoicePage = () => {
-  const tableData = [
-    { id: 1, pic: "", dimension: "10x15", price: "$50" },
-    { id: 2, pic: "pic2.jpg", dimension: "12x18", price: "$65" },
-  ];
+  const [formData, setFormData] = useState(initialFormState);
+  const [printable, setPrintable] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const fetchData = () => {
+    const id = localStorage.getItem("@invoiceId");
+    if (id) {
+      getInvoiceById(localStorage.getItem("@invoiceId")).then((res) => {
+        setFormData(res);
+        setTotalPrice((prev) => {
+          return 0;
+        });
+        res?.items.forEach((i) => {
+          setTotalPrice((prev) => {
+            return parseFloat(prev) + parseFloat(i.price);
+          });
+        });
+        setPrintable(true);
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (printable) {
+      // setTimeout(() => window.print(), 300);
+    }
+  }, [printable]);
+
+  useLayoutEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>
@@ -54,6 +85,20 @@ export const InvoicePage = () => {
         <Box
           sx={{
             display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            component={"a"}
+            href="https://www.maknisa.com"
+            sx={{ color: "#000", textDecoration: "none" }}
+          >
+            <strong>www.maknisa.com</strong>
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
             justifyContent: "space-between",
             mb: 3,
             marginTop: "50px",
@@ -67,15 +112,17 @@ export const InvoicePage = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>Name:</strong> John Doe
+              <strong>Name:</strong> {formData?.client_name}
               <br />
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>Address:</strong> 123 Main St
+              <strong>Address:</strong>
+              {`${formData?.location?.area}, ${formData?.location?.city}, ${formData?.location?.province}`}
               <br />
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>House No:</strong>456
+              <strong>House No:</strong>
+              {formData?.location?.details}
             </Typography>
           </Box>
           <Box
@@ -89,7 +136,8 @@ export const InvoicePage = () => {
               <strong>InvoiceID:</strong> ######
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>Date:</strong> 12-13-23
+              <strong>Date:</strong>{" "}
+              {moment(formData?.updatedAt).format("DD-MM-YYYY")}
             </Typography>
           </Box>
         </Box>
@@ -106,9 +154,9 @@ export const InvoicePage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData.map((row) => (
+            {formData.items.map((row, index) => (
               <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.dimension}</TableCell>
                 <TableCell>{row.quantity}</TableCell>
@@ -122,6 +170,26 @@ export const InvoicePage = () => {
                 </TableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell colSpan={5} align="right">
+                <b>Net Amount</b>
+              </TableCell>
+              <TableCell align="center">{totalPrice}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan={5} align="right">
+                <b>Discount</b>
+              </TableCell>
+              <TableCell align="center">{formData.discount}%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan={5} align="right">
+                <b>Total Amount</b>
+              </TableCell>
+              <TableCell align="center">
+                {totalPrice - (totalPrice / 100) * formData.discount}
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
         <Box
@@ -134,11 +202,16 @@ export const InvoicePage = () => {
           }}
         >
           <Typography align="center">
-           <strong> Invoice System Developed by ConsoleDot Pvt-Ltd (0327-4067437)</strong>
+            <strong>
+              Invoice System Developed by ConsoleDot Pvt-Ltd (0327-4067437)
+            </strong>
           </Typography>
-          <Typography><strong>www.consoledot.com</strong></Typography>
+          <Typography>
+            <strong>www.consoledot.com</strong>
+          </Typography>
         </Box>
       </TableContainer>
+
       <Box
         sx={{
           marginBottom: "20px",

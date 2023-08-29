@@ -1,10 +1,12 @@
-import { Header, InvoiceButtonCard } from "../components";
+import { useState } from "react";
+import { Header, InvoiceButtonCard, UpdatePasswordModal } from "../components";
 import { Layout } from "../utils/theme";
 import { Box, Container } from "@mui/material";
 export const DashboardWrapper = () => {
+  const [show, setShow] = useState(false);
   return (
     <Layout>
-      <Header />
+      <Header setShow={setShow} />
       <Box>
         <Container maxWidth="lg">
           <Box
@@ -32,18 +34,19 @@ export const DashboardWrapper = () => {
             <InvoiceButtonCard
               text={"Draft Invoice"}
               color={"white"}
-              path={"/all-drafts"}
+              path={"/drafts"}
               action={"draftForm"}
             />
             <InvoiceButtonCard
               text={" Invoice"}
               color={"white"}
-              path={"/all-invoices"}
+              path={"/invoices"}
               action={"invoices"}
             />
           </Box>
         </Container>
       </Box>
+      <UpdatePasswordModal show={show} setShow={setShow} />
     </Layout>
   );
 };

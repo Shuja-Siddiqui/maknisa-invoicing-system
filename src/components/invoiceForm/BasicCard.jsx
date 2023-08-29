@@ -5,7 +5,8 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardMedia } from "@mui/material";
 import { Delete, Edit, Update } from "@mui/icons-material";
-import { getInvoiceById, updateItem } from "../../api/config";
+import { deleteSelectedItem, getInvoiceById, updateItem } from "../../api";
+import { file_url } from "../../api/config";
 
 export const BasicCard = ({
   number,
@@ -19,30 +20,41 @@ export const BasicCard = ({
   setAddedItems,
   addedItems,
   itemData,
-  key,
+  fetchData,
+  handleToggleForm,
 }) => {
-  const [showButton, setShowButton] = React.useState(false);
   const handleEditItem = () => {
-    setShowButton(true);
     try {
       getInvoiceById(localStorage.getItem("@invoiceId"))
         .then((res) => {
           setItemData({ ...itemData, ...res?.items[number] });
+          setSelected(number);
+          handleToggleForm(true);
         })
         .catch((err) => console.log(err));
     } catch (error) {
       console.log(error);
     }
-    // setSelected(number);
-    // setAddedItems([...addedItems.slice(0, number)]);
+  };
+  const handleDeleteItem = () => {
+    try {
+      deleteSelectedItem(number)
+        .then((res) => {
+          console.log(res);
+          fetchData();
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Card sx={{ width: "50%", display: "flex" }}>
       <CardMedia
         component="img"
         sx={{ width: "50%" }}
-        image={img}
-        alt="Live from space album cover"
+        image={`${file_url}/${img}`}
+        alt={description}
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>
@@ -61,14 +73,9 @@ export const BasicCard = ({
           <Button onClick={() => handleEditItem()}>
             <Edit />
           </Button>
-          <Button>
+          <Button onClick={() => handleDeleteItem()}>
             <Delete />
           </Button>
-          {showButton && (
-            <Button>
-              <Update />
-            </Button>
-          )}
         </CardActions>
       </Box>
     </Card>
