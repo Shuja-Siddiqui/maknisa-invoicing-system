@@ -69,7 +69,14 @@ export const AddItemForm = ({
             setFormVisible(false);
             setFormData({
               ...formData,
-              items: [...formData.items, { ...itemData, avatar: fileName }],
+              items: [
+                ...formData.items,
+                {
+                  ...itemData,
+                  avatar: fileName,
+                  price: itemData?.rate * itemData?.quantity,
+                },
+              ],
             });
             setAddedItems([...addedItems, { ...itemData, avatar: fileName }]);
           });

@@ -18,6 +18,7 @@ import { initialFormState } from "../invoiceForm";
 import moment from "moment/moment";
 import { Logo } from "../../assets";
 import { StyledButton } from "../../pages";
+import { file_url } from "../../api/config";
 
 export const InvoicePage = () => {
   const [formData, setFormData] = useState(initialFormState);
@@ -34,7 +35,9 @@ export const InvoicePage = () => {
         });
         res?.items.forEach((i) => {
           setTotalPrice((prev) => {
-            return parseFloat(prev) + parseFloat(i.price);
+            return (
+              parseFloat(prev) + parseFloat(i.rate) * parseFloat(i.quantity)
+            );
           });
         });
         setPrintable(true);
@@ -160,10 +163,10 @@ export const InvoicePage = () => {
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.dimension}</TableCell>
                 <TableCell>{row.quantity}</TableCell>
-                <TableCell>{row.price}</TableCell>
+                <TableCell>{row.quantity * row.rate}</TableCell>
                 <TableCell>
                   <img
-                    src={pic}
+                    src={file_url + "/" + row?.avatar}
                     alt={`Pic ${row.id}`}
                     style={{ maxWidth: "150px" }}
                   />
@@ -176,20 +179,25 @@ export const InvoicePage = () => {
               </TableCell>
               <TableCell align="center">{totalPrice}</TableCell>
             </TableRow>
-            <TableRow>
-              <TableCell colSpan={5} align="right">
-                <b>Discount</b>
-              </TableCell>
-              <TableCell align="center">{formData.discount}%</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell colSpan={5} align="right">
-                <b>Total Amount</b>
-              </TableCell>
-              <TableCell align="center">
-                {totalPrice - (totalPrice / 100) * formData.discount}
-              </TableCell>
-            </TableRow>
+
+            {formData.discount && (
+              <>
+                <TableRow>
+                  <TableCell colSpan={5} align="right">
+                    <b>Discount</b>
+                  </TableCell>
+                  <TableCell align="center">{formData.discount}%</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={5} align="right">
+                    <b>Total Amount</b>
+                  </TableCell>
+                  <TableCell align="center">
+                    {totalPrice - (totalPrice / 100) * formData.discount}
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
           </TableBody>
         </Table>
         <Box
