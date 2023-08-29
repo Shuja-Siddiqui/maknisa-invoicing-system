@@ -4,7 +4,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardMedia } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
+import { Delete, Edit, Update } from "@mui/icons-material";
 import { getInvoiceById, updateItem } from "../../api/config";
 
 export const BasicCard = ({
@@ -19,15 +19,15 @@ export const BasicCard = ({
   setAddedItems,
   addedItems,
   itemData,
-  key
+  key,
 }) => {
+  const [showButton, setShowButton] = React.useState(false);
   const handleEditItem = () => {
+    setShowButton(true);
     try {
-
       getInvoiceById(localStorage.getItem("@invoiceId"))
         .then((res) => {
-          setItemData({...itemData, ...res?.items[number]});
-
+          setItemData({ ...itemData, ...res?.items[number] });
         })
         .catch((err) => console.log(err));
     } catch (error) {
@@ -64,6 +64,11 @@ export const BasicCard = ({
           <Button>
             <Delete />
           </Button>
+          {showButton && (
+            <Button>
+              <Update />
+            </Button>
+          )}
         </CardActions>
       </Box>
     </Card>

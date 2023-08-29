@@ -22,7 +22,7 @@ export const Header = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ bgcolor: "black" }}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color:"#EC7C34" }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color:"#F98E0A" }}>
             MAKNISA
           </Typography>
 
@@ -52,10 +52,10 @@ export const Header = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose} sx={{ color: "#EC7C34" }}>
+            <MenuItem onClick={handleClose} sx={{ color: "#F98E0A" }}>
               Update Password
             </MenuItem>
-            <MenuItem onClick={handleClose} sx={{ color: "#EC7C34" }}>
+            <MenuItem onClick={handleClose} sx={{ color: "#F98E0A" }}>
               Logout
             </MenuItem>
           </Menu>

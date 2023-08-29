@@ -59,7 +59,6 @@ export const updateInvoice = (data) => {
 export const updateItemsArray = (data) => {
   const token = localStorage.getItem("@token");
   const invoiceId = localStorage.getItem("@invoiceId");
-  console.log(token, "token");
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -72,10 +71,9 @@ export const updateItemsArray = (data) => {
       throw err;
     });
 };
-export const updateItem = (data) => {
+export const updateSelectedItem = (data) => {
   const token = localStorage.getItem("@token");
   const invoiceId = localStorage.getItem("@invoiceId");
-  console.log(token, "token");
   const headers = {
     Authorization: `JWT ${token}`,
   };

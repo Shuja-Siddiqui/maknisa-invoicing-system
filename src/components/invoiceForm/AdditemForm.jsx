@@ -10,7 +10,7 @@ import {
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { BasicCard } from "./BasicCard";
-import { updateItemsArray } from "../../api/config";
+import { updateItemsArray, updateSelectedItem } from "../../api/config";
 
 export const AddItemForm = ({
   itemData,
@@ -50,6 +50,9 @@ export const AddItemForm = ({
     const oldItems = [...formData.items];
     oldItems[selected] = itemData;
     setFormData({ ...formData, items: [...oldItems] });
+    updateSelectedItem(oldItems)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
     setSelected(-1);
   };
 
@@ -57,7 +60,6 @@ export const AddItemForm = ({
     setFormData({ ...formData, items: [...formData.items, itemData] });
     setAddedItems([...addedItems, itemData]);
     try {
-  
       await updateItemsArray({ addedItems: itemData });
     } catch (err) {
       console.log(err);
