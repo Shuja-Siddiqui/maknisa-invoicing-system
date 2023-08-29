@@ -4,8 +4,8 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardMedia } from "@mui/material";
-import { Delete, Edit, Update } from "@mui/icons-material";
-import { deleteSelectedItem, getInvoiceById, updateItem } from "../../api";
+import { Delete, Edit } from "@mui/icons-material";
+import { deleteSelectedItem, getInvoiceById } from "../../api";
 import { file_url } from "../../api/config";
 
 export const BasicCard = ({
