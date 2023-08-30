@@ -5,6 +5,7 @@ import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { updateInvoice, genrateInvoice, getInvoiceById } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { ArrowBack } from "@mui/icons-material";
 export const initialFormState = {
   client_name: "",
   location: {
@@ -103,14 +104,22 @@ export const InvoiceForm = () => {
       }, 300);
     }
   };
+   const goBack = () => {
+    window.history.back();
+  };
 
   useLayoutEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  
+
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
+       <Box sx={{color:"#F98E0A", cursor:"pointer"}} onClick={()=>window.history.back()}>
+          <ArrowBack />
+          </Box>
       <Container maxWidth="md">
         <form onSubmit={handleSubmit}>
           <StyledTextField

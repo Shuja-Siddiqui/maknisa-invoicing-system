@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { Settings } from "@mui/icons-material";
+import {  Settings } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/png/maknisa-removebg-preview.png";
 import { Logo } from "../../assets";

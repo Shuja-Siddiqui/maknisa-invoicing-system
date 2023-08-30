@@ -29,10 +29,10 @@ function App() {
       <Route path="/" element={<DashboardWrapper />} />
       <Route path="/dashboard" element={<DashboardWrapper />} />
       <Route path="/invoice-form" element={<InvoiceFormWrapper />} />
-      <Route path="/all-drafts" element={<AllDrafts />} />
-      <Route path="/all-invoices" element={<AllInvoices />} />
-      <Route path="/invoices" element={<Invoices />} />
-      <Route path="/drafts" element={<InvoiceDrafts />} />
+      {/* <Route path="/all-drafts" element={<AllDrafts />} />
+      <Route path="/all-invoices" element={<AllInvoices />} /> */}
+      <Route path="/invoices" element={<AllInvoices />} />
+      <Route path="/drafts" element={<AllDrafts />} />
       <Route path="/print-invoice" element={<InvoicePage />} />
       <Route path="/update-password" element={<UpdatePassword />} />
     </Routes>

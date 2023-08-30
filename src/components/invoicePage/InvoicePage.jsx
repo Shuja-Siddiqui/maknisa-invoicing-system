@@ -19,6 +19,7 @@ import moment from "moment/moment";
 import { Logo } from "../../assets";
 import { StyledButton } from "../../pages";
 import { file_url } from "../../api/config";
+import { fontSize } from "@mui/system";
 import { WhatsApp } from "@mui/icons-material";
 import queryString from "query-string";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +27,6 @@ import { useNavigate } from "react-router-dom";
 export const InvoicePage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormState);
-  const [printable, setPrintable] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const parsed = queryString.parse(window.location.search);
   const [show, setShow] = useState(parsed?.show);
@@ -51,21 +51,32 @@ export const InvoicePage = () => {
             );
           });
         });
-        setPrintable(true);
       });
     }
   };
+  const id = localStorage.getItem("@invoiceId"); // Replace "invoiceId" with the actual property name
+  let invoiceId = "";
 
   useEffect(() => {
     if (parsed.print === "true") {
       setTimeout(() => window.print(), 300);
     }
-  }, [printable]);
+  })
+
+  // useEffect(() => {
+  //   if (printable) {
+  //     setTimeout(() => window.print(), 300);
+  //   }
+  // }, [printable]);
 
   useLayoutEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   return (
     <Container>
@@ -147,7 +158,7 @@ export const InvoicePage = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>InvoiceID:</strong> ######
+              <strong>InvoiceID:</strong> {invoiceId}
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
               <strong>Date:</strong>{" "}
@@ -218,14 +229,16 @@ export const InvoicePage = () => {
             justifyContent: "center",
             flexDirection: "column",
             width: "100%",
+            color: "grey",
+            marginTop: "7px",
           }}
         >
-          <Typography align="center">
+          <Typography align="center" sx={{ fontSize: "12px" }}>
             <strong>
               Invoice System Developed by ConsoleDot Pvt-Ltd (0327-4067437)
             </strong>
           </Typography>
-          <Typography>
+          <Typography sx={{ fontSize: "12px" }}>
             <strong>www.consoledot.com</strong>
           </Typography>
         </Box>
