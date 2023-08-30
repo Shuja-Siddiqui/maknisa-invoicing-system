@@ -102,7 +102,7 @@ export const AddItemForm = ({
           encType="multipart/form-data"
           onSubmit={(e) => e.preventDefault()}
         >
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="h5" color="#EC7C34" gutterBottom>
             Add Item
           </Typography>
           <StyledTextField
@@ -194,6 +194,14 @@ export const AddItemForm = ({
           </Box>
         </form>
       )}
+      <StyledButton
+        variant="contained"
+        color="primary"
+        onClick={handleToggleForm}
+        sx={{width:"100%", marginBottom:"2rem"}}
+      >
+        {isFormVisible ? "Cancel" : "Add Item"}
+      </StyledButton>
       <div
         style={{
           display: "flex",
@@ -211,6 +219,7 @@ export const AddItemForm = ({
             quantity={item.quantity}
             price={item.price}
             description={item.description}
+            dimension={item.dimension}
             setItemData={setItemData}
             setSelected={setSelected}
             setAddedItems={setAddedItems}
@@ -221,14 +230,6 @@ export const AddItemForm = ({
           />
         ))}
       </div>
-
-      <StyledButton
-        variant="contained"
-        color="primary"
-        onClick={handleToggleForm}
-      >
-        {isFormVisible ? "Cancel" : "Add Item"}
-      </StyledButton>
     </Container>
   );
 };

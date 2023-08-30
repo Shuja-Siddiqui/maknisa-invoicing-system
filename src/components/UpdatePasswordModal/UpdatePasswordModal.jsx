@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import { updatePassword } from "../../api";
+import { StyledButton } from "../../pages";
 
 export const UpdatePasswordModal = ({ show, setShow }) => {
   const handleSubmit = (e) => {
@@ -45,16 +46,16 @@ export const UpdatePasswordModal = ({ show, setShow }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button
+         <StyledButton
             type="reset"
             variant="outlined"
             onClick={() => setShow(false)}
           >
             Cancel
-          </Button>
-          <Button type="submit" variant="outlined">
+          </StyledButton>
+         <StyledButton type="submit" variant="outlined">
             Update
-          </Button>
+          </StyledButton>
         </DialogActions>
       </form>
     </Dialog>

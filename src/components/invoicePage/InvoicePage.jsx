@@ -19,10 +19,10 @@ import moment from "moment/moment";
 import { Logo } from "../../assets";
 import { StyledButton } from "../../pages";
 import { file_url } from "../../api/config";
+import { fontSize } from "@mui/system";
 
 export const InvoicePage = () => {
   const [formData, setFormData] = useState(initialFormState);
-  const [printable, setPrintable] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const fetchData = () => {
@@ -40,27 +40,48 @@ export const InvoicePage = () => {
             );
           });
         });
-        setPrintable(true);
       });
     }
   };
+  const id = localStorage.getItem("@invoiceId"); // Replace "invoiceId" with the actual property name
+  let invoiceId = "";
 
-  useEffect(() => {
-    if (printable) {
-      // setTimeout(() => window.print(), 300);
+  if (id) {
+    for (let i = 0; i < id.length && invoiceId.length < 4; i++) {
+      if (/\d/.test(id[i])) {
+        invoiceId += id[i];
+      }
     }
-  }, [printable]);
+  }
+  console.log(invoiceId, "invoiceId");
+
+  // useEffect(() => {
+  //   if (printable) {
+  //     setTimeout(() => window.print(), 300);
+  //   }
+  // }, [printable]);
 
   useLayoutEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <Container>
       <TableContainer
         component={Paper}
-        sx={{ marginTop: "20px", padding: "1rem 2rem" }}
+        sx={{
+          marginTop: "20px",
+          padding: "1rem 2rem",
+          "@media print": {
+            display: "block",
+            padding: 0,
+          },
+        }}
       >
         <Box
           sx={{
@@ -136,7 +157,7 @@ export const InvoicePage = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>InvoiceID:</strong> ######
+              <strong>InvoiceID:</strong> {invoiceId}
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
               <strong>Date:</strong>{" "}
@@ -207,25 +228,31 @@ export const InvoicePage = () => {
             justifyContent: "center",
             flexDirection: "column",
             width: "100%",
+            color: "grey",
+            marginTop: "7px",
           }}
         >
-          <Typography align="center">
+          <Typography align="center" sx={{ fontSize: "12px" }}>
             <strong>
               Invoice System Developed by ConsoleDot Pvt-Ltd (0327-4067437)
             </strong>
           </Typography>
-          <Typography>
+          <Typography sx={{ fontSize: "12px" }}>
             <strong>www.consoledot.com</strong>
           </Typography>
         </Box>
       </TableContainer>
-
       <Box
         sx={{
           marginBottom: "20px",
         }}
       >
-        <StyledButton type="submit" variant="contained" color="primary">
+        <StyledButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={handlePrint}
+        >
           Print Invoice
         </StyledButton>
       </Box>

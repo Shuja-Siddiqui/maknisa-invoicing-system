@@ -8,8 +8,10 @@ import {
   TableBody,
   Paper,
   TablePagination,
+  Box
 } from "@mui/material";
 import styled from "styled-components";
+import { ArrowBack } from "@mui/icons-material";
 
 export const StyledTableCell = styled(TableCell)({
   borderBottom: "1px solid #f98e0a",
@@ -45,11 +47,16 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
   );
   return (
     <TableContainer component={Paper} sx={{ bgcolor: "white" }}>
-      <div
+      <Box sx={{color:"#F98E0A", cursor:"pointer", margin:"10px 0px 0px 40px"}} onClick={()=>window.history.back()}>
+          <ArrowBack />
+          </Box>
+      <Box
         sx={{
           borderBottom: "1px solid #f98e0a",
           color: "#f98e0a",
-          width: "20%",
+          width: "100%",
+          padding:"30px",
+          fontSize:"30px"
         }}
         align={"center"}
       >
@@ -59,9 +66,9 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
           value={searchQuery}
           onChange={handleSearchChange}
           placeholder="Search..."
-          style={{ marginLeft: "8px", padding: "2px" }}
+          style={{ marginLeft: "8px",width:"40%", padding: "15px" , borderRadius:"5px", border:"1px solid #f98e0a"}}
         />
-      </div>
+      </Box>
 
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -71,6 +78,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
                 borderBottom: "1px solid #f98e0a",
                 color: "#f98e0a",
                 width: "20%",
+                fontSize:"large"
               }}
               align={"center"}
             >
@@ -83,6 +91,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
                     borderBottom: "1px solid #f98e0a",
                     color: "#f98e0a",
                     width: "20%",
+                    fontSize:"large"
                   }}
                   align={_ === "name" ? "left" : "center"}
                   key={index}

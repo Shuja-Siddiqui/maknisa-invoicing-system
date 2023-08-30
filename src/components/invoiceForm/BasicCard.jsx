@@ -15,6 +15,7 @@ export const BasicCard = ({
   quantity,
   price,
   description,
+  dimension,
   setItemData,
   setSelected,
   setAddedItems,
@@ -49,7 +50,7 @@ export const BasicCard = ({
     }
   };
   return (
-    <Card sx={{ width: "50%", display: "flex" }}>
+    <Card sx={{ width: "100%", display: "flex" }}>
       <CardMedia
         component="img"
         sx={{ width: "50%" }}
@@ -58,22 +59,32 @@ export const BasicCard = ({
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {description}
+          <Typography gutterBottom variant="h6" component="div">
+            <strong>Description: </strong> {description}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {price}
+          <Typography gutterBottom variant="h6" component="div">
+            <strong>Dimension: </strong> {dimension}
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-            <Typography size="small">{rate}</Typography>
-            <Typography size="small">{quantity}</Typography>
+
+          <Box sx={{ display: "flex", justifyContent: "space-between"}}>
+            <Typography variant="h6" component="div" >
+              <strong>Rate: </strong>
+              {rate}
+            </Typography>
+            <Typography variant="h6" component="div" sx={{marginLeft:"10px"}}>
+              <strong>Quantity: </strong>
+              {quantity}
+            </Typography>
           </Box>
+          <Typography variant="h6" component="div">
+            <strong>Price: </strong> {price}
+          </Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={() => handleEditItem()}>
+          <Button onClick={() => handleEditItem()} sx={{color:"#EC7C34"}}>
             <Edit />
           </Button>
-          <Button onClick={() => handleDeleteItem()}>
+          <Button onClick={() => handleDeleteItem()} sx={{color:"#EC7C34"}}>
             <Delete />
           </Button>
         </CardActions>
