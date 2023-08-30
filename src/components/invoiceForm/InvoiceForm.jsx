@@ -103,11 +103,16 @@ export const InvoiceForm = () => {
       }, 300);
     }
   };
+   const goBack = () => {
+    window.history.back();
+  };
 
   useLayoutEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  
 
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
