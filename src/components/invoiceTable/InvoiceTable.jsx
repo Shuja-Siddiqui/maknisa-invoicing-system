@@ -45,6 +45,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
       row[heading]?.toString().toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
+  console.log(filteredRows, "filter");
   return (
     <TableContainer component={Paper} sx={{ bgcolor: "white" }}>
       <Box
@@ -91,7 +92,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
                 borderBottom: "1px solid #f98e0a",
                 color: "#f98e0a",
                 width: "20%",
-                fontSize:"large"
+                fontSize: "large",
               }}
               align={"center"}
             >
@@ -104,7 +105,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
                     borderBottom: "1px solid #f98e0a",
                     color: "#f98e0a",
                     width: "20%",
-                    fontSize:"large"
+                    fontSize: "large",
                   }}
                   align={_ === "name" ? "left" : "center"}
                   key={index}
@@ -128,7 +129,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
                     borderBottom: "1px solid #f98e0a",
                   }}
                 >
-                  {index + 1}
+                  {row?.invoice_id}
                 </WhiteTextTableCell>
                 {headings.map((_, i) =>
                   _ === "Actions" ? (

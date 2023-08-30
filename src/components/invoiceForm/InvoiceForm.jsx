@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect } from "react";
-import { FormControl, InputLabel, Container, Box } from "@mui/material";
+import { FormControl, InputLabel, Container, Box, Grid } from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
@@ -103,7 +103,7 @@ export const InvoiceForm = () => {
       }, 300);
     }
   };
-   const goBack = () => {
+  const goBack = () => {
     window.history.back();
   };
 
@@ -112,15 +112,13 @@ export const InvoiceForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
-
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
       <Box
         sx={{ color: "#F98E0A", cursor: "pointer" }}
         onClick={() => window.history.back()}
       >
-        <ArrowBack /> 
+        <ArrowBack />
       </Box>
       <Container maxWidth="md">
         <form onSubmit={handleSubmit}>
@@ -134,75 +132,45 @@ export const InvoiceForm = () => {
           <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
             Location
           </InputLabel>
-          <FormControl
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              mb: 2,
-              gap: "10px",
-            }}
-          >
-            <StyledTextField
-              placeholder="Details"
-              value={formData.location.details}
-              onChange={(e) => handleLocationChange("details", e.target.value)}
-              sx={{
-                width: {
-                  xl: "50%",
-                  lg: "50%",
-                  md: "50%",
-                  sm: "100%",
-                  xs: "100%",
-                },
-              }}
-            />
-            <StyledTextField
-              placeholder="Area"
-              value={formData.location.area}
-              onChange={(e) => handleLocationChange("area", e.target.value)}
-              sx={{
-                width: {
-                  xl: "50%",
-                  lg: "50%",
-                  md: "50%",
-                  sm: "100%",
-                  xs: "100%",
-                },
-              }}
-            />
-          </FormControl>
-          <FormControl
-            sx={{ display: "flex", flexDirection: "row", mb: 2, gap: "10px" }}
-          >
-            <StyledTextField
-              placeholder="City"
-              value={formData.location.city}
-              onChange={(e) => handleLocationChange("city", e.target.value)}
-              sx={{
-                width: {
-                  xl: "50%",
-                  lg: "50%",
-                  md: "50%",
-                  sm: "100%",
-                  xs: "100%",
-                },
-              }}
-            />
-            <StyledTextField
-              placeholder="Province"
-              value={formData.location.province}
-              onChange={(e) => handleLocationChange("province", e.target.value)}
-              sx={{
-                width: {
-                  xl: "50%",
-                  lg: "50%",
-                  md: "50%",
-                  sm: "100%",
-                  xs: "100%",
-                },
-              }}
-            />
-          </FormControl>
+          <Grid container spacing={2} sx={{marginBottom:"1rem"}}>
+            <Grid item xs={12} sm={6}>
+              <StyledTextField
+                placeholder="Details"
+                value={formData.location.details}
+                onChange={(e) =>
+                  handleLocationChange("details", e.target.value)
+                }
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <StyledTextField
+                placeholder="Area"
+                value={formData.location.area}
+                onChange={(e) => handleLocationChange("area", e.target.value)}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} sx={{marginBottom:"1rem"}}>
+            <Grid item xs={12} sm={6}> 
+              <StyledTextField
+                placeholder="City"
+                value={formData.location.city}
+                onChange={(e) => handleLocationChange("city", e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <StyledTextField
+                placeholder="Province"
+                value={formData.location.province}
+                onChange={(e) =>
+                  handleLocationChange("province", e.target.value)
+                }
+              />
+            </Grid>
+          </Grid>
           <StyledTextField
             sx={{ mb: 2 }}
             placeholder=" Making Time"

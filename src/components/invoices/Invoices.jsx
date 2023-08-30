@@ -3,12 +3,20 @@ import React, { useState, useEffect } from "react";
 import { getInvoices, updateStatus } from "../../api";
 import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
 import { Box, Button, Typography } from "@mui/material";
-import { RemoveRedEye } from "@mui/icons-material";
+import { RemoveRedEye, ThumbDown, ThumbUp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 // Define your data creation function
-function createData(_id, Client_Name, House_No, Area, Status, Actions) {
-  return { _id, Client_Name, House_No, Area, Status, Actions };
+function createData(
+  _id,
+  Client_Name,
+  House_No,
+  Area,
+  Status,
+  invoice_id,
+  Actions
+) {
+  return { _id, Client_Name, House_No, Area, Status, invoice_id, Actions };
 }
 
 export const Invoices = () => {
@@ -45,14 +53,15 @@ export const Invoices = () => {
             data?.client_name,
             data?.location?.city,
             data?.location?.area,
-            data?.currentStatus
+            data?.currentStatus,
+            data?.invoice_id
           )
         );
         setData(rows);
+        console.log(rows, "rows");
       })
       .catch((err) => console.log(err));
   }, []);
-  // console.log(first)
   return (
     <>
       <Box
@@ -67,13 +76,13 @@ export const Invoices = () => {
         }}
       >
         <Typography variant="h6" component="div">
-          Approved:{approved}
+          APPROVED : {approved}
         </Typography>
         <Typography variant="h6" component="div">
-          Reject:{reject}
+          REJECTED : {reject}
         </Typography>
         <Typography variant="h6" component="div">
-          Pending:{pending}
+          PENDING : {pending}
         </Typography>
       </Box>
       <InvoiceTable
@@ -111,14 +120,22 @@ export const Invoices = () => {
                 handleStatus({ invoiceStatus: "Approve", statusId: id })
               }
             >
-              Approve
+              <ThumbUp
+                sx={{
+                  color: "green",
+                }}
+              />
             </Button>
             <Button
               onClick={() =>
                 handleStatus({ invoiceStatus: "Reject", statusId: id })
               }
             >
-              Reject
+              <ThumbDown
+                sx={{
+                  color: "red",
+                }}
+              />
             </Button>
           </WhiteTextTableCell>
         )}

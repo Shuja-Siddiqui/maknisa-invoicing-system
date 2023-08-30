@@ -7,8 +7,8 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 // Define your data creation function
-function createData(_id, Client_Name, House_No, Area, Status, Actions) {
-  return { _id, Client_Name, House_No, Area, Status, Actions };
+function createData(_id, Client_Name, House_No, Area, invoice_id, Actions) {
+  return { _id, Client_Name, House_No, Area, invoice_id, Actions };
 }
 export const InvoiceDrafts = () => {
   const [data, setData] = useState([]);
@@ -33,7 +33,7 @@ export const InvoiceDrafts = () => {
             data?.client_name,
             data?.location?.city,
             data?.location?.area,
-            data?.status
+            data?.invoice_id
           )
         );
         setData(rows);
@@ -48,7 +48,13 @@ export const InvoiceDrafts = () => {
     <>
       <InvoiceTable
         rows={data}
-        headings={["_id", "Client_Name", "House_No", "Area", "Actions"]}
+        headings={[
+          "_id",
+          "Client_Name",
+          "House_No",
+          "Area",
+          "Actions"
+        ]}
         Actions={({ id }) => (
           <WhiteTextTableCell
             align={"center"}

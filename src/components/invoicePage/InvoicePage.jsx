@@ -59,7 +59,7 @@ export const InvoicePage = () => {
     if (parsed.print === "true") {
       setTimeout(() => window.print(), 300);
     }
-  })
+  });
 
   // useEffect(() => {
   //   if (printable) {
@@ -235,19 +235,18 @@ export const InvoicePage = () => {
                 </TableRow>
               </>
             )}
-            <TableRow>
-              <TableCell>
-                <Typography component="h1" variant="h6">
-                  <strong>Terms & Conditions</strong>
-                </Typography>
-                <Typography sx={{ fontSize: "12px" }}>
-                  {formData?.terms}
-                </Typography>
-              </TableCell>
-              <TableCell colSpan={6}></TableCell>
-            </TableRow>
           </TableBody>
         </Table>
+        <Box sx={{margin:"1rem 0 1rem 0"}}>
+          <Typography component="h1" variant="h6">
+            <strong>Terms & Conditions</strong>
+          </Typography>
+          <Typography
+            sx={{ fontSize: "12px" }}
+            dangerouslySetInnerHTML={{ __html: formData?.terms }}
+          />
+        </Box>
+        <hr />
         <Box
           sx={{
             display: "flex",
