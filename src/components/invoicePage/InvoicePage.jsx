@@ -1,4 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import {
   Container,
   Typography,
@@ -28,6 +30,23 @@ export const InvoicePage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const parsed = queryString.parse(window.location.search);
   const [show, setShow] = useState(parsed?.show);
+
+  const handleDownloadPDF = async () => {
+    const input = document.getElementById("invoice-content");
+    if (input) {
+      const canvas = await html2canvas(input); // Await the canvas creation
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("invoice.pdf");
+    }
+  };
+
   useLayoutEffect(() => {
     setShow(parsed?.show);
   }, [parsed]);
@@ -79,8 +98,9 @@ export const InvoicePage = () => {
   return (
     <Container>
       <Box
-      // component={Paper}
-      // sx={{ marginTop: "20px", padding: "1rem 2rem" }}
+        id="invoice-content"
+        // component={Paper}
+        // sx={{ marginTop: "20px", padding: "1rem 2rem" }}
       >
         <Box
           sx={{
@@ -237,7 +257,7 @@ export const InvoicePage = () => {
             )}
           </TableBody>
         </Table>
-        <Box sx={{margin:"1rem 0 1rem 0"}}>
+        <Box sx={{ margin: "1rem 0 1rem 0" }}>
           <Typography component="h1" variant="h6">
             <strong>Terms & Conditions</strong>
           </Typography>
@@ -300,6 +320,16 @@ export const InvoicePage = () => {
             }}
           >
             <WhatsApp />
+          </StyledButton>
+          <StyledButton
+            // ... your existing code
+
+            onClick={() => {
+              // ... your existing code
+              handleDownloadPDF(); // Call the function to generate and download the PDF
+            }}
+          >
+            Download PDF
           </StyledButton>
         </Box>
       )}
