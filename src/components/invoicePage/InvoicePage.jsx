@@ -19,16 +19,27 @@ import moment from "moment/moment";
 import { Logo } from "../../assets";
 import { StyledButton } from "../../pages";
 import { file_url } from "../../api/config";
+import { WhatsApp } from "@mui/icons-material";
+import queryString from "query-string";
+import { useNavigate } from "react-router-dom";
 
 export const InvoicePage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormState);
   const [printable, setPrintable] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const parsed = queryString.parse(window.location.search);
+  const [show, setShow] = useState(parsed?.show);
+  useLayoutEffect(() => {
+    setShow(parsed?.show);
+  }, [parsed]);
   const fetchData = () => {
-    const id = localStorage.getItem("@invoiceId");
+    const id = parsed?.id || localStorage.getItem("@invoiceId");
+    if (parsed?.id) {
+      localStorage.setItem("@invoiceId", parsed?.id);
+    }
     if (id) {
-      getInvoiceById(localStorage.getItem("@invoiceId")).then((res) => {
+      getInvoiceById(id).then((res) => {
         setFormData(res);
         setTotalPrice((prev) => {
           return 0;
@@ -46,8 +57,8 @@ export const InvoicePage = () => {
   };
 
   useEffect(() => {
-    if (printable) {
-      // setTimeout(() => window.print(), 300);
+    if (parsed.print === "true") {
+      setTimeout(() => window.print(), 300);
     }
   }, [printable]);
 
@@ -58,9 +69,9 @@ export const InvoicePage = () => {
 
   return (
     <Container>
-      <TableContainer
-        component={Paper}
-        sx={{ marginTop: "20px", padding: "1rem 2rem" }}
+      <Box
+        // component={Paper}
+        // sx={{ marginTop: "20px", padding: "1rem 2rem" }}
       >
         <Box
           sx={{
@@ -218,17 +229,42 @@ export const InvoicePage = () => {
             <strong>www.consoledot.com</strong>
           </Typography>
         </Box>
-      </TableContainer>
-
-      <Box
-        sx={{
-          marginBottom: "20px",
-        }}
-      >
-        <StyledButton type="submit" variant="contained" color="primary">
-          Print Invoice
-        </StyledButton>
       </Box>
+      {!show && (
+        <Box
+          sx={{
+            marginBottom: "20px",
+          }}
+        >
+          <StyledButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mx: 1 }}
+            onClick={() => {
+              navigate(`/print-invoice?id=${parsed?.id}&show=false`);
+              setTimeout(() => {
+                window.print();
+              }, 300);
+            }}
+          >
+            Print Invoice
+          </StyledButton>
+          <StyledButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mx: 1 }}
+            onClick={() => {
+              window.open(
+                `https://api.whatsapp.com/send?text=${window.location.origin}/print-invoice?id=${parsed?.id}`
+              );
+            }}
+          >
+            <WhatsApp />
+          </StyledButton>
+        </Box>
+      )}
     </Container>
   );
 };

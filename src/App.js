@@ -16,7 +16,8 @@ function App() {
   useEffect(() => {
     const fn = async () => {
       const res = await verify();
-      if (!res) {
+      console.log(window.location.pathname)
+      if (!res && window.location.pathname !== "/print-invoice") {
         navigate("/login");
       }
     };
