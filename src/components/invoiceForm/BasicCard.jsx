@@ -18,8 +18,6 @@ export const BasicCard = ({
   dimension,
   setItemData,
   setSelected,
-  setAddedItems,
-  addedItems,
   itemData,
   fetchData,
   handleToggleForm,

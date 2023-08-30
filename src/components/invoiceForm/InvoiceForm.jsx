@@ -14,10 +14,9 @@ export const initialFormState = {
     city: "",
     province: "",
   },
-
   making_time: "",
   terms: "",
-  discount: "",
+  discount: 0,
   items: [],
 };
 
@@ -44,7 +43,7 @@ export const InvoiceForm = () => {
       ...prevData,
       [field]: value,
     }));
-
+    console.log(formData);
     // If debounceTimer exists, cancel the debounce
     if (debounceTimer) {
       clearTimeout(debounceTimer);
@@ -117,9 +116,12 @@ export const InvoiceForm = () => {
 
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
-       <Box sx={{color:"#F98E0A", cursor:"pointer"}} onClick={()=>window.history.back()}>
-          <ArrowBack />
-          </Box>
+      <Box
+        sx={{ color: "#F98E0A", cursor: "pointer" }}
+        onClick={() => window.history.back()}
+      >
+        <ArrowBack /> 
+      </Box>
       <Container maxWidth="md">
         <form onSubmit={handleSubmit}>
           <StyledTextField
@@ -144,13 +146,29 @@ export const InvoiceForm = () => {
               placeholder="Details"
               value={formData.location.details}
               onChange={(e) => handleLocationChange("details", e.target.value)}
-              sx={{ width: "50%" }}
+              sx={{
+                width: {
+                  xl: "50%",
+                  lg: "50%",
+                  md: "50%",
+                  sm: "100%",
+                  xs: "100%",
+                },
+              }}
             />
             <StyledTextField
               placeholder="Area"
               value={formData.location.area}
               onChange={(e) => handleLocationChange("area", e.target.value)}
-              sx={{ width: "50%" }}
+              sx={{
+                width: {
+                  xl: "50%",
+                  lg: "50%",
+                  md: "50%",
+                  sm: "100%",
+                  xs: "100%",
+                },
+              }}
             />
           </FormControl>
           <FormControl
@@ -160,13 +178,29 @@ export const InvoiceForm = () => {
               placeholder="City"
               value={formData.location.city}
               onChange={(e) => handleLocationChange("city", e.target.value)}
-              sx={{ width: "50%" }}
+              sx={{
+                width: {
+                  xl: "50%",
+                  lg: "50%",
+                  md: "50%",
+                  sm: "100%",
+                  xs: "100%",
+                },
+              }}
             />
             <StyledTextField
               placeholder="Province"
               value={formData.location.province}
               onChange={(e) => handleLocationChange("province", e.target.value)}
-              sx={{ width: "50%" }}
+              sx={{
+                width: {
+                  xl: "50%",
+                  lg: "50%",
+                  md: "50%",
+                  sm: "100%",
+                  xs: "100%",
+                },
+              }}
             />
           </FormControl>
           <StyledTextField
@@ -180,10 +214,12 @@ export const InvoiceForm = () => {
             sx={{ mb: 2 }}
             placeholder="Discount"
             fullwidth="true"
-            type="Number"
+            type="number"
+            name="discount"
             value={formData.discount}
             onChange={(e) => handleInputChange("discount", e.target.value)}
           />
+
           <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
             Terms & Conditions
           </InputLabel>

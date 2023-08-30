@@ -3,12 +3,10 @@ import {
   Container,
   Typography,
   Table,
-  TableContainer,
   TableHead,
   TableBody,
   TableRow,
   TableCell,
-  Paper,
   Box,
 } from "@mui/material";
 import pic from "../../assets/png/wallpaperflare.com_wallpaper.jpg";
@@ -19,16 +17,27 @@ import moment from "moment/moment";
 import { Logo } from "../../assets";
 import { StyledButton } from "../../pages";
 import { file_url } from "../../api/config";
+import { WhatsApp } from "@mui/icons-material";
+import queryString from "query-string";
+import { useNavigate } from "react-router-dom";
 import { fontSize } from "@mui/system";
 
 export const InvoicePage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormState);
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const parsed = queryString.parse(window.location.search);
+  const [show, setShow] = useState(parsed?.show);
+  useLayoutEffect(() => {
+    setShow(parsed?.show);
+  }, [parsed]);
   const fetchData = () => {
-    const id = localStorage.getItem("@invoiceId");
+    const id = parsed?.id || localStorage.getItem("@invoiceId");
+    if (parsed?.id) {
+      localStorage.setItem("@invoiceId", parsed?.id);
+    }
     if (id) {
-      getInvoiceById(localStorage.getItem("@invoiceId")).then((res) => {
+      getInvoiceById(id).then((res) => {
         setFormData(res);
         setTotalPrice((prev) => {
           return 0;
@@ -46,14 +55,11 @@ export const InvoicePage = () => {
   const id = localStorage.getItem("@invoiceId"); // Replace "invoiceId" with the actual property name
   let invoiceId = "";
 
-  if (id) {
-    for (let i = 0; i < id.length && invoiceId.length < 4; i++) {
-      if (/\d/.test(id[i])) {
-        invoiceId += id[i];
-      }
+  useEffect(() => {
+    if (parsed.print === "true") {
+      setTimeout(() => window.print(), 300);
     }
-  }
-  console.log(invoiceId, "invoiceId");
+  })
 
   // useEffect(() => {
   //   if (printable) {
@@ -72,16 +78,9 @@ export const InvoicePage = () => {
 
   return (
     <Container>
-      <TableContainer
-        component={Paper}
-        sx={{
-          marginTop: "20px",
-          padding: "1rem 2rem",
-          "@media print": {
-            display: "block",
-            padding: 0,
-          },
-        }}
+      <Box
+      // component={Paper}
+      // sx={{ marginTop: "20px", padding: "1rem 2rem" }}
       >
         <Box
           sx={{
@@ -157,7 +156,7 @@ export const InvoicePage = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>InvoiceID:</strong> {invoiceId}
+              <strong>InvoiceID:</strong> {formData.invoice_id}
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
               <strong>Date:</strong>{" "}
@@ -178,7 +177,7 @@ export const InvoicePage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {formData.items.map((row, index) => (
+            {formData?.items.map((row, index) => (
               <TableRow key={row.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{row.description}</TableCell>
@@ -201,7 +200,7 @@ export const InvoicePage = () => {
               <TableCell align="center">{totalPrice}</TableCell>
             </TableRow>
 
-            {formData.discount && (
+            {formData?.discount ? (
               <>
                 <TableRow>
                   <TableCell colSpan={5} align="right">
@@ -218,7 +217,35 @@ export const InvoicePage = () => {
                   </TableCell>
                 </TableRow>
               </>
+            ) : (
+              <>
+                <TableRow>
+                  <TableCell colSpan={5} align="right">
+                    <b>Discount</b>
+                  </TableCell>
+                  <TableCell align="center">0%</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={5} align="right">
+                    <b>Total Amount</b>
+                  </TableCell>
+                  <TableCell align="center">
+                    {totalPrice - (totalPrice / 100) * 0}
+                  </TableCell>
+                </TableRow>
+              </>
             )}
+            <TableRow>
+              <TableCell>
+                <Typography component="h1" variant="h6">
+                  <strong>Terms & Conditions</strong>
+                </Typography>
+                <Typography sx={{ fontSize: "12px" }}>
+                  {formData?.terms}
+                </Typography>
+              </TableCell>
+              <TableCell colSpan={6}></TableCell>
+            </TableRow>
           </TableBody>
         </Table>
         <Box
@@ -241,21 +268,42 @@ export const InvoicePage = () => {
             <strong>www.consoledot.com</strong>
           </Typography>
         </Box>
-      </TableContainer>
-      <Box
-        sx={{
-          marginBottom: "20px",
-        }}
-      >
-        <StyledButton
-          type="submit"
-          variant="contained"
-          color="primary"
-          onClick={handlePrint}
-        >
-          Print Invoice
-        </StyledButton>
       </Box>
+      {!show && (
+        <Box
+          sx={{
+            marginBottom: "20px",
+          }}
+        >
+          <StyledButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mx: 1 }}
+            onClick={() => {
+              navigate(`/print-invoice?id=${formData?._id}&show=false`);
+              setTimeout(() => {
+                window.print();
+              }, 300);
+            }}
+          >
+            Print Invoice
+          </StyledButton>
+          <StyledButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mx: 1 }}
+            onClick={() => {
+              window.open(
+                `https://api.whatsapp.com/send?text=${window.location.origin}/print-invoice?id=${formData?._id}`
+              );
+            }}
+          >
+            <WhatsApp />
+          </StyledButton>
+        </Box>
+      )}
     </Container>
   );
 };
