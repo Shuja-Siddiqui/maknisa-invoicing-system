@@ -32,21 +32,19 @@ export const InvoiceButtonCard = ({ text, color, path, action }) => {
         margin: "1rem 2rem",
         cursor: "pointer",
         border: "1px solid #F98E0A",
-        width: "33%",
-        height: "33%",
-        color:"#F98E0A",
-        "&:hover":{
-          background: "#F98E0A" ,
-          color:"white"
-        }
+        width: { xl: "33%", lg: "33%", md: "33%", sm: "100%", xs: "100%" },
+        height: { xl: "33%", lg: "33%", md: "33%", sm: "100%", xs: "100%" },
+        color: "#F98E0A",
+        "&:hover": {
+          background: "#F98E0A",
+          color: "white",
+        },
       }}
       onClick={handleCardClick}
     >
       <CardContent>
         <Box style={{ marginTop: "1rem" }}>
-          <Typography variant="h4">
-            {text}
-          </Typography>
+          <Typography variant="h4">{text}</Typography>
         </Box>
       </CardContent>
     </Card>

@@ -3,12 +3,10 @@ import {
   Container,
   Typography,
   Table,
-  TableContainer,
   TableHead,
   TableBody,
   TableRow,
   TableCell,
-  Paper,
   Box,
 } from "@mui/material";
 import pic from "../../assets/png/wallpaperflare.com_wallpaper.jpg";
@@ -19,10 +17,10 @@ import moment from "moment/moment";
 import { Logo } from "../../assets";
 import { StyledButton } from "../../pages";
 import { file_url } from "../../api/config";
-import { fontSize } from "@mui/system";
 import { WhatsApp } from "@mui/icons-material";
 import queryString from "query-string";
 import { useNavigate } from "react-router-dom";
+import { fontSize } from "@mui/system";
 
 export const InvoicePage = () => {
   const navigate = useNavigate();
@@ -81,8 +79,8 @@ export const InvoicePage = () => {
   return (
     <Container>
       <Box
-        // component={Paper}
-        // sx={{ marginTop: "20px", padding: "1rem 2rem" }}
+      // component={Paper}
+      // sx={{ marginTop: "20px", padding: "1rem 2rem" }}
       >
         <Box
           sx={{
@@ -158,7 +156,7 @@ export const InvoicePage = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>InvoiceID:</strong> {invoiceId}
+              <strong>InvoiceID:</strong> {formData.invoice_id}
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
               <strong>Date:</strong>{" "}
@@ -179,7 +177,7 @@ export const InvoicePage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {formData.items.map((row, index) => (
+            {formData?.items.map((row, index) => (
               <TableRow key={row.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{row.description}</TableCell>
@@ -202,7 +200,7 @@ export const InvoicePage = () => {
               <TableCell align="center">{totalPrice}</TableCell>
             </TableRow>
 
-            {formData.discount && (
+            {formData?.discount ? (
               <>
                 <TableRow>
                   <TableCell colSpan={5} align="right">
@@ -219,7 +217,35 @@ export const InvoicePage = () => {
                   </TableCell>
                 </TableRow>
               </>
+            ) : (
+              <>
+                <TableRow>
+                  <TableCell colSpan={5} align="right">
+                    <b>Discount</b>
+                  </TableCell>
+                  <TableCell align="center">0%</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={5} align="right">
+                    <b>Total Amount</b>
+                  </TableCell>
+                  <TableCell align="center">
+                    {totalPrice - (totalPrice / 100) * 0}
+                  </TableCell>
+                </TableRow>
+              </>
             )}
+            <TableRow>
+              <TableCell>
+                <Typography component="h1" variant="h6">
+                  <strong>Terms & Conditions</strong>
+                </Typography>
+                <Typography sx={{ fontSize: "12px" }}>
+                  {formData?.terms}
+                </Typography>
+              </TableCell>
+              <TableCell colSpan={6}></TableCell>
+            </TableRow>
           </TableBody>
         </Table>
         <Box
@@ -255,7 +281,7 @@ export const InvoicePage = () => {
             color="primary"
             sx={{ mx: 1 }}
             onClick={() => {
-              navigate(`/print-invoice?id=${parsed?.id}&show=false`);
+              navigate(`/print-invoice?id=${formData?._id}&show=false`);
               setTimeout(() => {
                 window.print();
               }, 300);
@@ -270,7 +296,7 @@ export const InvoicePage = () => {
             sx={{ mx: 1 }}
             onClick={() => {
               window.open(
-                `https://api.whatsapp.com/send?text=${window.location.origin}/print-invoice?id=${parsed?.id}`
+                `https://api.whatsapp.com/send?text=${window.location.origin}/print-invoice?id=${formData?._id}`
               );
             }}
           >

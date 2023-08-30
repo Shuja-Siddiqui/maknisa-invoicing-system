@@ -96,6 +96,30 @@ export const genrateInvoice = (data) => {
       throw err;
     });
 };
+
+export const updateStatus = (invoiceData) => {
+  const token = localStorage.getItem("@token");
+  const invoiceId = localStorage.getItem("@invoiceId");
+  console.log(invoiceData, "dadfdfa");
+  const headers = {
+    Authorization: `JWT ${token}`,
+  };
+  return axios
+    .patch(
+      `${url}/invoice/update-status/${invoiceId}`,
+      { invoiceData },
+      {
+        headers,
+      }
+    )
+    .then((res) => {
+      return res.data?.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
 export const getInvoices = () => {
   const token = localStorage.getItem("@token");
   const headers = {

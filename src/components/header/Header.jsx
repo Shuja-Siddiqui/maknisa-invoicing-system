@@ -33,11 +33,7 @@ export const Header = ({ setShow }) => {
     <Box sx={{ flexGrow: 1, background: "none" }}>
       <AppBar position="static" sx={{ background: "none", boxShadow: "none" }}>
         <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, color: "#F98E0A" }}
-          >
+          <Box sx={{ flexGrow: 1, color: "#F98E0A" }}>
             <img
               src={Logo}
               alt="logo"
@@ -47,8 +43,7 @@ export const Header = ({ setShow }) => {
               }}
             />
             <img src={logo} alt="logo" style={{ maxWidth: "200px" }} />
-          </Typography>
-
+          </Box>
           <IconButton
             size="large"
             aria-label="account of current user"

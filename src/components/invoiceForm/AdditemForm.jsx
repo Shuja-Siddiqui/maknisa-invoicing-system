@@ -23,14 +23,14 @@ export const AddItemForm = ({
   const [selected, setSelected] = useState(-1);
   const handleToggleForm = () => {
     setFormVisible(!isFormVisible);
-    // setItemData({
-    //   description: "",
-    //   dimension: "",
-    //   rate: "",
-    //   quantity: "",
-    //   price: "",
-    //   avatar: null,
-    // });
+    setItemData({
+      description: "",
+      dimension: "",
+      rate: "",
+      quantity: "",
+      price: "",
+      avatar: null,
+    });
   };
 
   const handleChange = (e) => {
@@ -198,7 +198,7 @@ export const AddItemForm = ({
         variant="contained"
         color="primary"
         onClick={handleToggleForm}
-        sx={{width:"100%", marginBottom:"2rem"}}
+        sx={{ width: "100%", marginBottom: "2rem" }}
       >
         {isFormVisible ? "Cancel" : "Add Item"}
       </StyledButton>
@@ -217,7 +217,7 @@ export const AddItemForm = ({
             img={item.avatar}
             rate={item.rate}
             quantity={item.quantity}
-            price={item.price}
+            price={item.rate * item.quantity}
             description={item.description}
             dimension={item.dimension}
             setItemData={setItemData}
