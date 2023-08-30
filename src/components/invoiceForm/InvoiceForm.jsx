@@ -103,31 +103,20 @@ export const InvoiceForm = () => {
       }, 300);
     }
   };
-   const goBack = () => {
-    window.history.back();
-  };
 
   useLayoutEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
-
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
-<<<<<<< Updated upstream
-       <Box sx={{color:"#F98E0A", cursor:"pointer"}} onClick={()=>window.history.back()}>
-          <ArrowBack />
-          </Box>
-=======
       <Box
         sx={{ color: "#F98E0A", cursor: "pointer" }}
         onClick={() => window.history.back()}
       >
-        <ArrowBack />
+        <ArrowBack /> 
       </Box>
->>>>>>> Stashed changes
       <Container maxWidth="md">
         <form onSubmit={handleSubmit}>
           <StyledTextField
