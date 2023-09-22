@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect } from "react";
 import { InputLabel, Container, Box, Grid, MenuItem } from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
-import { StyledSelectField, StyledTextField } from "../../utils/elements";
+import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { updateInvoice, genrateInvoice, getInvoiceById } from "../../api";
 import { useNavigate } from "react-router-dom";

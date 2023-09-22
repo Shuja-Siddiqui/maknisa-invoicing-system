@@ -1,4 +1,4 @@
-import { Typography, TextField, Select } from "@mui/material";
+import { Typography, TextField } from "@mui/material";
 import styled from "styled-components";
 
 export const StyledHeading = styled(Typography)(({ theme }) => ({
@@ -18,33 +18,6 @@ export const StyledParagraph = styled(Typography)(({ theme }) => ({
 }));
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
-  width: "100%",
-  "& label.Mui-focused": {
-    color: "#FA9105",
-  },
-  "& .MuiInput-underline:after": {
-    borderBottomColor: "#FA9105",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "#FA9105",
-    },
-    "&:hover fieldset": {
-      borderColor: "#FA9105",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#FA9105",
-    },
-  },
-  "& label": {
-    color: "black", // Initial label color
-  },
-  "& input": {
-    color: "black",
-  },
-}));
-
-export const StyledSelectField = styled(Select)(({ theme }) => ({
   width: "100%",
   "& label.Mui-focused": {
     color: "#FA9105",
