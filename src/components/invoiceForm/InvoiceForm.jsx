@@ -1,11 +1,5 @@
 import React, { useState, useLayoutEffect } from "react";
-import {
-  InputLabel,
-  Container,
-  Box,
-  Grid,
-  MenuItem,
-} from "@mui/material";
+import { InputLabel, Container, Box, Grid, MenuItem } from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
 import { StyledSelectField, StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
@@ -28,6 +22,129 @@ export const initialFormState = {
   discount: 0,
   items: [],
 };
+
+const currencies = [
+  {
+    value: "Cement&Sikha",
+    label: "Cement&Sikha",
+  },
+  {
+    value: "Bricks&Sand",
+    label: "Bricks&Sand",
+  },
+  {
+    value: "Steel",
+    label: "Steel",
+  },
+  {
+    value: "Sanitary-Labour",
+    label: "Sanitary Labour",
+  },
+  {
+    value: "Cotractor-Labour-Grey",
+    label: "Cotractor Labour Grey",
+  },
+  {
+    value: "Electric-Labour-Grey",
+    label: "Electric Labour Grey",
+  },
+  {
+    value: "Shuttering",
+    label: "Shuttering",
+  },
+  {
+    value: "Mebrain-Sheet",
+    label: "Mebrain Sheet",
+  },
+  {
+    value: "Tiles",
+    label: "Tiles",
+  },
+  {
+    value: "UPVC",
+    label: "UPVC",
+  },
+  {
+    value: "Ash-Wood",
+    label: "Ash Wood",
+  },
+  {
+    value: "MDF",
+    label: "MDF",
+  },
+  {
+    value: "Aluminium",
+    label: "Aluminium",
+  },
+  {
+    value: "Solar",
+    label: "Solar",
+  },
+  {
+    value: "Wires",
+    label: "Wires",
+  },
+  {
+    value: "Paint-Material",
+    label: "Paint Material",
+  },
+  {
+    value: "Wood-Works",
+    label: "Wood Works",
+  },
+  {
+    value: "Funiture",
+    label: "Funiture",
+  },
+  {
+    value: "Lights/Chandelier",
+    label: "Lights/Chandelier",
+  },
+  {
+    value: "Sika",
+    label: "Sika",
+  },
+  {
+    value: "Kitchen-Chugtais",
+    label: "Kitchen Chugtais",
+  },
+  {
+    value: "Celing",
+    label: "Celing",
+  },
+  {
+    value: "WorughtIron/gaits,Reling",
+    label: "WorughtIron/gaits,Reling",
+  },
+  {
+    value: "Renovation",
+    label: "Renovation",
+  },
+  {
+    value: "Cleaning",
+    label: "Cleaning",
+  },
+  {
+    value: "Tiles-Labour",
+    label: "Tiles Labour",
+  },
+  {
+    value: "Electric-Labour",
+    label: "Electric Labour",
+  },
+  {
+    value: "Graphy",
+    label: "Graphy",
+  },
+  {
+    value: "Home-Appliance",
+    label: "Home Appliance",
+  },
+  {
+    value: "Groot/Spacer/Bond",
+    label: "Groot/Spacer/Bond",
+  },
+];
 
 export const InvoiceForm = () => {
   const [formData, setFormData] = useState(initialFormState);
@@ -183,15 +300,22 @@ export const InvoiceForm = () => {
           </Grid>
           <Grid container spacing={2} sx={{ marginBottom: "1rem" }}>
             <Grid item xs={12} sm={6}>
-              <StyledSelectField
-                placeholder="category"
-                value={itemData.category}
+              <StyledTextField
+                id="outlined-select-currency"
+                select
+                label="Category"
+                defaultValue="Category"
+                helperText="Please select your category"
+                value={formData.category}
                 onChange={(e) => handleInputChange("category", e.target.value)}
                 sx={{ marginBottom: 2 }}
               >
-                <MenuItem value="Funiture">Funiture</MenuItem>
-                <MenuItem value="Wood">Wood</MenuItem>
-              </StyledSelectField>
+                {currencies.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </StyledTextField>
             </Grid>
             <Grid item xs={12} sm={6}>
               <StyledTextField
@@ -205,16 +329,19 @@ export const InvoiceForm = () => {
               />
             </Grid>
           </Grid>
-          <StyledSelectField
-            placeholder="payment"
+          <StyledTextField
+            id="outlined-select-currency"
+            select
+            label="Payment"
+            defaultValue="Payment"
+            helperText="Please select your payment"
             value={formData.payment}
             onChange={(e) => handleInputChange("payment", e.target.value)}
             sx={{ marginBottom: 2 }}
           >
             <MenuItem value="FixedPayment">Fixed Payment</MenuItem>
             <MenuItem value="Item">Item</MenuItem>
-            {/* Add more menu items as needed */}
-          </StyledSelectField>
+          </StyledTextField>
           {payment === "FixedPayment" ? (
             <StyledTextField
               sx={{ mb: 2 }}

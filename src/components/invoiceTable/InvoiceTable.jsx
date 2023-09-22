@@ -152,7 +152,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
 
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
-              <StyledTableCell colSpan={5} />
+              <StyledTableCell colSpan={5} sx={{textAlign:"center", fontSize:"50px", color:"#dcddde"}}> No invoice is Generated </StyledTableCell>
             </TableRow>
           )}
         </TableBody>
