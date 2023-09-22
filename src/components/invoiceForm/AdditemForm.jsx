@@ -113,45 +113,49 @@ export const AddItemForm = ({
             onChange={handleChange}
             sx={{ marginBottom: 2 }}
           />
-          <FormControl
-            sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
-          >
-            <StyledTextField
-              label="Dimension"
-              name="dimension"
-              fullwidth="true"
-              value={itemData.dimension}
-              onChange={handleChange}
-              sx={{ marginBottom: 2 }}
-            />
-            <StyledTextField
-              label="Rate"
-              name="rate"
-              fullwidth="true"
-              type={"number"}
-              value={itemData.rate}
-              onChange={handleChange}
-              sx={{ marginBottom: 2 }}
-            />
-            <StyledTextField
-              type="Number"
-              label="Quantity"
-              name="quantity"
-              fullwidth="true"
-              value={itemData.quantity}
-              onChange={handleChange}
-              sx={{ marginBottom: 2 }}
-            />
-          </FormControl>
-          <StyledTextField
-            type="Number"
-            label="Price"
-            name="price"
-            fullwidth="true"
-            value={itemData.rate * itemData.quantity}
-            onChange={handleChange}
-            sx={{ marginBottom: 2 }}
-          />
+          {formData?.payment !== "FixedPayment" && (
+            <>
+              <FormControl
+                sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
+              >
+                <StyledTextField
+                  label="Dimension"
+                  name="dimension"
+                  fullwidth="true"
+                  value={itemData.dimension}
+                  onChange={handleChange}
+                  sx={{ marginBottom: 2 }}
+                />
+                <StyledTextField
+                  label="Rate"
+                  name="rate"
+                  fullwidth="true"
+                  type={"number"}
+                  value={itemData.rate}
+                  onChange={handleChange}
+                  sx={{ marginBottom: 2 }}
+                />
+                <StyledTextField
+                  type="Number"
+                  label="Quantity"
+                  name="quantity"
+                  fullwidth="true"
+                  value={itemData.quantity}
+                  onChange={handleChange}
+                  sx={{ marginBottom: 2 }}
+                />
+              </FormControl>
+              <StyledTextField
+                type="Number"
+                label="Price"
+                name="price"
+                fullwidth="true"
+                value={itemData.rate * itemData.quantity}
+                onChange={handleChange}
+                sx={{ marginBottom: 2 }}
+              />
+            </>
+          )}
           <input
             type="file"
             accept="image/*"
@@ -217,6 +221,8 @@ export const AddItemForm = ({
             img={item.avatar}
             rate={item.rate}
             quantity={item.quantity}
+            payment={formData?.payment}
+            fixedPrice={formData?.price}
             price={item.rate * item.quantity}
             description={item.description}
             dimension={item.dimension}

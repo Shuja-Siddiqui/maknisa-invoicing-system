@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Button, styled, Box, Typography } from "@mui/material";
-import image from "../assets/png/maknisa-logo.png";
 import { StyledTextField } from "../utils/elements";
 import { useNavigate } from "react-router-dom";
 import { forgetPass, login } from "../api";
@@ -38,17 +37,15 @@ export const Login = () => {
       password: password,
     };
     try {
-      console.log(loginData);
       const userData = await login(loginData);
       localStorage.setItem("@token", userData.token);
-      console.log("User Data:", userData);
       navigate("/dashboard");
     } catch (error) {
       console.error("Login Error:", error);
     }
   };
   const handleForgetPass = () => {
-    const data = { userEmail: "nomibabaoo82@gmail.com" };
+    const data = { userEmail: "shuja0094@gmail.com" };
     try {
       forgetPass({ data }).then((res) => console.log(res));
       alert("Check your mail and reset your password");

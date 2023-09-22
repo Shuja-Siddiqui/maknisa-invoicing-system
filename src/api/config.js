@@ -6,3 +6,4 @@ export const file_url =
   process.env.REACT_APP_NODE_ENV === "local"
     ? "http://localhost:5000"
     : "https://maknisa-invoicing-system-api.vercel.app";
+    

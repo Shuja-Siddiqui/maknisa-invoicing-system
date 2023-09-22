@@ -1,7 +1,13 @@
 import React, { useState, useLayoutEffect } from "react";
-import { FormControl, InputLabel, Container, Box, Grid } from "@mui/material";
+import {
+  InputLabel,
+  Container,
+  Box,
+  Grid,
+  MenuItem,
+} from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
-import { StyledTextField } from "../../utils/elements";
+import { StyledSelectField, StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { updateInvoice, genrateInvoice, getInvoiceById } from "../../api";
 import { useNavigate } from "react-router-dom";
@@ -14,8 +20,11 @@ export const initialFormState = {
     city: "",
     province: "",
   },
+  category: "",
   making_time: "",
   terms: "",
+  payment: "",
+  price: 1,
   discount: 0,
   items: [],
 };
@@ -32,6 +41,7 @@ export const InvoiceForm = () => {
   });
   const [editableTerms, setEditableTerms] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState(null);
+  const [payment, setPayment] = useState("");
   const navigate = useNavigate();
 
   const handleToggleEdit = () => {
@@ -43,12 +53,16 @@ export const InvoiceForm = () => {
       ...prevData,
       [field]: value,
     }));
-    console.log(formData);
     // If debounceTimer exists, cancel the debounce
     if (debounceTimer) {
       clearTimeout(debounceTimer);
     }
-
+    if (value === "FixedPayment") {
+      setPayment(value);
+    }
+    if (value === "Item") {
+      setPayment(value);
+    }
     // Set a new debounce timer after input change
     setDebounceTimer(setTimeout(saveDraftDebounced, 4000));
   };
@@ -103,15 +117,11 @@ export const InvoiceForm = () => {
       }, 300);
     }
   };
-  const goBack = () => {
-    window.history.back();
-  };
 
   useLayoutEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
       <Box
@@ -132,7 +142,7 @@ export const InvoiceForm = () => {
           <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
             Location
           </InputLabel>
-          <Grid container spacing={2} sx={{marginBottom:"1rem"}}>
+          <Grid container spacing={2} sx={{ marginBottom: "1rem" }}>
             <Grid item xs={12} sm={6}>
               <StyledTextField
                 placeholder="Details"
@@ -153,8 +163,8 @@ export const InvoiceForm = () => {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} sx={{marginBottom:"1rem"}}>
-            <Grid item xs={12} sm={6}> 
+          <Grid container spacing={2} sx={{ marginBottom: "1rem" }}>
+            <Grid item xs={12} sm={6}>
               <StyledTextField
                 placeholder="City"
                 value={formData.location.city}
@@ -171,22 +181,61 @@ export const InvoiceForm = () => {
               />
             </Grid>
           </Grid>
-          <StyledTextField
-            sx={{ mb: 2 }}
-            placeholder=" Making Time"
-            fullwidth="true"
-            value={formData.making_time}
-            onChange={(e) => handleInputChange("making_time", e.target.value)}
-          />
-          <StyledTextField
-            sx={{ mb: 2 }}
-            placeholder="Discount"
-            fullwidth="true"
-            type="number"
-            name="discount"
-            value={formData.discount}
-            onChange={(e) => handleInputChange("discount", e.target.value)}
-          />
+          <Grid container spacing={2} sx={{ marginBottom: "1rem" }}>
+            <Grid item xs={12} sm={6}>
+              <StyledSelectField
+                placeholder="category"
+                value={itemData.category}
+                onChange={(e) => handleInputChange("category", e.target.value)}
+                sx={{ marginBottom: 2 }}
+              >
+                <MenuItem value="Funiture">Funiture</MenuItem>
+                <MenuItem value="Wood">Wood</MenuItem>
+              </StyledSelectField>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <StyledTextField
+                sx={{ mb: 2 }}
+                placeholder=" Making Time"
+                fullwidth="true"
+                value={formData.making_time}
+                onChange={(e) =>
+                  handleInputChange("making_time", e.target.value)
+                }
+              />
+            </Grid>
+          </Grid>
+          <StyledSelectField
+            placeholder="payment"
+            value={formData.payment}
+            onChange={(e) => handleInputChange("payment", e.target.value)}
+            sx={{ marginBottom: 2 }}
+          >
+            <MenuItem value="FixedPayment">Fixed Payment</MenuItem>
+            <MenuItem value="Item">Item</MenuItem>
+            {/* Add more menu items as needed */}
+          </StyledSelectField>
+          {payment === "FixedPayment" ? (
+            <StyledTextField
+              sx={{ mb: 2 }}
+              placeholder="Price"
+              fullwidth="true"
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={(e) => handleInputChange("price", e.target.value)}
+            />
+          ) : (
+            <StyledTextField
+              sx={{ mb: 2 }}
+              placeholder="Discount"
+              fullwidth="true"
+              type="text"
+              name="discount"
+              value={formData.discount}
+              onChange={(e) => handleInputChange("discount", e.target.value)}
+            />
+          )}
 
           <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
             Terms & Conditions

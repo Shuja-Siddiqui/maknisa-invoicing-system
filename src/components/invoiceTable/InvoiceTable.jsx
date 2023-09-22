@@ -45,7 +45,6 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
       row[heading]?.toString().toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
-  console.log(filteredRows, "filter");
   return (
     <TableContainer component={Paper} sx={{ bgcolor: "white" }}>
       <Box

@@ -1,6 +1,4 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import {
   Container,
   Typography,
@@ -8,8 +6,10 @@ import {
   TableHead,
   TableBody,
   TableRow,
-  TableCell,
   Box,
+  TableContainer,
+  Paper,
+  TableCell,
 } from "@mui/material";
 import pic from "../../assets/png/wallpaperflare.com_wallpaper.jpg";
 import logo from "../../assets/png/maknisa-removebg-preview.png";
@@ -22,7 +22,7 @@ import { file_url } from "../../api/config";
 import { WhatsApp } from "@mui/icons-material";
 import queryString from "query-string";
 import { useNavigate } from "react-router-dom";
-import { fontSize } from "@mui/system";
+import styled from "styled-components";
 
 export const InvoicePage = () => {
   const navigate = useNavigate();
@@ -31,21 +31,7 @@ export const InvoicePage = () => {
   const parsed = queryString.parse(window.location.search);
   const [show, setShow] = useState(parsed?.show);
 
-  const handleDownloadPDF = async () => {
-    const input = document.getElementById("invoice-content");
-    if (input) {
-      const canvas = await html2canvas(input); // Await the canvas creation
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("invoice.pdf");
-    }
-  };
+  console.log(formData?.items, "fromData");
 
   useLayoutEffect(() => {
     setShow(parsed?.show);
@@ -71,8 +57,10 @@ export const InvoicePage = () => {
       });
     }
   };
-  const id = localStorage.getItem("@invoiceId"); // Replace "invoiceId" with the actual property name
-  let invoiceId = "";
+
+  const StyledTableCell = styled(TableCell)(() => ({
+    border: "1px solid #d7d7d7",
+  }));
 
   useEffect(() => {
     if (parsed.print === "true") {
@@ -91,12 +79,8 @@ export const InvoicePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
-    <Container>
+    <Container sx={{ marginTop: "30px" }}>
       <Box
         id="invoice-content"
         // component={Paper}
@@ -159,13 +143,13 @@ export const InvoicePage = () => {
               <br />
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
+              <strong>House No:</strong>
+              {formData?.location?.details}
+            </Typography>
+            <Typography variant="body1" sx={{ color: "#000000" }}>
               <strong>Address:</strong>
               {`${formData?.location?.area}, ${formData?.location?.city}, ${formData?.location?.province}`}
               <br />
-            </Typography>
-            <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>House No:</strong>
-              {formData?.location?.details}
             </Typography>
           </Box>
           <Box
@@ -179,85 +163,158 @@ export const InvoicePage = () => {
               <strong>InvoiceID:</strong> {formData.invoice_id}
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
+              <strong>Category:</strong> {formData.category}
+            </Typography>
+            <Typography variant="body1" sx={{ color: "#000000" }}>
               <strong>Date:</strong>{" "}
               {moment(formData?.updatedAt).format("DD-MM-YYYY")}
             </Typography>
           </Box>
         </Box>
-
-        <Table>
-          <TableHead sx={{ bgcolor: "#EC7C34" }}>
-            <TableRow>
-              <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Dimensions</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Quantity</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Price</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Picture</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {formData?.items.map((row, index) => (
-              <TableRow key={row.id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{row.description}</TableCell>
-                <TableCell>{row.dimension}</TableCell>
-                <TableCell>{row.quantity}</TableCell>
-                <TableCell>{row.quantity * row.rate}</TableCell>
-                <TableCell>
-                  <img
-                    src={file_url + "/" + row?.avatar}
-                    alt={`Pic ${row.id}`}
-                    style={{ maxWidth: "150px" }}
-                  />
-                </TableCell>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }}>
+            <TableHead sx={{ bgcolor: "#EC7C34" }}>
+              <TableRow>
+                <StyledTableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", fontSize: "18px" }}
+                >
+                  #
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", fontSize: "18px" }}
+                >
+                  Description
+                </StyledTableCell>
+                {formData?.payment !== "FixedPayment" && (
+                  <>
+                    <StyledTableCell
+                      align="center"
+                      sx={{ fontWeight: "bolder", fontSize: "18px" }}
+                    >
+                      Dimensions
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{ fontWeight: "bolder", fontSize: "18px" }}
+                    >
+                      Rate
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{ fontWeight: "bolder", fontSize: "18px" }}
+                    >
+                      Quantity
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{ fontWeight: "bolder", fontSize: "18px" }}
+                    >
+                      Price
+                    </StyledTableCell>
+                  </>
+                )}
+                <StyledTableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", fontSize: "18px" }}
+                >
+                  Picture
+                </StyledTableCell>
               </TableRow>
-            ))}
-            <TableRow>
-              <TableCell colSpan={5} align="right">
-                <b>Net Amount</b>
-              </TableCell>
-              <TableCell align="center">{totalPrice}</TableCell>
-            </TableRow>
-
-            {formData?.discount ? (
-              <>
-                <TableRow>
-                  <TableCell colSpan={5} align="right">
-                    <b>Discount</b>
-                  </TableCell>
-                  <TableCell align="center">{formData.discount}%</TableCell>
+            </TableHead>
+            <TableBody>
+              {formData?.items.map((row, index) => (
+                <TableRow key={row.id}>
+                  <StyledTableCell align="center">{index + 1}</StyledTableCell>
+                  <StyledTableCell align="center" sx={{ maxWidth: "5rem" }}>
+                    {row.description}
+                  </StyledTableCell>
+                  {formData?.payment !== "FixedPayment" && (
+                    <>
+                      <StyledTableCell align="center">
+                        {row.dimension}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.rate}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.quantity}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.quantity * row.rate}
+                      </StyledTableCell>
+                    </>
+                  )}
+                  <StyledTableCell align="center">
+                    <img
+                      src={file_url + "/" + row?.avatar}
+                      alt={`Pic ${row.id}`}
+                      style={{ maxWidth: "150px" }}
+                    />
+                  </StyledTableCell>
                 </TableRow>
-                <TableRow>
-                  <TableCell colSpan={5} align="right">
-                    <b>Total Amount</b>
-                  </TableCell>
-                  <TableCell align="center">
-                    {totalPrice - (totalPrice / 100) * formData.discount}
-                  </TableCell>
-                </TableRow>
-              </>
-            ) : (
-              <>
-                <TableRow>
-                  <TableCell colSpan={5} align="right">
-                    <b>Discount</b>
-                  </TableCell>
-                  <TableCell align="center">0%</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell colSpan={5} align="right">
-                    <b>Total Amount</b>
-                  </TableCell>
-                  <TableCell align="center">
-                    {totalPrice - (totalPrice / 100) * 0}
-                  </TableCell>
-                </TableRow>
-              </>
-            )}
-          </TableBody>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Table>
+          {formData?.payment === "FixedPayment" ? (
+            <TableBody>
+              <TableRow>
+                <TableCell colSpan={5} align="right">
+                  <b>Total Amount</b>
+                </TableCell>
+                <TableCell align="center">{formData?.price}</TableCell>
+              </TableRow>
+            </TableBody>
+          ) : (
+            <TableBody>
+              <TableRow>
+                <TableCell colSpan={5} align="right">
+                  <b>Net Amount</b>
+                </TableCell>
+                <TableCell align="center">{totalPrice}</TableCell>
+              </TableRow>
+              {formData?.discount > 0 ? (
+                <>
+                  <TableRow>
+                    <TableCell colSpan={5} align="right">
+                      <b>Discount</b>
+                    </TableCell>
+                    <TableCell align="center">{formData.discount}%</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={5} align="right">
+                      <b>Total Amount</b>
+                    </TableCell>
+                    <TableCell align="center">
+                      {totalPrice - (totalPrice / 100) * formData.discount}
+                    </TableCell>
+                  </TableRow>
+                </>
+              ) : (
+                <>
+                  <TableRow>
+                    <TableCell colSpan={5} align="right">
+                      <b>Discount</b>
+                    </TableCell>
+                    <TableCell align="center">0%</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={5} align="right">
+                      <b>Total Amount</b>
+                    </TableCell>
+                    <TableCell align="center">
+                      {totalPrice - (totalPrice / 100) * 0}
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
+            </TableBody>
+          )}
         </Table>
-        <Box sx={{ margin: "1rem 0 1rem 0" }}>
+        <Box sx={{ margin: "1rem 0 3rem 0" }}>
           <Typography component="h1" variant="h6">
             <strong>Terms & Conditions</strong>
           </Typography>
@@ -320,16 +377,6 @@ export const InvoicePage = () => {
             }}
           >
             <WhatsApp />
-          </StyledButton>
-          <StyledButton
-            // ... your existing code
-
-            onClick={() => {
-              // ... your existing code
-              handleDownloadPDF(); // Call the function to generate and download the PDF
-            }}
-          >
-            Download PDF
           </StyledButton>
         </Box>
       )}

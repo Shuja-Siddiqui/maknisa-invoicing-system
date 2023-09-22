@@ -58,7 +58,6 @@ export const Invoices = () => {
           )
         );
         setData(rows);
-        console.log(rows, "rows");
       })
       .catch((err) => console.log(err));
   }, []);

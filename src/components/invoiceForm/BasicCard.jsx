@@ -15,6 +15,8 @@ export const BasicCard = ({
   quantity,
   price,
   description,
+  payment,
+  fixedPrice,
   dimension,
   setItemData,
   setSelected,
@@ -57,32 +59,49 @@ export const BasicCard = ({
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
-            <strong>Description: </strong> {description}
-          </Typography>
-          <Typography gutterBottom variant="h6" component="div">
-            <strong>Dimension: </strong> {dimension}
-          </Typography>
+          {payment === "FixedPayment" ? (
+            <>
+              <Typography gutterBottom variant="h6" component="div">
+                <strong>Description: </strong> {description}
+              </Typography>
+              <Typography variant="h6" component="div">
+                <strong>Price: </strong> {fixedPrice}
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Typography gutterBottom variant="h6" component="div">
+                <strong>Description: </strong> {description}
+              </Typography>
+              <Typography gutterBottom variant="h6" component="div">
+                <strong>Dimension: </strong> {dimension}
+              </Typography>
 
-          <Box sx={{ display: "flex", justifyContent: "space-between"}}>
-            <Typography variant="h6" component="div" >
-              <strong>Rate: </strong>
-              {rate}
-            </Typography>
-            <Typography variant="h6" component="div" sx={{marginLeft:"10px"}}>
-              <strong>Quantity: </strong>
-              {quantity}
-            </Typography>
-          </Box>
-          <Typography variant="h6" component="div">
-            <strong>Price: </strong> {price}
-          </Typography>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography variant="h6" component="div">
+                  <strong>Rate: </strong>
+                  {rate}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  <strong>Quantity: </strong>
+                  {quantity}
+                </Typography>
+              </Box>
+              <Typography variant="h6" component="div">
+                <strong>Price: </strong> {price}
+              </Typography>
+            </>
+          )}
         </CardContent>
         <CardActions>
-          <Button onClick={() => handleEditItem()} sx={{color:"#EC7C34"}}>
+          <Button onClick={() => handleEditItem()} sx={{ color: "#EC7C34" }}>
             <Edit />
           </Button>
-          <Button onClick={() => handleDeleteItem()} sx={{color:"#EC7C34"}}>
+          <Button onClick={() => handleDeleteItem()} sx={{ color: "#EC7C34" }}>
             <Delete />
           </Button>
         </CardActions>
