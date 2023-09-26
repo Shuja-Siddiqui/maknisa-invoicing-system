@@ -45,7 +45,7 @@ export const Login = () => {
     }
   };
   const handleForgetPass = () => {
-    const data = { userEmail: "shuja0094@gmail.com" };
+    const data = { userEmail: "maknisaquotationdb@gmail.com" };
     try {
       forgetPass({ data }).then((res) => console.log(res));
       alert("Check your mail and reset your password");
@@ -69,8 +69,8 @@ export const Login = () => {
             xl: "flex",
             lg: "flex",
             md: "flex",
-            sm: "none",
-            xs: "none",
+            sm: "flex",
+            xs: "flex",
           },
         }}
       >
