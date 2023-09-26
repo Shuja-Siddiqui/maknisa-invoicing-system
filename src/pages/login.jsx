@@ -45,7 +45,7 @@ export const Login = () => {
     }
   };
   const handleForgetPass = () => {
-    const data = { userEmail: "maknisaquotationdb@gmail.com" };
+    const data = { userEmail: "shuja0094@gmail.com" };
     try {
       forgetPass({ data }).then((res) => console.log(res));
       alert("Check your mail and reset your password");
