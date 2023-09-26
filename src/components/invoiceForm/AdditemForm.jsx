@@ -166,6 +166,7 @@ export const AddItemForm = ({
             style={{
               marginBottom: 2,
               appearance: "none",
+              width:"100%",
               border: "none",
               padding: "10px 20px",
               borderRadius: "4px",
