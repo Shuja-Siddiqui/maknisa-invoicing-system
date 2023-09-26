@@ -103,7 +103,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
                   sx={{
                     borderBottom: "1px solid #f98e0a",
                     color: "#f98e0a",
-                    width: "20%",
+                    width: "15%",
                     fontSize: "large",
                   }}
                   align={_ === "name" ? "left" : "center"}
@@ -152,7 +152,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
 
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
-              <StyledTableCell colSpan={5} sx={{textAlign:"center", fontSize:"50px", color:"#dcddde"}}> No invoice is Generated </StyledTableCell>
+              <StyledTableCell colSpan={5} sx={{textAlign:"center", fontSize:"50px", color:"#dcddde"}}></StyledTableCell>
             </TableRow>
           )}
         </TableBody>

@@ -12,11 +12,12 @@ function createData(
   Client_Name,
   House_No,
   Area,
+  Category,
   Status,
   invoice_id,
   Actions
 ) {
-  return { _id, Client_Name, House_No, Area, Status, invoice_id, Actions };
+  return { _id, Client_Name, House_No, Area, Category, Status, invoice_id, Actions };
 }
 
 export const Invoices = () => {
@@ -53,6 +54,7 @@ export const Invoices = () => {
             data?.client_name,
             data?.location?.city,
             data?.location?.area,
+            data?.category,
             data?.currentStatus,
             data?.invoice_id
           )
@@ -91,6 +93,7 @@ export const Invoices = () => {
           "Client_Name",
           "House_No",
           "Area",
+          "Category",
           "Status",
           "Actions",
         ]}
