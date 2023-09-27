@@ -31,8 +31,8 @@ export const InvoiceDrafts = () => {
           createData(
             data?._id,
             data?.client_name,
-            data?.location?.city,
-            data?.location?.area,
+            data?.location?.details,
+            data?.location?.area +"," + data?.location?.city,
             data?.invoice_id
           )
         );
