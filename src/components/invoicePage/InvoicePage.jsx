@@ -143,11 +143,11 @@ export const InvoicePage = () => {
               <br />
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>House No:</strong>
+              <strong>House No: </strong>
               {formData?.location?.details}
             </Typography>
             <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>Address:</strong>
+              <strong>Address: </strong>
               {`${formData?.location?.area}, ${formData?.location?.city}, ${formData?.location?.province}`}
               <br />
             </Typography>
@@ -232,9 +232,15 @@ export const InvoicePage = () => {
                   </StyledTableCell>
                   {formData?.payment !== "FixedPayment" && (
                     <>
-                      <StyledTableCell align="center">
-                        {row.dimension}
-                      </StyledTableCell>
+                      {row.dimension !== "" ? (
+                        <StyledTableCell align="center">
+                          {row.dimension}
+                        </StyledTableCell>
+                      ) : (
+                        <StyledTableCell align="center">
+                          <h3>-</h3>
+                        </StyledTableCell>
+                      )}
                       <StyledTableCell align="center">
                         {row.rate}
                       </StyledTableCell>
@@ -247,11 +253,15 @@ export const InvoicePage = () => {
                     </>
                   )}
                   <StyledTableCell align="center">
-                    <img
-                      src={file_url + "/" + row?.avatar}
-                      alt={`Pic ${row.id}`}
-                      style={{ maxWidth: "150px" }}
-                    />
+                    {row.avatar === "null" ? (
+                      <h3>-</h3>
+                    ) : (
+                      <img
+                        src={file_url + "/" + row?.avatar}
+                        alt={`Pic ${row.id}`}
+                        style={{ maxWidth: "150px" }}
+                      />
+                    )}
                   </StyledTableCell>
                 </TableRow>
               ))}
@@ -265,18 +275,18 @@ export const InvoicePage = () => {
                 <TableCell colSpan={5} align="right">
                   <b>Total Amount</b>
                 </TableCell>
-                <TableCell align="center">{formData?.price}</TableCell>
+                <TableCell align="center" style={{fontWeight:"bold"}}>{formData?.price}</TableCell>
               </TableRow>
             </TableBody>
           ) : (
             <TableBody>
               <TableRow>
-                <TableCell colSpan={5} align="right">
-                  <b>Net Amount</b>
+                <TableCell colSpan={5} align="right" style={{fontWeight:"bold", fontSize:"18px"}}>
+                  Total Amount
                 </TableCell>
-                <TableCell align="center">{totalPrice}</TableCell>
+                <TableCell align="center"  style={{fontWeight:"bold", fontSize:"18px"}}>{totalPrice}</TableCell>
               </TableRow>
-              {formData?.discount > 0 ? (
+              {/* {formData?.discount > 0 ? (
                 <>
                   <TableRow>
                     <TableCell colSpan={5} align="right">
@@ -310,7 +320,7 @@ export const InvoicePage = () => {
                     </TableCell>
                   </TableRow>
                 </>
-              )}
+              )} */}
             </TableBody>
           )}
         </Table>

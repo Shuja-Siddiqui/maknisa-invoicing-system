@@ -29,6 +29,7 @@ export const StyledButton = styled(Button)(({ theme }) => ({
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [incorrect, setIncorrect] = useState("");
   const navigate = useNavigate();
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -42,15 +43,19 @@ export const Login = () => {
       navigate("/dashboard");
     } catch (error) {
       console.error("Login Error:", error);
+      setIncorrect(error?.response?.data?.message);
     }
   };
   const handleForgetPass = () => {
-    const data = { userEmail: "shuja0094@gmail.com" };
-    try {
-      forgetPass({ data }).then((res) => console.log(res));
-      alert("Check your mail and reset your password");
-    } catch (error) {
-      console.log(error);
+    const ans = window.confirm("Reset password?");
+    if (ans) {
+      const data = { userEmail: "nomibabaoo82@gmail.com" };
+      try {
+        forgetPass({ data }).then((res) => console.log(res));
+        alert("Check your mail and reset your password");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -116,6 +121,11 @@ export const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {incorrect === "Check Your Password Again Please" && (
+              <p style={{ color: "red" }}>
+                *Your Password or Email is Incorrect
+              </p>
+            )}
             <StyledButton
               variant="contained"
               fullwidth="true"

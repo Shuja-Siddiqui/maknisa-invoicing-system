@@ -46,14 +46,21 @@ export const UpdatePasswordModal = ({ show, setShow }) => {
           />
         </DialogContent>
         <DialogActions>
-         <StyledButton
+          <StyledButton
             type="reset"
             variant="outlined"
             onClick={() => setShow(false)}
           >
             Cancel
           </StyledButton>
-         <StyledButton type="submit" variant="outlined">
+          <StyledButton
+            type="submit"
+            variant="outlined"
+            onClick={() => {
+              setShow(false);
+              alert("Password Updated Successfully");
+            }}
+          >
             Update
           </StyledButton>
         </DialogActions>

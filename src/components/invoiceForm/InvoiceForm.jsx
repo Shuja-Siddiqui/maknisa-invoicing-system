@@ -262,7 +262,7 @@ export const InvoiceForm = () => {
           <Grid container spacing={2} sx={{ marginBottom: "1rem" }}>
             <Grid item xs={12} sm={6}>
               <StyledTextField
-                placeholder="Details"
+                placeholder="House No."
                 value={formData.location.details}
                 onChange={(e) =>
                   handleLocationChange("details", e.target.value)
@@ -353,15 +353,16 @@ export const InvoiceForm = () => {
               onChange={(e) => handleInputChange("price", e.target.value)}
             />
           ) : (
-            <StyledTextField
-              sx={{ mb: 2 }}
-              placeholder="Discount"
-              fullwidth="true"
-              type="text"
-              name="discount"
-              value={formData.discount}
-              onChange={(e) => handleInputChange("discount", e.target.value)}
-            />
+            // <StyledTextField
+            //   sx={{ mb: 2 }}
+            //   placeholder="Discount"
+            //   fullwidth="true"
+            //   type="text"
+            //   name="discount"
+            //   value={formData.discount}
+            //   onChange={(e) => handleInputChange("discount", e.target.value)}
+            // />
+            null
           )}
 
           <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
