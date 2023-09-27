@@ -399,6 +399,14 @@ export const InvoicePage = () => {
           >
             <WhatsApp />
           </StyledButton>
+          <StyledButton
+            variant="contained"
+            color="primary"
+            sx={{ mx: 1 }}
+            onClick={() => navigate(`/invoices`)}
+          >
+            Invoice
+          </StyledButton>
         </Box>
       )}
     </Container>
