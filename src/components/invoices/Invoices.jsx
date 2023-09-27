@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
-
 import { getInvoices, removeInvoice, updateStatus } from "../../api";
 import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
 import { Box, Button, Typography } from "@mui/material";
-import { Delete, Edit, RemoveRedEye, ThumbDown, ThumbUp } from "@mui/icons-material";
+import {
+  Delete,
+  Edit,
+  RemoveRedEye,
+  ThumbDown,
+  ThumbUp,
+} from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 // Define your data creation function
@@ -31,29 +36,46 @@ function createData(
 
 export const Invoices = () => {
   const [data, setData] = useState([]);
+  const [invoiceStatus, setInvoiceStatus] = useState("");
   const navigate = useNavigate();
+
   const viewInvoice = (id) => {
     localStorage.setItem("@invoiceId", id);
     navigate("/print-invoice");
   };
+
   const updateData = (id) => {
     localStorage.setItem("@invoiceId", id);
     navigate("/invoice-form");
   };
+
   const deleteDraft = (id) => {
     removeInvoice(id)
       .then(() => fetchData())
       .catch((err) => console.error(err));
   };
+
   const handleStatus = ({ invoiceStatus, statusId }) => {
     updateStatus({ invoiceStatus, statusId })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        // Manually update the status in the data array without refreshing
+        const updatedData = data.map((item) => {
+          if (item._id === statusId) {
+            return { ...item, Status: invoiceStatus };
+          }
+          return item;
+        });
+        setData(updatedData);
+      })
       .catch((error) => console.log(error));
   };
+
   let pending = 0;
   let approved = 0;
   let reject = 0;
-  data.forEach((item, index) => {
+
+  data.forEach((item) => {
     if (item?.Status === "Approve") {
       approved++;
     } else if (item?.Status === "Reject") {
@@ -62,6 +84,7 @@ export const Invoices = () => {
       pending++;
     }
   });
+
   const fetchData = () => {
     getInvoices()
       .then((res) => {
@@ -70,7 +93,7 @@ export const Invoices = () => {
             data?._id,
             data?.client_name,
             data?.location?.details,
-            data?.location?.area +"," + data?.location?.city,
+            data?.location?.area + "," + data?.location?.city,
             data?.category,
             data?.currentStatus,
             data?.invoice_id
@@ -81,9 +104,14 @@ export const Invoices = () => {
       .catch((err) => console.log(err));
   };
 
+  // Polling mechanism: Fetch data periodically
   useEffect(() => {
-    fetchData();
+    const pollingInterval = setInterval(fetchData, 5000); // Adjust the polling interval as needed (e.g., every 5 seconds)
+    
+    // Cleanup: Stop polling when the component unmounts
+    return () => clearInterval(pollingInterval);
   }, []);
+
   return (
     <>
       <Box
