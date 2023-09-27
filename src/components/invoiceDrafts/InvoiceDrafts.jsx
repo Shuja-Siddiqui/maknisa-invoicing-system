@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { getDrafts, removeInvoice } from "../../api";
 import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
