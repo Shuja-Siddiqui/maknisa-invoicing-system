@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, FormControl, Typography, Box } from "@mui/material";
+import { Container, Typography, Box, Grid } from "@mui/material";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { BasicCard } from "./BasicCard";
@@ -115,36 +115,37 @@ export const AddItemForm = ({
           />
           {formData?.payment !== "FixedPayment" && (
             <>
-              <FormControl
-                sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
-              >
-                <StyledTextField
-                  label="Dimension"
-                  name="dimension"
-                  fullwidth="true"
-                  value={itemData.dimension}
-                  onChange={handleChange}
-                  sx={{ marginBottom: 2 }}
-                />
-                <StyledTextField
-                  label="Rate"
-                  name="rate"
-                  fullwidth="true"
-                  type={"number"}
-                  value={itemData.rate}
-                  onChange={handleChange}
-                  sx={{ marginBottom: 2 }}
-                />
-                <StyledTextField
-                  type="Number"
-                  label="Quantity"
-                  name="quantity"
-                  fullwidth="true"
-                  value={itemData.quantity}
-                  onChange={handleChange}
-                  sx={{ marginBottom: 2 }}
-                />
-              </FormControl>
+              <Grid container spacing={2} sx={{ marginBottom: "1rem" }}>
+                <Grid item xs={12} sm={4}>
+                  <StyledTextField
+                    label="Dimension"
+                    name="dimension"
+                    fullwidth="true"
+                    value={itemData.dimension}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <StyledTextField
+                    label="Rate"
+                    name="rate"
+                    fullwidth="true"
+                    type={"number"}
+                    value={itemData.rate}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <StyledTextField
+                    type="Number"
+                    label="Quantity"
+                    name="quantity"
+                    fullwidth="true"
+                    value={itemData.quantity}
+                    onChange={handleChange}
+                  />
+                </Grid>
+              </Grid>
               <StyledTextField
                 type="Number"
                 label="Price"
@@ -166,7 +167,7 @@ export const AddItemForm = ({
             style={{
               marginBottom: 2,
               appearance: "none",
-              width:"100%",
+              width: "100%",
               border: "none",
               padding: "10px 20px",
               borderRadius: "4px",

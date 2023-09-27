@@ -49,7 +49,7 @@ export const Login = () => {
   const handleForgetPass = () => {
     const ans = window.confirm("Reset password?");
     if (ans) {
-      const data = { userEmail: "nomibabaoo82@gmail.com" };
+      const data = { userEmail: "maknisaquotationdb@gmail.com" };
       try {
         forgetPass({ data }).then((res) => console.log(res));
         alert("Check your mail and reset your password");

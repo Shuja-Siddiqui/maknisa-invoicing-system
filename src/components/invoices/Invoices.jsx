@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import { getInvoices, updateStatus } from "../../api";
+import { getInvoices, removeInvoice, updateStatus } from "../../api";
 import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
 import { Box, Button, Typography } from "@mui/material";
-import { RemoveRedEye, ThumbDown, ThumbUp } from "@mui/icons-material";
+import { Delete, Edit, RemoveRedEye, ThumbDown, ThumbUp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 // Define your data creation function
@@ -17,7 +17,16 @@ function createData(
   invoice_id,
   Actions
 ) {
-  return { _id, Client_Name, House_No, Area, Category, Status, invoice_id, Actions };
+  return {
+    _id,
+    Client_Name,
+    House_No,
+    Area,
+    Category,
+    Status,
+    invoice_id,
+    Actions,
+  };
 }
 
 export const Invoices = () => {
@@ -26,6 +35,15 @@ export const Invoices = () => {
   const viewInvoice = (id) => {
     localStorage.setItem("@invoiceId", id);
     navigate("/print-invoice");
+  };
+  const updateData = (id) => {
+    localStorage.setItem("@invoiceId", id);
+    navigate("/invoice-form");
+  };
+  const deleteDraft = (id) => {
+    removeInvoice(id)
+      .then(() => fetchData())
+      .catch((err) => console.error(err));
   };
   const handleStatus = ({ invoiceStatus, statusId }) => {
     updateStatus({ invoiceStatus, statusId })
@@ -44,8 +62,7 @@ export const Invoices = () => {
       pending++;
     }
   });
-
-  useEffect(() => {
+  const fetchData = () => {
     getInvoices()
       .then((res) => {
         const rows = res.map((data) =>
@@ -62,6 +79,10 @@ export const Invoices = () => {
         setData(rows);
       })
       .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
   return (
     <>
@@ -112,6 +133,20 @@ export const Invoices = () => {
           >
             <Button onClick={() => viewInvoice(id)}>
               <RemoveRedEye
+                sx={{
+                  color: " #f98e0a",
+                }}
+              />
+            </Button>
+            <Button onClick={() => updateData(id)}>
+              <Edit
+                sx={{
+                  color: " #f98e0a",
+                }}
+              />
+            </Button>
+            <Button onClick={() => deleteDraft(id)}>
+              <Delete
                 sx={{
                   color: " #f98e0a",
                 }}

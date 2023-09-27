@@ -275,16 +275,27 @@ export const InvoicePage = () => {
                 <TableCell colSpan={5} align="right">
                   <b>Total Amount</b>
                 </TableCell>
-                <TableCell align="center" style={{fontWeight:"bold"}}>{formData?.price}</TableCell>
+                <TableCell align="center" style={{ fontWeight: "bold" }}>
+                  {formData?.price}
+                </TableCell>
               </TableRow>
             </TableBody>
           ) : (
             <TableBody>
               <TableRow>
-                <TableCell colSpan={5} align="right" style={{fontWeight:"bold", fontSize:"18px"}}>
+                <TableCell
+                  colSpan={5}
+                  align="right"
+                  style={{ fontWeight: "bold", fontSize: "18px" }}
+                >
                   Total Amount
                 </TableCell>
-                <TableCell align="center"  style={{fontWeight:"bold", fontSize:"18px"}}>{totalPrice}</TableCell>
+                <TableCell
+                  align="center"
+                  style={{ fontWeight: "bold", fontSize: "18px" }}
+                >
+                  {totalPrice}
+                </TableCell>
               </TableRow>
               {/* {formData?.discount > 0 ? (
                 <>
@@ -387,6 +398,14 @@ export const InvoicePage = () => {
             }}
           >
             <WhatsApp />
+          </StyledButton>
+          <StyledButton
+            variant="contained"
+            color="primary"
+            sx={{ mx: 1 }}
+            onClick={() => navigate(`/invoices`)}
+          >
+            Invoice
           </StyledButton>
         </Box>
       )}
