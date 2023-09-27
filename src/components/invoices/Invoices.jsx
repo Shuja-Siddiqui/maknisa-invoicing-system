@@ -106,7 +106,7 @@ export const Invoices = () => {
 
   // Polling mechanism: Fetch data periodically
   useEffect(() => {
-    const pollingInterval = setInterval(fetchData, 5000); // Adjust the polling interval as needed (e.g., every 5 seconds)
+    const pollingInterval = setInterval(fetchData, 2000);
     
     // Cleanup: Stop polling when the component unmounts
     return () => clearInterval(pollingInterval);
