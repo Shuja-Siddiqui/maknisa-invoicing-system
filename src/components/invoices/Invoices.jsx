@@ -112,6 +112,8 @@ export const Invoices = () => {
     return () => clearInterval(pollingInterval);
   }, []);
 
+  console.log("object");
+
   return (
     <>
       <Box
