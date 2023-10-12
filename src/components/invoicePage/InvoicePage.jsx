@@ -390,6 +390,7 @@ export const InvoicePage = () => {
               navigate(`/print-invoice?id=${formData?._id}&show=false`);
               setTimeout(() => {
                 window.print();
+                navigate(`/print-invoice`);
               }, 300);
             }}
           >
