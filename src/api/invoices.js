@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { url } from "./config";
+import { url } from './config';
 
 export const drawInvoiceTemplate = () => {
-  const token = localStorage.getItem("@token");
-  console.log(token, "token");
+  const token = localStorage.getItem('@token');
+  console.log(token, 'token');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -18,9 +18,9 @@ export const drawInvoiceTemplate = () => {
     });
 };
 export const updateInvoice = (data) => {
-  const token = localStorage.getItem("@token");
-  const invoiceId = localStorage.getItem("@invoiceId");
-  console.log(token, "token");
+  const token = localStorage.getItem('@token');
+  const invoiceId = localStorage.getItem('@invoiceId');
+  console.log(token, 'token');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -33,9 +33,23 @@ export const updateInvoice = (data) => {
       throw err;
     });
 };
+export const updateImage = (data, id) => {
+  const token = localStorage.getItem('@token');
+  const headers = {
+    Authorization: `JWT ${token}`,
+  };
+  return axios
+    .patch(`${url}/files/${id}`, data, { headers })
+    .then((res) => {
+      return res.data?.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
 export const updateItemsArray = (data) => {
-  const token = localStorage.getItem("@token");
-  const invoiceId = localStorage.getItem("@invoiceId");
+  const token = localStorage.getItem('@token');
+  const invoiceId = localStorage.getItem('@invoiceId');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -49,8 +63,8 @@ export const updateItemsArray = (data) => {
     });
 };
 export const updateSelectedItem = (data) => {
-  const token = localStorage.getItem("@token");
-  const invoiceId = localStorage.getItem("@invoiceId");
+  const token = localStorage.getItem('@token');
+  const invoiceId = localStorage.getItem('@invoiceId');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -64,8 +78,8 @@ export const updateSelectedItem = (data) => {
     });
 };
 export const deleteSelectedItem = (data) => {
-  const token = localStorage.getItem("@token");
-  const invoiceId = localStorage.getItem("@invoiceId");
+  const token = localStorage.getItem('@token');
+  const invoiceId = localStorage.getItem('@invoiceId');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -73,7 +87,7 @@ export const deleteSelectedItem = (data) => {
     .delete(`${url}/invoice/deleteItem/${invoiceId}?index=${data}`, { headers })
     .then((res) => {
       console.log(res?.data?.token);
-      localStorage.setItem("@token", res?.data?.token);
+      localStorage.setItem('@token', res?.data?.token);
       return res.data?.data;
     })
     .catch((err) => {
@@ -81,9 +95,9 @@ export const deleteSelectedItem = (data) => {
     });
 };
 export const genrateInvoice = (data) => {
-  const token = localStorage.getItem("@token");
-  console.log(token, "token");
-  const invoiceId = localStorage.getItem("@invoiceId");
+  const token = localStorage.getItem('@token');
+  console.log(token, 'token');
+  const invoiceId = localStorage.getItem('@invoiceId');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -98,9 +112,9 @@ export const genrateInvoice = (data) => {
 };
 
 export const updateStatus = (invoiceData) => {
-  const token = localStorage.getItem("@token");
-  const invoiceId = localStorage.getItem("@invoiceId");
-  console.log(invoiceData, "dadfdfa");
+  const token = localStorage.getItem('@token');
+  const invoiceId = localStorage.getItem('@invoiceId');
+  console.log(invoiceData, 'dadfdfa');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -121,7 +135,7 @@ export const updateStatus = (invoiceData) => {
 };
 
 export const getInvoices = () => {
-  const token = localStorage.getItem("@token");
+  const token = localStorage.getItem('@token');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -136,7 +150,7 @@ export const getInvoices = () => {
     });
 };
 export const removeInvoice = (id) => {
-  const token = localStorage.getItem("@token");
+  const token = localStorage.getItem('@token');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -151,7 +165,7 @@ export const removeInvoice = (id) => {
     });
 };
 export const getDrafts = () => {
-  const token = localStorage.getItem("@token");
+  const token = localStorage.getItem('@token');
   const headers = {
     Authorization: `JWT ${token}`,
   };
@@ -167,15 +181,15 @@ export const getDrafts = () => {
 };
 
 export const getInvoiceById = (id) => {
-  console.log(id, "API");
-  const token = localStorage.getItem("@token");
+  console.log(id, 'API');
+  const token = localStorage.getItem('@token');
   const headers = {
     Authorization: `JWT ${token}`,
   };
   return axios
     .get(`${url}/invoice/${id}`, { headers })
     .then((res) => {
-      console.log(res?.data?.data, "API");
+      console.log(res?.data?.data, 'API');
       return res?.data?.data;
     })
     .catch((err) => {
