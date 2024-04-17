@@ -50,9 +50,13 @@ export const Invoices = () => {
   };
 
   const deleteDraft = (id) => {
-    removeInvoice(id)
-      .then(() => fetchData())
-      .catch((err) => console.error(err));
+    const userConfirmed = window.confirm(`Do you want to delete !`);
+
+    if (userConfirmed) {
+      removeInvoice(id)
+        .then(() => fetchData())
+        .catch((err) => console.error(err));
+    }
   };
 
   const handleStatus = ({ invoiceStatus, statusId }) => {
@@ -107,7 +111,7 @@ export const Invoices = () => {
   // Polling mechanism: Fetch data periodically
   useEffect(() => {
     const pollingInterval = setInterval(fetchData, 2000);
-    
+
     // Cleanup: Stop polling when the component unmounts
     return () => clearInterval(pollingInterval);
   }, []);
