@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { getDrafts, removeInvoice } from "../../api";
 import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
-import { Delete, Edit } from "@mui/icons-material";
+import { CleaningServices, Delete, Edit } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -19,9 +19,14 @@ export const InvoiceDrafts = () => {
     navigate("/invoice-form");
   };
   const deleteDraft = (id) => {
-    removeInvoice(id)
-      .then(() => fetchData())
-      .catch((err) => console.error(err));
+    const userConfirmed = window.confirm(`Do you want to delete !`);
+
+    if (userConfirmed) {
+      // remove
+      removeInvoice(id)
+        .then(() => fetchData())
+        .catch((err) => console.error(err));
+    }
   };
   const fetchData = () => {
     getDrafts()
@@ -32,7 +37,7 @@ export const InvoiceDrafts = () => {
             data?._id,
             data?.client_name,
             data?.location?.details,
-            data?.location?.area +"," + data?.location?.city,
+            data?.location?.area + "," + data?.location?.city,
             data?.invoice_id
           )
         );

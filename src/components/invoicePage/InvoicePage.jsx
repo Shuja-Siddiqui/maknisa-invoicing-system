@@ -293,18 +293,24 @@ export const InvoicePage = () => {
                 <TableCell
                   colSpan={5}
                   align="right"
-                  style={{ fontWeight: "bold", fontSize: "18px" }}
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                  }}
                 >
                   Total Amount
                 </TableCell>
                 <TableCell
                   align="center"
-                  style={{ fontWeight: "bold", fontSize: "18px" }}
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                  }}
                 >
                   {totalPrice}
                 </TableCell>
               </TableRow>
-              {/* {formData?.discount > 0 ? (
+              {formData?.discount > 0 ? (
                 <>
                   <TableRow>
                     <TableCell colSpan={5} align="right">
@@ -313,10 +319,23 @@ export const InvoicePage = () => {
                     <TableCell align="center">{formData.discount}%</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell colSpan={5} align="right">
+                    <TableCell
+                      colSpan={5}
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "18px",
+                      }}
+                      align="right"
+                    >
                       <b>Total Amount</b>
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "18px",
+                      }}
+                      align="center"
+                    >
                       {totalPrice - (totalPrice / 100) * formData.discount}
                     </TableCell>
                   </TableRow>
@@ -338,7 +357,7 @@ export const InvoicePage = () => {
                     </TableCell>
                   </TableRow>
                 </>
-              )} */}
+              )}
             </TableBody>
           )}
         </Table>
