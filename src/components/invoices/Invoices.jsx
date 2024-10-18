@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getInvoices, removeInvoice, updateStatus } from "../../api";
 import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import {
   Delete,
   Edit,
@@ -10,7 +10,10 @@ import {
   ThumbUp,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-
+import { InvoiceButtonCard } from "../invoiceButtonCard";
+import { StatusCard } from "../statusCards";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 // Define your data creation function
 function createData(
   _id,
@@ -121,15 +124,30 @@ export const Invoices = () => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "center",
           alignItems: "center",
-          minHeight: "3rem",
+          gap: "8px",
           flexWrap: "wrap",
-          background: "#EC7C34",
-          color: "white",
         }}
       >
-        <Typography variant="h6" component="div">
+        <StatusCard
+          text="APPROVED"
+          number={approved}
+          icon={<CheckBoxIcon sx={{ fontSize: "100vh" }} />}
+        />
+        <StatusCard
+          text="PENDING"
+          number={pending}
+          icon={<AccessAlarmIcon sx={{ fontSize: "20vh" }} />}
+          bgcolor="black"
+          op="0.1"
+        />
+        <StatusCard
+          text="REJECTED"
+          number={reject}
+          icon={<CheckBoxIcon sx={{ fontSize: "100vh" , transform: "rotate(180deg)"}} />}
+        />
+        {/* <Typography variant="h6" component="div">
           APPROVED : {approved}
         </Typography>
         <Typography variant="h6" component="div">
@@ -137,7 +155,7 @@ export const Invoices = () => {
         </Typography>
         <Typography variant="h6" component="div">
           PENDING : {pending}
-        </Typography>
+        </Typography> */}
       </Box>
       <InvoiceTable
         rows={data}

@@ -5,9 +5,11 @@ import { Layout } from "../utils/theme";
 export const AllDrafts = () => {
   const [show, setShow] = useState(false);
   return (
-    <Layout>
+    <>
       <Header setShow={setShow} />
-      <InvoiceDrafts />
-    </Layout>
+      <Layout>
+        <InvoiceDrafts />
+      </Layout>
+    </>
   );
 };

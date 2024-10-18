@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import { getDrafts, removeInvoice } from "../../api";
 import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
-import { CleaningServices, Delete, Edit } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { ArrowBack, CleaningServices, Delete, Edit } from "@mui/icons-material";
+import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 // Define your data creation function
@@ -51,15 +51,15 @@ export const InvoiceDrafts = () => {
   }, []);
   return (
     <>
+      <Box
+        sx={{ color: "#F98E0A", cursor: "pointer" }}
+        onClick={() => window.history.back()}
+      >
+        <ArrowBack />
+      </Box>
       <InvoiceTable
         rows={data}
-        headings={[
-          "_id",
-          "Client_Name",
-          "House_No",
-          "Area",
-          "Actions"
-        ]}
+        headings={["_id", "Client_Name", "House_No", "Area", "Actions"]}
         Actions={({ id }) => (
           <WhiteTextTableCell
             align={"center"}

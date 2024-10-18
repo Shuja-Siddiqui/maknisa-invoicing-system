@@ -7,14 +7,16 @@ import { ArrowBack } from "@mui/icons-material";
 export const InvoiceFormWrapper = () => {
   const [show, setShow] = useState(false);
   return (
-    <Layout>
-      <Box>
-        <Header setShow={setShow} />
-        <Container>
-          <InvoiceForm />
-        </Container>
-      </Box>
-      <UpdatePasswordModal show={show} setShow={setShow} />
-    </Layout>
+    <>
+      <Header setShow={setShow} />
+      <Layout>
+        <Box>
+          <Container>
+            <InvoiceForm />
+          </Container>
+        </Box>
+        <UpdatePasswordModal show={show} setShow={setShow} />
+      </Layout>
+    </>
   );
 };
