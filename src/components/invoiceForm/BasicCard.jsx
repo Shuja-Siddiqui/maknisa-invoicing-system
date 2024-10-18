@@ -1,8 +1,8 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 import {
   Box,
   Button,
@@ -11,11 +11,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-} from '@mui/material';
-import { Delete, Edit, Image } from '@mui/icons-material';
-import { deleteSelectedItem, getInvoiceById, updateImage } from '../../api';
-import { file_url, url } from '../../api/config';
-import { StyledButton } from '../../pages';
+} from "@mui/material";
+import { Delete, Edit, Image } from "@mui/icons-material";
+import { deleteSelectedItem, getInvoiceById, updateImage } from "../../api";
+import { file_url, url } from "../../api/config";
+import { StyledButton } from "../../pages";
 
 export const BasicCard = ({
   number,
@@ -37,7 +37,7 @@ export const BasicCard = ({
   const [showModal, setShowModal] = React.useState(false);
   const handleEditItem = () => {
     try {
-      getInvoiceById(localStorage.getItem('@invoiceId'))
+      getInvoiceById(localStorage.getItem("@invoiceId"))
         .then((res) => {
           setItemData({ ...itemData, ...res?.items[number] });
           setSelected(number);
@@ -74,14 +74,14 @@ export const BasicCard = ({
         <DialogTitle>Update Image</DialogTitle>
         <form onSubmit={handleImageUpdate}>
           <DialogContent>
-            <input type='file' name='avatar' id='avatar_update_image' />
+            <input type="file" name="avatar" id="avatar_update_image" />
           </DialogContent>
           <DialogActions>
-            <StyledButton variant='contained' type='submit'>
+            <StyledButton variant="contained" type="submit">
               Update Image
             </StyledButton>
             <StyledButton
-              variant='outlined'
+              variant="outlined"
               onClick={() => setShowModal(false)}
             >
               Cancel
@@ -89,70 +89,71 @@ export const BasicCard = ({
           </DialogActions>
         </form>
       </Dialog>
-      <Card sx={{ width: '100%', display: 'flex' }}>
+      <Card sx={{ width: "100%", display: "flex" }}>
         <CardMedia
-          component='img'
-          sx={{ width: '50%' }}
+          component="img"
+          sx={{ width: "50%" }}
           image={
             img
               ? `${url}/files/${img}`
-              : 'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg'
+              : "https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg"
           }
           alt={description}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
           <CardContent>
-            {payment === 'FixedPayment' ? (
+            {payment === "FixedPayment" ? (
               <>
-                <Typography gutterBottom variant='h6' component='div'>
+                <Typography gutterBottom variant="h6" component="div">
                   <strong>Description: </strong> {description}
                 </Typography>
-                <Typography variant='h6' component='div'>
+                <Typography variant="h6" component="div">
                   <strong>Price: </strong> {fixedPrice}
                 </Typography>
               </>
             ) : (
               <>
-                <Typography gutterBottom variant='h6' component='div'>
+                <Typography gutterBottom variant="h6" component="div">
                   <strong>Description: </strong> {description}
                 </Typography>
-                <Typography gutterBottom variant='h6' component='div'>
-                  <strong>Dimension: </strong> {dimension}
+                <Typography gutterBottom variant="h6" component="div">
+                  <strong>Dimension: </strong> {dimension || "   --"}
                 </Typography>
 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Typography variant='h6' component='div'>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Typography variant="h6" component="div">
                     <strong>Rate: </strong>
-                    {rate}
+                    {rate || 0}
                   </Typography>
                   <Typography
-                    variant='h6'
-                    component='div'
-                    sx={{ marginLeft: '10px' }}
+                    variant="h6"
+                    component="div"
+                    sx={{ marginLeft: "10px" }}
                   >
                     <strong>Quantity: </strong>
-                    {quantity}
+                    {quantity || 0}
                   </Typography>
                 </Box>
-                <Typography variant='h6' component='div'>
-                  <strong>Price: </strong> {price}
+                {/* {console.log("isNaN(price)", isNaN(price))} */}
+                <Typography variant="h6" component="div">
+                  <strong>Price: </strong> {isNaN(price) ? 0 : price}
                 </Typography>
               </>
             )}
           </CardContent>
           <CardActions>
-            <Button onClick={() => handleEditItem()} sx={{ color: '#EC7C34' }}>
+            <Button onClick={() => handleEditItem()} sx={{ color: "#EC7C34" }}>
               <Edit />
             </Button>
             <Button
               onClick={() => setShowModal(true)}
-              sx={{ color: '#EC7C34' }}
+              sx={{ color: "#EC7C34" }}
             >
               <Image />
             </Button>
             <Button
               onClick={() => handleDeleteItem()}
-              sx={{ color: '#EC7C34' }}
+              sx={{ color: "#EC7C34" }}
             >
               <Delete />
             </Button>

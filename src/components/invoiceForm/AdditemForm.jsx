@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, Box, Grid } from '@mui/material';
-import { StyledTextField } from '../../utils/elements';
-import { StyledButton } from '../../pages';
-import { BasicCard } from './BasicCard';
-import { updateItemsArray, updateSelectedItem } from '../../api';
-import axios from 'axios';
-import { url } from '../../api/config';
-import { toJson } from '../../utils/elements';
+import React, { useState, useEffect } from "react";
+import { Container, Typography, Box, Grid } from "@mui/material";
+import { StyledTextField } from "../../utils/elements";
+import { StyledButton } from "../../pages";
+import { BasicCard } from "./BasicCard";
+import { updateItemsArray, updateSelectedItem } from "../../api";
+import axios from "axios";
+import { url } from "../../api/config";
+import { toJson } from "../../utils/elements";
 
 export const AddItemForm = ({
   itemData,
@@ -28,11 +28,11 @@ export const AddItemForm = ({
       setSelected(-1);
     }
     setItemData({
-      description: '',
-      dimension: '',
-      rate: '',
-      quantity: '',
-      price: '',
+      description: "",
+      dimension: "",
+      rate: "",
+      quantity: "",
+      price: "",
       avatar: null,
     });
   };
@@ -61,10 +61,10 @@ export const AddItemForm = ({
     try {
       const fd = new FormData(e.currentTarget);
       const formData0 = new FormData();
-      console.log({ ...toJson(fd) }, fd.get('avatar'), 'DEBUG_INFO');
-      formData0.append('avatar', fd.get('avatar'));
-      fd.delete('avatar');
-      formData0.append('addedItems', JSON.stringify({ ...toJson(fd) }));
+      console.log({ ...toJson(fd) }, fd.get("avatar"), "DEBUG_INFO");
+      formData0.append("avatar", fd.get("avatar"));
+      fd.delete("avatar");
+      formData0.append("addedItems", JSON.stringify({ ...toJson(fd) }));
 
       await updateItemsArray(formData0)
         .then((res) => {
@@ -77,11 +77,11 @@ export const AddItemForm = ({
           console.error(new Error(e));
           setLoading(false);
           setItemData({
-            description: '',
-            dimension: '',
-            rate: '',
-            quantity: '',
-            price: '',
+            description: "",
+            dimension: "",
+            rate: "",
+            quantity: "",
+            price: "",
             avatar: null,
           });
         });
@@ -92,61 +92,61 @@ export const AddItemForm = ({
   };
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth="md">
       {isFormVisible && (
         <form
-          encType='multipart/form-data'
+          encType="multipart/form-data"
           onSubmit={selected < 0 ? (e) => handleAddItem(e) : updateItem}
         >
-          <Typography variant='h5' color='#EC7C34' gutterBottom>
-            {selected < 0 ? 'Add' : 'Update'} Item
+          <Typography variant="h5" color="#EC7C34" gutterBottom>
+            {selected < 0 ? "Add" : "Update"} Item
           </Typography>
           <StyledTextField
-            label='Description'
-            name='description'
-            fullwidth='true'
+            label="Description"
+            name="description"
+            fullwidth="true"
             value={itemData.description}
             onChange={handleChange}
             sx={{ marginBottom: 2 }}
           />
-          {formData?.payment !== 'FixedPayment' && (
+          {formData?.payment !== "FixedPayment" && (
             <>
-              <Grid container spacing={2} sx={{ marginBottom: '1rem' }}>
+              <Grid container spacing={2} sx={{ marginBottom: "1rem" }}>
                 <Grid item xs={12} sm={4}>
                   <StyledTextField
-                    label='Dimension'
-                    name='dimension'
-                    fullwidth='true'
+                    label="Dimension"
+                    name="dimension"
+                    fullwidth="true"
                     value={itemData.dimension}
                     onChange={handleChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <StyledTextField
-                    label='Rate'
-                    name='rate'
-                    fullwidth='true'
-                    type={'number'}
+                    label="Rate"
+                    name="rate"
+                    fullwidth="true"
+                    type={"number"}
                     value={itemData.rate}
                     onChange={handleChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <StyledTextField
-                    type='Number'
-                    label='Quantity'
-                    name='quantity'
-                    fullwidth='true'
+                    type="Number"
+                    label="Quantity"
+                    name="quantity"
+                    fullwidth="true"
                     value={itemData.quantity}
                     onChange={handleChange}
                   />
                 </Grid>
               </Grid>
               <StyledTextField
-                type='Number'
-                label='Price'
-                name='price'
-                fullwidth='true'
+                type="Number"
+                label="Price"
+                name="price"
+                fullwidth="true"
                 value={itemData.rate * itemData.quantity}
                 onChange={handleChange}
                 sx={{ marginBottom: 2 }}
@@ -155,25 +155,25 @@ export const AddItemForm = ({
           )}
           {selected < 0 && (
             <input
-              type='file'
-              accept='image/*'
-              name='avatar'
+              type="file"
+              accept="image/*"
+              name="avatar"
               onChange={(e) => {
                 setItemData({ ...itemData, avatar: e.target.files[0] });
               }}
               style={{
                 marginBottom: 2,
-                appearance: 'none',
-                width: '100%',
-                border: 'none',
-                padding: '10px 20px',
-                borderRadius: '4px',
-                background: '#f98e0a',
-                color: 'white',
-                cursor: 'pointer',
-                transition: 'background 0.3s',
-                '&:hover': {
-                  background: '#e57905',
+                appearance: "none",
+                width: "100%",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "4px",
+                background: "#f98e0a",
+                color: "white",
+                cursor: "pointer",
+                transition: "background 0.3s",
+                "&:hover": {
+                  background: "#e57905",
                 },
               }}
             />
@@ -181,38 +181,39 @@ export const AddItemForm = ({
 
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: '2rem',
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: "2rem",
             }}
           >
             <StyledButton
-              variant='contained'
+              variant="contained"
               disabled={loading}
-              type='submit'
-              color='primary'
+              type="submit"
+              color="primary"
             >
-              {selected < 0 ? 'Save' : 'Update'}
+              {selected < 0 ? "Save" : "Update"}
             </StyledButton>
           </Box>
         </form>
       )}
       <StyledButton
-        variant='contained'
-        color='primary'
+        variant="contained"
+        color="primary"
         onClick={handleToggleForm}
-        sx={{ width: '100%', marginBottom: '2rem' }}
+        sx={{ width: "100%", marginBottom: "2rem" }}
       >
-        {isFormVisible ? 'Cancel' : 'Add Item'}
+        {isFormVisible ? "Cancel" : "Add Item"}
       </StyledButton>
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '10px',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "10px",
         }}
       >
+        {console.log("addedItems", addedItems)}
         {addedItems.map((item, index) => (
           <BasicCard
             key={index}
