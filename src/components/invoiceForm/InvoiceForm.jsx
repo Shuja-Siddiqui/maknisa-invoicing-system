@@ -1,5 +1,12 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
-import { InputLabel, Container, Box, Grid, MenuItem } from "@mui/material";
+import {
+  InputLabel,
+  Container,
+  Box,
+  Grid,
+  MenuItem,
+  Button,
+} from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
@@ -159,10 +166,21 @@ export const InvoiceForm = () => {
   const [editableTerms, setEditableTerms] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState(null);
   const [payment, setPayment] = useState("");
+  const [isEditable, setIsEditable] = useState(true);
   const navigate = useNavigate();
 
   const handleToggleEdit = () => {
     setEditableTerms(!editableTerms);
+  };
+
+  const handleChangeButtonClick = () => {
+    setIsEditable(true);
+  };
+
+  const handleDropdownChange = (e) => {
+    handleInputChange("payment", e.target.value);
+    // Disable the dropdown after selection
+    setIsEditable(false);
   };
 
   const handleInputChange = (field, value) => {
@@ -247,6 +265,12 @@ export const InvoiceForm = () => {
     setDebounceTimer(setTimeout(saveDraftDebounced, 4000));
   }, [formData]);
 
+  useEffect(() => {
+    // console.log("formData", formData);
+    // console.log("cond", formData?.payment === "");
+    setIsEditable(formData?.payment === "");
+  }, [formData?.payment]);
+
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
       <Box
@@ -330,7 +354,7 @@ export const InvoiceForm = () => {
             />
           </Grid>
         </Grid>
-        {formData?.completed === false && formData?.payment == "" ? (
+        {/* {formData?.completed === false && formData?.payment == "" ? (
           <StyledTextField
             id="outlined-select-currency"
             select
@@ -359,10 +383,76 @@ export const InvoiceForm = () => {
             <MenuItem value="FixedPayment">Fixed Payment</MenuItem>
             <MenuItem value="Item">Item</MenuItem>
           </StyledTextField>
-        )}
-        {
-        payment === "FixedPayment" ||
-        formData?.payment === "FixedPayment" ? (
+        )} */}
+
+        <Box sx={{ position: "relative" }}>
+          <StyledTextField
+            id="outlined-select-currency"
+            select
+            label="Payment"
+            defaultValue={formData.payment || "Payment"}
+            helperText="Please select your payment"
+            value={formData.payment}
+            // onChange={(e) => handleInputChange("payment", e.target.value)}
+            onChange={handleDropdownChange}
+            sx={{ marginBottom: 2 }}
+            disabled={!isEditable} // Disable if isEditable is false
+          >
+            <MenuItem value="FixedPayment">Fixed Payment</MenuItem>
+            <MenuItem value="Item">Item</MenuItem>
+          </StyledTextField>
+
+          {/* Payment Button */}
+          {isEditable ? (
+            <Button
+              sx={{
+                position: "absolute",
+                right: "0%",
+                top: "-21%",
+                padding: "1px 15px",
+                fontSize: "10px",
+                background: "#F98E0A",
+                border: "none",
+                color: "white",
+                "&:hover": {
+                  // Hover effect
+                  background: "none", // Change to a darker shade on hover (adjust as needed)
+                  border: "1px solid #F98E0A",
+                  color: "#F98E0A", // Optional: add a slight opacity effect on hover
+                },
+              }}
+              variant="outlined"
+              onClick={() => setIsEditable(false)}
+            >
+              Confirm
+            </Button>
+          ) : (
+            <Button
+              sx={{
+                position: "absolute",
+                right: "0%",
+                top: "-21%",
+                padding: "1px 15px",
+                fontSize: "10px",
+                background: "#F98E0A",
+                border: "none",
+                color: "white",
+                "&:hover": {
+                  // Hover effect
+                  background: "none", // Change to a darker shade on hover (adjust as needed)
+                  border: "1px solid #F98E0A",
+                  color: "#F98E0A", // Optional: add a slight opacity effect on hover
+                },
+              }}
+              variant="outlined"
+              onClick={handleChangeButtonClick}
+            >
+              Change
+            </Button>
+          )}
+        </Box>
+
+        {payment === "FixedPayment" || formData?.payment === "FixedPayment" ? (
           <StyledTextField
             sx={{ mb: 2 }}
             label="Price"
@@ -375,17 +465,17 @@ export const InvoiceForm = () => {
           />
         ) : (
           <>
-          {console.log('okay')}
-          <StyledTextField
-            sx={{ mb: 2 }}
-            label="Discount"
-            placeholder="Discount"
-            fullwidth="true"
-            type="text"
-            name="discount"
-            value={formData.discount}
-            onChange={(e) => handleInputChange("discount", e.target.value)}
-          />
+            {console.log("okay")}
+            <StyledTextField
+              sx={{ mb: 2 }}
+              label="Discount"
+              placeholder="Discount"
+              fullwidth="true"
+              type="text"
+              name="discount"
+              value={formData.discount}
+              onChange={(e) => handleInputChange("discount", e.target.value)}
+            />
           </>
         )}
 

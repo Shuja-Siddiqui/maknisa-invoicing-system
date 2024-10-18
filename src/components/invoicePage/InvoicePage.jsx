@@ -243,16 +243,16 @@ export const InvoicePage = () => {
                   <>
                     {row.dimension !== "" ? (
                       <StyledTableCell align="center">
-                        {row.dimension}
+                        {row.dimension || "-"}
                       </StyledTableCell>
                     ) : (
                       <StyledTableCell align="center">
                         <h3>-</h3>
                       </StyledTableCell>
                     )}
-                    <StyledTableCell align="center">{row.rate}</StyledTableCell>
+                    <StyledTableCell align="center">{row.rate || "-"}</StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.quantity}
+                      {row.quantity || "-"}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.quantity * row.rate}
