@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import { Card, CardContent, Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { drawInvoiceTemplate } from "../../api";
@@ -29,24 +29,23 @@ export const InvoiceButtonCard = ({ text, color, path, action }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        margin: "1rem 2rem",
+        background: "#F98E0A",
         cursor: "pointer",
         border: "1px solid #F98E0A",
-        width: { xl: "33%", lg: "33%", md: "33%", sm: "100%", xs: "100%" },
-        height: { xl: "33%", lg: "33%", md: "33%", sm: "100%", xs: "100%" },
-        color: "#F98E0A",
+        color: "black",
+        width: { xl: "40%", lg: "40%", md: "40%", sm: "100%", xs: "100%" },
+        height: { xl: "1%", lg: "1%", md: "1%", sm: "100%", xs: "100%" },
         "&:hover": {
-          background: "#F98E0A",
-          color: "white",
+          background: "none",
+          color: "black",
+          border: "1px solid black",
         },
       }}
       onClick={handleCardClick}
     >
-      <CardContent>
-        <Box style={{ marginTop: "1rem" }}>
-          <Typography variant="h4">{text}</Typography>
+        <Box sx={{padding: "8px" }}>
+          <Typography>{text}</Typography>
         </Box>
-      </CardContent>
     </Card>
   );
 };

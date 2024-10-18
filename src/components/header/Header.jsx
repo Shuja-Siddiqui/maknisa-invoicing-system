@@ -30,7 +30,7 @@ export const Header = ({ setShow }) => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, background: "none" }}>
+    <Box sx={{ flexGrow: 1,  background: "black", margin: "0", padding:"0",position: "sticky", width:"100%" }}>
       <AppBar position="static" sx={{ background: "none", boxShadow: "none" }}>
         <Toolbar>
           <Box sx={{ flexGrow: 1, color: "#F98E0A" }}>
@@ -50,7 +50,7 @@ export const Header = ({ setShow }) => {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenu}
-            color="black"
+            sx={{color: "white"}}
           >
             <Settings />
           </IconButton>

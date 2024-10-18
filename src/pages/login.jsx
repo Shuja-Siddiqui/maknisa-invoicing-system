@@ -13,6 +13,7 @@ const StyledLoginPage = styled("div")(({ theme }) => ({
   minHeight: "100vh",
   background: "#fff",
   flexDirection: "column",
+  background: "black"
 }));
 
 export const StyledButton = styled(Button)(({ theme }) => ({
@@ -100,7 +101,7 @@ export const Login = () => {
             placeholder="Username"
             variant="outlined"
             fullwidth="true"
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, background:"white" }}
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -117,6 +118,7 @@ export const Login = () => {
               variant="outlined"
               type="password"
               fullwidth="true"
+              sx={{ background:"white" }}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -129,7 +131,7 @@ export const Login = () => {
             <StyledButton
               variant="contained"
               fullwidth="true"
-              sx={{ mb: 2 }}
+              sx={{ mb: 2}}
               type="submit"
             >
               Login
