@@ -266,8 +266,6 @@ export const InvoiceForm = () => {
   }, [formData]);
 
   useEffect(() => {
-    // console.log("formData", formData);
-    // console.log("cond", formData?.payment === "");
     setIsEditable(formData?.payment === "");
   }, [formData?.payment]);
 
@@ -465,7 +463,6 @@ export const InvoiceForm = () => {
           />
         ) : (
           <>
-            {console.log("okay")}
             <StyledTextField
               sx={{ mb: 2 }}
               label="Discount"

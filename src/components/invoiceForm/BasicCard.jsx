@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Delete, Edit, Image } from "@mui/icons-material";
 import { deleteSelectedItem, getInvoiceById, updateImage } from "../../api";
-import { file_url, url } from "../../api/config";
+import { url } from "../../api/config";
 import { StyledButton } from "../../pages";
 
 export const BasicCard = ({
@@ -52,7 +52,6 @@ export const BasicCard = ({
     try {
       deleteSelectedItem(number)
         .then((res) => {
-          console.log(res);
           fetchData();
         })
         .catch((err) => console.log(err));
@@ -134,7 +133,6 @@ export const BasicCard = ({
                     {quantity || 0}
                   </Typography>
                 </Box>
-                {/* {console.log("isNaN(price)", isNaN(price))} */}
                 <Typography variant="h6" component="div">
                   <strong>Price: </strong> {isNaN(price) ? 0 : price}
                 </Typography>

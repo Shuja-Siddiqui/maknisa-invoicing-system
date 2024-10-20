@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getInvoices, removeInvoice, updateStatus } from "../../api";
 import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import {
   Delete,
   Edit,
@@ -10,7 +10,6 @@ import {
   ThumbUp,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { InvoiceButtonCard } from "../invoiceButtonCard";
 import { StatusCard } from "../statusCards";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
@@ -39,7 +38,6 @@ function createData(
 
 export const Invoices = () => {
   const [data, setData] = useState([]);
-  const [invoiceStatus, setInvoiceStatus] = useState("");
   const navigate = useNavigate();
 
   const viewInvoice = (id) => {
@@ -65,7 +63,6 @@ export const Invoices = () => {
   const handleStatus = ({ invoiceStatus, statusId }) => {
     updateStatus({ invoiceStatus, statusId })
       .then((res) => {
-        console.log(res);
         // Manually update the status in the data array without refreshing
         const updatedData = data.map((item) => {
           if (item._id === statusId) {
