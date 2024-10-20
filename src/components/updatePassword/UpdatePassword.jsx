@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Button, styled, Box, TextField } from "@mui/material";
+import { Container, Button, styled, Box } from "@mui/material";
 import image from "../../assets/png/wallpaperflare.com_wallpaper.jpg";
 import { StyledTextField } from "../../utils/elements";
 import { updatePassword } from "../../api";
@@ -44,7 +44,6 @@ export const UpdatePassword = () => {
   const handleUpdatePassword = async (event) => {
     updatePassword(passwords)
       .then((res) => {
-        console.log(res);
         navigate("/");
       })
       .catch((err) => console.log(err));

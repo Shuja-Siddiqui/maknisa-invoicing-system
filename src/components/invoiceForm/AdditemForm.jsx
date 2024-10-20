@@ -4,8 +4,6 @@ import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { BasicCard } from "./BasicCard";
 import { updateItemsArray, updateSelectedItem } from "../../api";
-import axios from "axios";
-import { url } from "../../api/config";
 import { toJson } from "../../utils/elements";
 
 export const AddItemForm = ({
@@ -61,14 +59,12 @@ export const AddItemForm = ({
     try {
       const fd = new FormData(e.currentTarget);
       const formData0 = new FormData();
-      console.log({ ...toJson(fd) }, fd.get("avatar"), "DEBUG_INFO");
       formData0.append("avatar", fd.get("avatar"));
       fd.delete("avatar");
       formData0.append("addedItems", JSON.stringify({ ...toJson(fd) }));
 
       await updateItemsArray(formData0)
         .then((res) => {
-          console.log(res);
           setLoading(false);
           setFormVisible(false);
           fetchData();
@@ -213,7 +209,6 @@ export const AddItemForm = ({
           gap: "10px",
         }}
       >
-        {console.log("addedItems", addedItems)}
         {addedItems.map((item, index) => (
           <BasicCard
             key={index}

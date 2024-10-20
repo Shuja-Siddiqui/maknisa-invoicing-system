@@ -7,8 +7,6 @@ import {
   TableBody,
   TableRow,
   Box,
-  TableContainer,
-  Paper,
   TableCell,
 } from "@mui/material";
 import pic from "../../assets/png/wallpaperflare.com_wallpaper.jpg";
@@ -18,11 +16,12 @@ import { initialFormState } from "../invoiceForm";
 import moment from "moment/moment";
 import { Logo } from "../../assets";
 import { StyledButton } from "../../pages";
-import { file_url, url } from "../../api/config";
+import { url } from "../../api/config";
 import { Home, WhatsApp } from "@mui/icons-material";
 import queryString from "query-string";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import consoleDotLogo from "../../assets/png/logo.png";
 
 export const InvoicePage = () => {
   const navigate = useNavigate();
@@ -30,8 +29,6 @@ export const InvoicePage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const parsed = queryString.parse(window.location.search);
   const [show, setShow] = useState(parsed?.show);
-
-  console.log(formData?.items, "fromData");
 
   useLayoutEffect(() => {
     setShow(parsed?.show || parsed?.id);
@@ -250,7 +247,9 @@ export const InvoicePage = () => {
                         <h3>-</h3>
                       </StyledTableCell>
                     )}
-                    <StyledTableCell align="center">{row.rate || "-"}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.rate || "-"}
+                    </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.quantity || "-"}
                     </StyledTableCell>
@@ -384,7 +383,17 @@ export const InvoicePage = () => {
         >
           <Typography align="center" sx={{ fontSize: "12px" }}>
             <strong>
-              Invoice System Developed by ConsoleDot Pvt-Ltd (0327-4067437)
+              Invoice System Developed by{" "}
+              <img
+                src={consoleDotLogo}
+                alt="ConsoleDot logo"
+                style={{
+                  width: "20px",
+                  verticalAlign: "middle",
+                  marginLeft: "5px",
+                }}
+              />{" "}
+              ConsoleDot Pvt-Ltd (0327-4067437)
             </strong>
           </Typography>
           <Typography sx={{ fontSize: "12px" }}>

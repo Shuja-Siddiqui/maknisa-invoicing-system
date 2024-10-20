@@ -12,7 +12,6 @@ import {
   Container,
 } from "@mui/material";
 import styled from "styled-components";
-import { ArrowBack } from "@mui/icons-material";
 import { InvoiceButtonCard } from "../invoiceButtonCard";
 
 export const StyledTableCell = styled(TableCell)({

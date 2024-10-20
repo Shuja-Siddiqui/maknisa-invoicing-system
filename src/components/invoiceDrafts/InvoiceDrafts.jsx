@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { getDrafts, removeInvoice } from "../../api";
 import { InvoiceTable, WhiteTextTableCell } from "../invoiceTable";
-import { ArrowBack, CleaningServices, Delete, Edit } from "@mui/icons-material";
+import { ArrowBack, Delete, Edit } from "@mui/icons-material";
 import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 

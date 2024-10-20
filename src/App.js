@@ -1,5 +1,5 @@
 import "./app.css";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import {
   Login,
   InvoiceFormWrapper,
@@ -7,7 +7,7 @@ import {
   AllInvoices,
   DashboardWrapper,
 } from "./pages";
-import { InvoiceDrafts, InvoicePage, Invoices } from "./components";
+import { InvoicePage } from "./components";
 import { UpdatePassword } from "./components/updatePassword";
 import { useEffect } from "react";
 import { verify } from "./api";
@@ -16,7 +16,6 @@ function App() {
   useEffect(() => {
     const fn = async () => {
       const res = await verify();
-      console.log(res)
       if (!res && window.location.pathname !== "/print-invoice") {
         navigate("/login");
       }

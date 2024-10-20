@@ -11,7 +11,6 @@ const StyledLoginPage = styled("div")(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
   minHeight: "100vh",
-  background: "#fff",
   flexDirection: "column",
   background: "black"
 }));
