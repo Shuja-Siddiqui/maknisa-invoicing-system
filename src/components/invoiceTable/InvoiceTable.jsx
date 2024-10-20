@@ -129,12 +129,12 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
       </Container>
       <TableContainer component={Paper} sx={{ bgcolor: "#8080802b" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead sx={{background:"black"}}> 
+          <TableHead sx={{background:"#f98e0a"}}> 
             <TableRow>
               <StyledTableCell
                 sx={{
                   borderBottom: "1px solid #f98e0a",
-                  color: "#f98e0a",
+                  color: "black",
                   width: "20%",
                   fontSize: "large",
                 }}
@@ -147,7 +147,7 @@ export const InvoiceTable = ({ rows, headings, Actions }) => {
                   <StyledTableCell
                     sx={{
                       borderBottom: "1px solid #f98e0a",
-                      color: "#f98e0a",
+                      color: "black",
                       width: "15%",
                       fontSize: "large",
                     }}
