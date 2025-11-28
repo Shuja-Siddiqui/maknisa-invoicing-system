@@ -282,10 +282,12 @@ export const InvoiceForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    // set debounce inside useEffect to get latest State t the time of update
-    setDebounceTimer(setTimeout(saveDraftDebounced, 4000));
-  }, [formData]);
+const formDataWithoutItems = { ...formData, items: null };
+
+useEffect(() => {
+  const timer = setTimeout(saveDraftDebounced, 4000);
+  return () => clearTimeout(timer);
+}, [JSON.stringify(formDataWithoutItems)]);
 
   useEffect(() => {
     setIsEditable(formData?.payment === "");
