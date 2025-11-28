@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { AddItemForm } from "./AdditemForm";
-import { StyledTextField } from "../../utils/elements";
+import SelectTextFields, { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { updateInvoice, genrateInvoice, getInvoiceById } from "../../api";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +28,7 @@ export const initialFormState = {
   price: 1,
   discount: 0,
   items: [],
+  currency_type: "",
 };
 
 const currencies = [
@@ -152,7 +153,28 @@ const currencies = [
     label: "Groot/Spacer/Bond",
   },
 ];
-
+const paymentCurrencies = [
+  {
+    value: "PKR",
+    label: "Rs",
+  },
+  {
+    value: "USD",
+    label: "$",
+  },
+  {
+    value: "EUR",
+    label: "€",
+  },
+  {
+    value: "BTC",
+    label: "฿",
+  },
+  {
+    value: "JPY",
+    label: "¥",
+  },
+];
 export const InvoiceForm = () => {
   const [formData, setFormData] = useState(initialFormState);
   const [itemData, setItemData] = useState({
@@ -260,15 +282,16 @@ export const InvoiceForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    // set debounce inside useEffect to get latest State t the time of update
-    setDebounceTimer(setTimeout(saveDraftDebounced, 4000));
-  }, [formData]);
+const formDataWithoutItems = { ...formData, items: null };
+
+useEffect(() => {
+  const timer = setTimeout(saveDraftDebounced, 4000);
+  return () => clearTimeout(timer);
+}, [JSON.stringify(formDataWithoutItems)]);
 
   useEffect(() => {
     setIsEditable(formData?.payment === "");
   }, [formData?.payment]);
-
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
       <Box
@@ -278,13 +301,45 @@ export const InvoiceForm = () => {
         <ArrowBack />
       </Box>
       <Container maxWidth="md">
-        <StyledTextField
+        {/* <StyledTextField
           sx={{ mb: 2, mt: 2 }}
           placeholder="Client Name"
           fullwidth="true"
           value={formData.client_name}
           onChange={(e) => handleInputChange("client_name", e.target.value)}
-        />
+        /> */}
+        <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
+          <Grid item xs={12} sm={8}>
+            <StyledTextField
+              placeholder="Client Name"
+              value={formData.client_name}
+              onChange={(e) => handleInputChange("client_name", e.target.value)}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Box component="form" noValidate autoComplete="off" fullWidth>
+              <div>
+                <StyledTextField
+                  id="outlined-select-currency"
+                  select
+                  label="Select Currency"
+                  value={formData?.currency_type} // controlled input
+                  onChange={(e) =>
+                    handleInputChange("currency_type", e.target.value)
+                  }
+                  fullWidth
+                >
+                  {paymentCurrencies?.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </StyledTextField>
+              </div>
+            </Box>
+          </Grid>
+        </Grid>
         <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
           Location
         </InputLabel>
