@@ -229,6 +229,7 @@ export const AddItemForm = ({
             itemData={itemData}
             handleToggleForm={setFormVisible}
             fetchData={fetchData}
+            currency_type ={formData?.currency_type}
           />
         ))}
       </div>

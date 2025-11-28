@@ -16,6 +16,28 @@ import { Delete, Edit, Image } from "@mui/icons-material";
 import { deleteSelectedItem, getInvoiceById, updateImage } from "../../api";
 import { url } from "../../api/config";
 import { StyledButton } from "../../pages";
+const paymentCurrencies = [
+  {
+    value: "PKR",
+    label: "Rs",
+  },
+  {
+    value: "USD",
+    label: "$",
+  },
+  {
+    value: "EUR",
+    label: "€",
+  },
+  {
+    value: "BTC",
+    label: "฿",
+  },
+  {
+    value: "JPY",
+    label: "¥",
+  },
+];
 
 export const BasicCard = ({
   number,
@@ -32,6 +54,7 @@ export const BasicCard = ({
   itemData,
   fetchData,
   handleToggleForm,
+  currency_type,
   id,
 }) => {
   const [showModal, setShowModal] = React.useState(false);
@@ -107,7 +130,12 @@ export const BasicCard = ({
                   <strong>Description: </strong> {description}
                 </Typography>
                 <Typography variant="h6" component="div">
-                  <strong>Price: </strong> {fixedPrice}
+                  <strong>Price: </strong>{" "}
+                  {
+                    paymentCurrencies.find((c) => c.value === currency_type)
+                      ?.label
+                  }{" "}
+                  {fixedPrice}
                 </Typography>
               </>
             ) : (
@@ -134,7 +162,12 @@ export const BasicCard = ({
                   </Typography>
                 </Box>
                 <Typography variant="h6" component="div">
-                  <strong>Price: </strong> {isNaN(price) ? 0 : price}
+                  <strong>Price: </strong>{" "}
+                  {
+                    paymentCurrencies.find((c) => c.value === currency_type)
+                      ?.label
+                  }{" "}
+                  {isNaN(price) ? 0 : price}
                 </Typography>
               </>
             )}

@@ -23,6 +23,29 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import consoleDotLogo from "../../assets/png/logo.png";
 
+const paymentCurrencies = [
+  {
+    value: "PKR",
+    label: "Rs",
+  },
+  {
+    value: "USD",
+    label: "$",
+  },
+  {
+    value: "EUR",
+    label: "€",
+  },
+  {
+    value: "BTC",
+    label: "฿",
+  },
+  {
+    value: "JPY",
+    label: "¥",
+  },
+];
+
 export const InvoicePage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormState);
@@ -254,6 +277,11 @@ export const InvoicePage = () => {
                       {row.quantity || "-"}
                     </StyledTableCell>
                     <StyledTableCell align="center">
+                      {
+                        paymentCurrencies.find(
+                          (c) => c.value === formData?.currency_type
+                        )?.label
+                      }{" "}
                       {row.quantity * row.rate}
                     </StyledTableCell>
                   </>
@@ -282,6 +310,11 @@ export const InvoicePage = () => {
                   <b>Total Amount</b>
                 </TableCell>
                 <TableCell align="center" style={{ fontWeight: "bold" }}>
+                  {
+                    paymentCurrencies.find(
+                      (c) => c.value === formData?.currency_type
+                    )?.label
+                  }{" "}
                   {formData?.price}
                 </TableCell>
               </TableRow>
@@ -306,6 +339,11 @@ export const InvoicePage = () => {
                     fontSize: "16px",
                   }}
                 >
+                  {
+                    paymentCurrencies.find(
+                      (c) => c.value === formData?.currency_type
+                    )?.label
+                  }{" "}
                   {totalPrice}
                 </TableCell>
               </TableRow>
@@ -335,6 +373,11 @@ export const InvoicePage = () => {
                       }}
                       align="center"
                     >
+                      {
+                        paymentCurrencies.find(
+                          (c) => c.value === formData?.currency_type
+                        )?.label
+                      }{" "}
                       {totalPrice - (totalPrice / 100) * formData.discount}
                     </TableCell>
                   </TableRow>
@@ -352,6 +395,11 @@ export const InvoicePage = () => {
                       <b>Total Amount</b>
                     </TableCell>
                     <TableCell align="center">
+                      {
+                        paymentCurrencies.find(
+                          (c) => c.value === formData?.currency_type
+                        )?.label
+                      }{" "}
                       {totalPrice - (totalPrice / 100) * 0}
                     </TableCell>
                   </TableRow>
