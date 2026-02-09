@@ -97,6 +97,7 @@ export const InvoicePage = () => {
 
   const StyledTableCell = styled(TableCell)(() => ({
     border: "1px solid #d7d7d7",
+    // padding: "6px 8px !important",
   }));
 
   useEffect(() => {
@@ -341,7 +342,7 @@ export const InvoicePage = () => {
                     align="center"
                     sx={{ fontWeight: "bolder", fontSize: "18px" }}
                   >
-                    Quantity
+                    Qty
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
