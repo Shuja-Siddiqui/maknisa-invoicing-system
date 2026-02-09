@@ -135,7 +135,7 @@ export const InvoicePage = () => {
             alt="logo"
             style={{
               maxWidth: "100px",
-              filter: "drop-shadow(2px 4px 6px black)",
+              filter: "drop-shadow(4px 2px 4px #C9CDCF)",
             }}
           />
         </Box>
@@ -156,6 +156,7 @@ export const InvoicePage = () => {
           <Typography
             component={"a"}
             href="https://www.maknisa.com"
+            target="_blank"
             sx={{ color: "#F99106", textDecoration: "none" }}
           >
             <strong>www.maknisa.com</strong>
