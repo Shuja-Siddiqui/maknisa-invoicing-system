@@ -8,6 +8,7 @@ import {
   TableRow,
   Box,
   TableCell,
+  Checkbox,
 } from "@mui/material";
 import pic from "../../assets/png/wallpaperflare.com_wallpaper.jpg";
 import logo from "../../assets/png/maknisa-removebg-preview.png";
@@ -52,10 +53,18 @@ export const InvoicePage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const parsed = queryString.parse(window.location.search);
   const [show, setShow] = useState(parsed?.show);
+  const [printFields, setPrintFields] = useState({
+    name: true,
+    address: true,
+    invoiceId: true,
+    category: true,
+    date: true,
+  });
 
   useLayoutEffect(() => {
     setShow(parsed?.show || parsed?.id);
   }, [parsed]);
+
   const fetchData = () => {
     const id = parsed?.id || localStorage.getItem("@invoiceId");
     if (parsed?.id) {
@@ -76,6 +85,14 @@ export const InvoicePage = () => {
         });
       });
     }
+  };
+
+  // Checkbox Handler
+  const handleCheck = (field) => {
+    setPrintFields((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
   };
 
   const StyledTableCell = styled(TableCell)(() => ({
@@ -138,7 +155,7 @@ export const InvoicePage = () => {
           <Typography
             component={"a"}
             href="https://www.maknisa.com"
-            sx={{ color: "#000", textDecoration: "none" }}
+            sx={{ color: "#F99106", textDecoration: "none" }}
           >
             <strong>www.maknisa.com</strong>
           </Typography>
@@ -151,6 +168,7 @@ export const InvoicePage = () => {
             marginTop: "50px",
           }}
         >
+          {/* Left Side */}
           <Box
             sx={{
               display: "flex",
@@ -158,22 +176,54 @@ export const InvoicePage = () => {
               rowGap: "15px",
             }}
           >
-            <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>Name:</strong> {formData?.client_name}
-              <br />
-            </Typography>
-            {formData?.location?.details !== "" && (
-              <Typography variant="body1" sx={{ color: "#000000" }}>
-                <strong>House No: </strong>
-                {formData?.location?.details}
-              </Typography>
-            )}
-            <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>Address: </strong>
-              {`${formData?.location?.area}, ${formData?.location?.city}, ${formData?.location?.province}`}
-              <br />
-            </Typography>
+            {/* name */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              {/* Checkbox (screen only) */}
+              <Checkbox
+                checked={printFields?.name}
+                onChange={() => handleCheck("name")}
+                className="no-print"
+                size="small"
+              />
+              {/* Label + value (print controlled) */}
+              {printFields?.name && (
+                <Typography variant="body1" sx={{ color: "#000000" }}>
+                  <strong>Name:</strong> {formData?.client_name}
+                  <br />
+                </Typography>
+              )}
+            </Box>
+            {/* address */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <Checkbox
+                checked={printFields?.address}
+                onChange={() => handleCheck("address")}
+                className="no-print"
+                size="small"
+              />
+
+              {printFields?.address && formData?.location?.details !== "" && (
+                <Typography variant="body1" sx={{ color: "#000000" }}>
+                  <strong>House No: </strong>
+                  {formData?.location?.details}
+                </Typography>
+              )}
+              {printFields?.address && (
+                <Typography variant="body1" sx={{ color: "#000000" }}>
+                  <strong>Address: </strong>
+                  {`${formData?.location?.area}, ${formData?.location?.city}, ${formData?.location?.province}`}
+                  <br />
+                </Typography>
+              )}
+            </Box>
           </Box>
+          {/* Right Side */}
           <Box
             sx={{
               display: "flex",
@@ -181,16 +231,73 @@ export const InvoicePage = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>InvoiceID:</strong> {formData.invoice_id}
-            </Typography>
-            <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>Category:</strong> {formData.category}
-            </Typography>
-            <Typography variant="body1" sx={{ color: "#000000" }}>
-              <strong>Date:</strong>{" "}
-              {moment(formData?.createdAt).format("DD-MM-YYYY")}
-            </Typography>
+            {/* InvoiceID */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              {/* Checkbox (screen only) */}
+              <Checkbox
+                checked={printFields?.invoiceId}
+                onChange={() => handleCheck("invoiceId")}
+                className="no-print"
+                size="small"
+              />
+              {/* Label + value (print controlled) */}
+              {printFields?.invoiceId && (
+                <Typography variant="body1" sx={{ color: "#000000" }}>
+                  <strong>InvoiceID:</strong> {formData.invoice_id}
+                </Typography>
+              )}
+            </Box>
+            {/* category */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              {/* Checkbox (screen only) */}
+              <Checkbox
+                checked={printFields?.category}
+                onChange={() => handleCheck("category")}
+                className="no-print"
+                size="small"
+              />
+              {/* Label + value (print controlled) */}
+              {printFields?.category && (
+                <Typography variant="body1" sx={{ color: "#000000" }}>
+                  <strong>Category:</strong> {formData?.category}
+                </Typography>
+              )}
+            </Box>
+            {/* Date */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              {/* Checkbox (screen only) */}
+              <Checkbox
+                checked={printFields?.date}
+                onChange={() => handleCheck("date")}
+                className="no-print"
+                size="small"
+              />
+              {/* Label + value (print controlled) */}
+              {printFields?.date && (
+                <Typography variant="body1" sx={{ color: "#000000" }}>
+                  <strong>Date:</strong>{" "}
+                  {moment(formData?.createdAt).format("DD-MM-YYYY")}
+                </Typography>
+              )}
+            </Box>
             {moment(formData?.updatedAt).format("DD-MM-YYYY") >
               moment(formData?.createdAt).format("DD-MM-YYYY") && (
               <Typography variant="body1" sx={{ color: "#000000" }}>
@@ -256,7 +363,10 @@ export const InvoicePage = () => {
             {formData?.items.map((row, index) => (
               <TableRow key={row.id}>
                 <StyledTableCell align="center">{index + 1}</StyledTableCell>
-                <StyledTableCell align="center" sx={{ maxWidth: "5rem" }}>
+                <StyledTableCell
+                  align="center"
+                  sx={{ minWidth: 200, wordBreak: "break-word" }}
+                >
                   {row.description}
                 </StyledTableCell>
                 {formData?.payment !== "FixedPayment" && (
@@ -279,7 +389,7 @@ export const InvoicePage = () => {
                     <StyledTableCell align="center">
                       {
                         paymentCurrencies.find(
-                          (c) => c.value === formData?.currency_type
+                          (c) => c.value === formData?.currency_type,
                         )?.label
                       }{" "}
                       {row.quantity * row.rate}
@@ -312,7 +422,7 @@ export const InvoicePage = () => {
                 <TableCell align="center" style={{ fontWeight: "bold" }}>
                   {
                     paymentCurrencies.find(
-                      (c) => c.value === formData?.currency_type
+                      (c) => c.value === formData?.currency_type,
                     )?.label
                   }{" "}
                   {formData?.price}
@@ -341,7 +451,7 @@ export const InvoicePage = () => {
                 >
                   {
                     paymentCurrencies.find(
-                      (c) => c.value === formData?.currency_type
+                      (c) => c.value === formData?.currency_type,
                     )?.label
                   }{" "}
                   {totalPrice}
@@ -375,7 +485,7 @@ export const InvoicePage = () => {
                     >
                       {
                         paymentCurrencies.find(
-                          (c) => c.value === formData?.currency_type
+                          (c) => c.value === formData?.currency_type,
                         )?.label
                       }{" "}
                       {totalPrice - (totalPrice / 100) * formData.discount}
@@ -397,7 +507,7 @@ export const InvoicePage = () => {
                     <TableCell align="center">
                       {
                         paymentCurrencies.find(
-                          (c) => c.value === formData?.currency_type
+                          (c) => c.value === formData?.currency_type,
                         )?.label
                       }{" "}
                       {totalPrice - (totalPrice / 100) * 0}
@@ -488,7 +598,7 @@ export const InvoicePage = () => {
             sx={{ mx: 1 }}
             onClick={() => {
               window.open(
-                `https://api.whatsapp.com/send?text=${window.location.origin}/print-invoice?id=${formData?._id}`
+                `https://api.whatsapp.com/send?text=${window.location.origin}/print-invoice?id=${formData?._id}`,
               );
             }}
           >
