@@ -320,30 +320,31 @@ export const InvoicePage = () => {
               )}
             </Box>
             {/* updated date  */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
-              {/* Checkbox (screen only) */}
-              <Checkbox
-                checked={printFields?.updatedDate}
-                onChange={() => handleCheck("updatedDate")}
-                className="no-print"
-                size="small"
-              />
-              {/* Label + value (print controlled) */}
-              {printFields?.updatedDate &&
-                moment(formData?.updatedAt).format("DD-MM-YYYY") >
-                  moment(formData?.createdAt).format("DD-MM-YYYY") && (
+            {moment(formData?.updatedAt).format("DD-MM-YYYY") >
+              moment(formData?.createdAt).format("DD-MM-YYYY") && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                {/* Checkbox (screen only) */}
+                <Checkbox
+                  checked={printFields?.updatedDate}
+                  onChange={() => handleCheck("updatedDate")}
+                  className="no-print"
+                  size="small"
+                />
+                {/* Label + value (print controlled) */}
+                {printFields?.updatedDate && (
                   <Typography variant="body1" sx={{ color: "#000000" }}>
                     <strong>UpdatedDate:</strong>{" "}
                     {moment(formData?.updatedAt).format("DD-MM-YYYY")}
                   </Typography>
                 )}
-            </Box>
+              </Box>
+            )}
           </Box>
         </Box>
         {/* <TableContainer component={Paper}> */}
