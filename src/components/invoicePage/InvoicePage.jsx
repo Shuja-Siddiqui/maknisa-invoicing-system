@@ -11,7 +11,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import pic from "../../assets/png/wallpaperflare.com_wallpaper.jpg";
-import logo from "../../assets/png/maknisa-removebg-preview.png";
+import logo from "../../assets/png/new-maknisa-logo.png";
 import { getInvoiceById } from "../../api";
 import { initialFormState } from "../invoiceForm";
 import moment from "moment/moment";
@@ -56,6 +56,7 @@ export const InvoicePage = () => {
   const [printFields, setPrintFields] = useState({
     name: true,
     address: true,
+    area: true,
     invoiceId: true,
     category: true,
     date: true,
@@ -124,7 +125,8 @@ export const InvoicePage = () => {
         // component={Paper}
         // sx={{ marginTop: "20px", padding: "1rem 2rem" }}
       >
-        <Box
+        {/* old Logo */}
+        {/* <Box
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -138,30 +140,35 @@ export const InvoicePage = () => {
               filter: "drop-shadow(4px 2px 4px #C9CDCF)",
             }}
           />
-        </Box>
+        </Box> */}
         <Box
           sx={{
             display: "flex",
             justifyContent: "center",
+            position: "relative",
           }}
         >
-          <img src={logo} alt={pic} style={{ maxWidth: "250px" }} />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Typography
-            component={"a"}
-            href="https://www.maknisa.com"
-            target="_blank"
-            sx={{ color: "#F99106", textDecoration: "none" }}
+          <img src={logo} alt={pic} style={{ maxWidth: "300px" }} />
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              position: "absolute",
+              bottom:40
+            }}
           >
-            <strong>www.maknisa.com</strong>
-          </Typography>
+            <Typography
+              component={"a"}
+              href="https://www.maknisa.com"
+              target="_blank"
+              sx={{ color: "#F99106", textDecoration: "none" }}
+            >
+              <strong>www.maknisa.com</strong>
+            </Typography>
+          </Box>
         </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -219,8 +226,23 @@ export const InvoicePage = () => {
               {printFields?.address && (
                 <Typography variant="body1" sx={{ color: "#000000" }}>
                   <strong>Address: </strong>
-                  {`${formData?.location?.area}, ${formData?.location?.city}, ${formData?.location?.province}`}
+                  {`${formData?.location?.location || "N/A"}, ${formData?.location?.city}, ${formData?.location?.province}`}
                   <br />
+                </Typography>
+              )}
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <Checkbox
+                checked={printFields?.area}
+                onChange={() => handleCheck("area")}
+                className="no-print"
+                size="small"
+              />
+
+              {printFields?.area && formData?.location?.details !== "" && (
+                <Typography variant="body1" sx={{ color: "#000000" }}>
+                  <strong>Area: </strong>
+                  {formData?.location?.area || "N/A"}
                 </Typography>
               )}
             </Box>
@@ -357,7 +379,7 @@ export const InvoicePage = () => {
                 align="center"
                 sx={{ fontWeight: "bolder", fontSize: "18px" }}
               >
-                Picture
+                Product
               </StyledTableCell>
             </TableRow>
           </TableHead>

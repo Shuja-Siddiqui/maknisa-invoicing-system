@@ -20,6 +20,7 @@ export const initialFormState = {
     area: "",
     city: "",
     province: "",
+    location: "",
   },
   category: "",
   making_time: "",
@@ -282,16 +283,17 @@ export const InvoiceForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-const formDataWithoutItems = { ...formData, items: null };
+  const formDataWithoutItems = { ...formData, items: null };
 
-useEffect(() => {
-  const timer = setTimeout(saveDraftDebounced, 4000);
-  return () => clearTimeout(timer);
-}, [JSON.stringify(formDataWithoutItems)]);
+  useEffect(() => {
+    const timer = setTimeout(saveDraftDebounced, 4000);
+    return () => clearTimeout(timer);
+  }, [JSON.stringify(formDataWithoutItems)]);
 
   useEffect(() => {
     setIsEditable(formData?.payment === "");
   }, [formData?.payment]);
+  
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
       <Box
@@ -340,11 +342,11 @@ useEffect(() => {
             </Box>
           </Grid>
         </Grid>
-        <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
+        {/* <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
           Location
-        </InputLabel>
+        </InputLabel> */}
         <Grid container spacing={2} sx={{ marginBottom: "1rem" }}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <StyledTextField
               placeholder="House No."
               value={formData.location.details}
@@ -352,7 +354,15 @@ useEffect(() => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
+            <StyledTextField
+              placeholder="Location"
+              value={formData.location.location}
+              onChange={(e) => handleLocationChange("location", e.target.value)}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
             <StyledTextField
               placeholder="Area"
               value={formData.location.area}
