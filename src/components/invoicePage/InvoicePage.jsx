@@ -60,6 +60,7 @@ export const InvoicePage = () => {
     invoiceId: true,
     category: true,
     date: true,
+    updatedDate: true,
   });
 
   useLayoutEffect(() => {
@@ -145,28 +146,24 @@ export const InvoicePage = () => {
           sx={{
             display: "flex",
             justifyContent: "center",
-            position: "relative",
           }}
         >
           <img src={logo} alt={pic} style={{ maxWidth: "300px" }} />
-
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              position: "absolute",
-              bottom:40
-            }}
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            component={"a"}
+            href="https://www.maknisa.com"
+            target="_blank"
+            sx={{ color: "#F99106", textDecoration: "none" }}
           >
-            <Typography
-              component={"a"}
-              href="https://www.maknisa.com"
-              target="_blank"
-              sx={{ color: "#F99106", textDecoration: "none" }}
-            >
-              <strong>www.maknisa.com</strong>
-            </Typography>
-          </Box>
+            <strong>www.maknisa.com</strong>
+          </Typography>
         </Box>
 
         <Box
@@ -226,7 +223,7 @@ export const InvoicePage = () => {
               {printFields?.address && (
                 <Typography variant="body1" sx={{ color: "#000000" }}>
                   <strong>Address: </strong>
-                  {`${formData?.location?.location || "N/A"}, ${formData?.location?.city}, ${formData?.location?.province}`}
+                  {`${formData?.location?.location || ""}, ${formData?.location?.city}, ${formData?.location?.province}`}
                   <br />
                 </Typography>
               )}
@@ -239,10 +236,10 @@ export const InvoicePage = () => {
                 size="small"
               />
 
-              {printFields?.area && formData?.location?.details !== "" && (
+              {printFields?.area && (
                 <Typography variant="body1" sx={{ color: "#000000" }}>
                   <strong>Area: </strong>
-                  {formData?.location?.area || "N/A"}
+                  {formData?.location?.area || ""}
                 </Typography>
               )}
             </Box>
@@ -322,12 +319,31 @@ export const InvoicePage = () => {
                 </Typography>
               )}
             </Box>
+            {/* updated date  */}
             {moment(formData?.updatedAt).format("DD-MM-YYYY") >
               moment(formData?.createdAt).format("DD-MM-YYYY") && (
-              <Typography variant="body1" sx={{ color: "#000000" }}>
-                <strong>UpdatedDate:</strong>{" "}
-                {moment(formData?.updatedAt).format("DD-MM-YYYY")}
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                {/* Checkbox (screen only) */}
+                <Checkbox
+                  checked={printFields?.updatedDate}
+                  onChange={() => handleCheck("updatedDate")}
+                  className="no-print"
+                  size="small"
+                />
+                {/* Label + value (print controlled) */}
+                {printFields?.updatedDate && (
+                  <Typography variant="body1" sx={{ color: "#000000" }}>
+                    <strong>UpdatedDate:</strong>{" "}
+                    {moment(formData?.updatedAt).format("DD-MM-YYYY")}
+                  </Typography>
+                )}
+              </Box>
             )}
           </Box>
         </Box>
