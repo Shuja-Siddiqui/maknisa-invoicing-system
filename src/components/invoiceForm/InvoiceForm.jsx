@@ -13,6 +13,8 @@ import { StyledButton } from "../../pages";
 import { updateInvoice, genrateInvoice, getInvoiceById } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 export const initialFormState = {
   client_name: "",
   location: {
@@ -293,7 +295,7 @@ export const InvoiceForm = () => {
   useEffect(() => {
     setIsEditable(formData?.payment === "");
   }, [formData?.payment]);
-  
+
   return (
     <Box sx={{ backgroundColor: "#fff", marginTop: "20px" }}>
       <Box
@@ -544,28 +546,12 @@ export const InvoiceForm = () => {
         <InputLabel sx={{ color: "#F98E0A", mb: 2, mt: 2 }}>
           Terms & Conditions
         </InputLabel>
-        <textarea
-          placeholder="Terms"
-          fullwidth="true"
-          rows={6}
-          value={formData.terms}
-          onChange={(e) => handleInputChange("terms", e.target.value)}
+        <ReactQuill
+          theme="snow"
+          value={formData?.terms || ""}
+          onChange={(value) => handleInputChange("terms", value)}
           readOnly={!editableTerms}
-          style={{
-            maxHeight: 200,
-            overflowY: "auto",
-            mb: 2,
-            color: !editableTerms ? "#aaa" : "black",
-            width: "100%",
-            background: "#fff",
-            border: "1px solid orange",
-            borderRadius: 5,
-            padding: "1em",
-          }}
-          inputprops={{ style: { color: "red" } }}
-        >
-          {formData.terms}
-        </textarea>
+        />
 
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <StyledButton
@@ -594,3 +580,20 @@ export const InvoiceForm = () => {
     </Box>
   );
 };
+
+function Editor() {
+  const [value, setValue] = useState("");
+
+  return (
+    <div>
+      <h2>Text Editor</h2>
+
+      <ReactQuill theme="snow" value={value} onChange={setValue} />
+
+      {/* <p>Output:</p>
+      <div dangerouslySetInnerHTML={{ __html: value }} /> */}
+    </div>
+  );
+}
+
+export default Editor;
