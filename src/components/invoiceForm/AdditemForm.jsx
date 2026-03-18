@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography, Box, Grid } from "@mui/material";
+import { Container, Typography, Box, Grid, MenuItem } from "@mui/material";
 import { StyledTextField } from "../../utils/elements";
 import { StyledButton } from "../../pages";
 import { BasicCard } from "./BasicCard";
@@ -13,13 +13,42 @@ export const AddItemForm = ({
   setFormData,
   fetchData,
 }) => {
+  const rooms = [
+    { value: "GF-LOBBY", label: "G.F LOBBY" },
+    { value: "DRAWING-ROOM", label: "DRAWING ROOM" },
+    { value: "DINING-ROOM", label: "DINING ROOM" },
+    { value: "GF-LOUNGE", label: "G.F LOUNGE" },
+    { value: "GF-MASTER-BEDROOM", label: "G.F MASTER BEDROOM" },
+    { value: "GF-GUEST-BEDROOM", label: "G.F GUEST BEDROOM" },
+    { value: "GF-BEDROOM-LOBBY", label: "G.F BEDROOM LOBBY" },
+
+    { value: "FF-LOBBY", label: "F.F LOBBY" },
+    { value: "FF-LOUNGE", label: "F.F LOUNGE" },
+    { value: "FF-MASTER-BEDROOM", label: "F.F MASTER BEDROOM" },
+    { value: "FF-GUEST-BEDROOM", label: "F.F GUEST BEDROOM" },
+    { value: "FF-GIRL-BEDROOM", label: "F.F GIRL BEDROOM" },
+    { value: "FF-BOY-BEDROOM", label: "F.F BOY BEDROOM" },
+    { value: "FF-BEDROOM-LOBBY", label: "F.F BEDROOM LOBBY" },
+
+    { value: "BASEMENT-LOBBY", label: "BASEMENT LOBBY" },
+    { value: "BASEMENT-LOUNGE", label: "BASEMENT LOUNGE" },
+    { value: "BASEMENT-BEDROOM-1", label: "BASEMENT BEDROOM 1" },
+    { value: "BASEMENT-BEDROOM-2", label: "BASEMENT BEDROOM 2" },
+    { value: "BASEMENT-THEATER-ROOM", label: "BASEMENT THEATER ROOM" },
+    { value: "BASEMENT-STUDY-ROOM", label: "BASEMENT STUDY ROOM" },
+
+    { value: "OFFICE-ROOM", label: "OFFICE ROOM" },
+    { value: "STUDY-ROOM", label: "STUDY ROOM" },
+  ];
   const [loading, setLoading] = useState(false);
   const [isFormVisible, setFormVisible] = useState(false);
   const [addedItems, setAddedItems] = useState(formData?.items);
+  const [selected, setSelected] = useState(-1);
+
   useEffect(() => {
     setAddedItems(formData?.items || []);
   }, [formData]);
-  const [selected, setSelected] = useState(-1);
+
   const handleToggleForm = () => {
     setFormVisible(!isFormVisible);
     if (!isFormVisible) {
@@ -30,6 +59,7 @@ export const AddItemForm = ({
       dimension: "",
       rate: "",
       quantity: "",
+      category: "",
       price: "",
       avatar: null,
     });
@@ -76,6 +106,7 @@ export const AddItemForm = ({
             description: "",
             dimension: "",
             rate: "",
+            category: "",
             quantity: "",
             price: "",
             avatar: null,
@@ -105,6 +136,24 @@ export const AddItemForm = ({
             onChange={handleChange}
             sx={{ marginBottom: 2 }}
           />
+          <StyledTextField
+            id="outlined-select-currency"
+            name="category"
+            select
+            required
+            label="Category"
+            defaultValue="Category"
+            helperText="Please select your category"
+            value={itemData?.category}
+            onChange={handleChange}
+            sx={{ marginBottom: 2 }}
+          >
+            {rooms.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </StyledTextField>
           {formData?.payment !== "FixedPayment" && (
             <>
               <Grid container spacing={2} sx={{ marginBottom: "1rem" }}>
@@ -216,6 +265,7 @@ export const AddItemForm = ({
             id={item?._id}
             img={item.image}
             rate={item.rate}
+            category={item?.category}
             quantity={item.quantity}
             payment={formData?.payment}
             fixedPrice={formData?.price}
@@ -229,7 +279,7 @@ export const AddItemForm = ({
             itemData={itemData}
             handleToggleForm={setFormVisible}
             fetchData={fetchData}
-            currency_type ={formData?.currency_type}
+            currency_type={formData?.currency_type}
           />
         ))}
       </div>

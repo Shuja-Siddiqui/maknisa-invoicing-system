@@ -104,8 +104,8 @@ const currencies = [
     label: "Wood Works",
   },
   {
-    value: "Funiture",
-    label: "Funiture",
+    value: "Furniture",
+    label: "Furniture",
   },
   {
     value: "Lights/Chandelier",
@@ -185,6 +185,7 @@ export const InvoiceForm = () => {
     dimension: "",
     rate: "",
     quantity: "",
+    category: "",
     price: "",
     avatar: null,
   });
