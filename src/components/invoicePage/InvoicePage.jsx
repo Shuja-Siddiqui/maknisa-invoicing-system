@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import {
   Container,
   Typography,
@@ -88,7 +88,16 @@ export const InvoicePage = () => {
       });
     }
   };
+  const groupedItems = useMemo(() => {
+    return formData?.items?.reduce((acc, item) => {
+      const category = item.category || "Other";
 
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(item);
+
+      return acc;
+    }, {});
+  }, [formData?.items]);
   // Checkbox Handler
   const handleCheck = (field) => {
     setPrintFields((prev) => ({
@@ -113,11 +122,18 @@ export const InvoicePage = () => {
   //     setTimeout(() => window.print(), 300);
   //   }
   // }, [printable]);
+  const formatPrice = (value) => {
+  return new Intl.NumberFormat().format(value);
+};
 
   useLayoutEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const hasAnyImage = Object.values(groupedItems || {})
+    .flat()
+    .some((item) => item.image && item.image.trim());
+
 
   return (
     <Container sx={{ marginTop: "30px" }}>
@@ -160,7 +176,7 @@ export const InvoicePage = () => {
             component={"a"}
             href="https://www.maknisa.com"
             target="_blank"
-            sx={{ color: "#F99106", textDecoration: "none" }}
+            sx={{ color: "#000000", textDecoration: "none" }}
           >
             <strong>www.maknisa.com</strong>
           </Typography>
@@ -391,16 +407,18 @@ export const InvoicePage = () => {
                   </StyledTableCell>
                 </>
               )}
-              <StyledTableCell
-                align="center"
-                sx={{ fontWeight: "bolder", fontSize: "18px" }}
-              >
-                Product
-              </StyledTableCell>
+              {hasAnyImage && (
+                <StyledTableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", fontSize: "18px" }}
+                >
+                  Product
+                </StyledTableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
-            {formData?.items.map((row, index) => (
+            {/* {formData?.items.map((row, index) => (
               <TableRow key={row.id}>
                 <StyledTableCell align="center">{index + 1}</StyledTableCell>
                 <StyledTableCell
@@ -448,7 +466,70 @@ export const InvoicePage = () => {
                   )}
                 </StyledTableCell>
               </TableRow>
-            ))}
+            ))} */}
+            {Object.entries(groupedItems || {}).map(
+              ([category, items], catIndex) => (
+                <React.Fragment key={catIndex}>
+                  {/* 🔹 Category Row */}
+                  <TableRow>
+                    <StyledTableCell
+                      colSpan={formData?.payment !== "FixedPayment" ? 7 : 3}
+                      align="center"
+                      sx={{ fontWeight: "bold", background: "#f5f5f5" }}
+                    >
+                      {category}
+                    </StyledTableCell>
+                  </TableRow>
+
+                  {/* 🔹 Items of that Category */}
+                  {items.map((row, index) => (
+                    <TableRow key={row.id}>
+                      <StyledTableCell align="center">
+                        {index + 1}
+                      </StyledTableCell>
+
+                      <StyledTableCell align="center">
+                        {row.description}
+                      </StyledTableCell>
+
+                      {formData?.payment !== "FixedPayment" && (
+                        <>
+                          <StyledTableCell align="center">
+                            {row.dimension || "-"}
+                          </StyledTableCell>
+
+                          <StyledTableCell align="center">
+                            {formatPrice(row.rate || "-")}
+                          </StyledTableCell>
+
+                          <StyledTableCell align="center">
+                            {row.quantity || "-"}
+                          </StyledTableCell>
+
+                          <StyledTableCell align="center">
+                            {formatPrice(row.quantity * row.rate)}
+                          </StyledTableCell>
+                        </>
+                      )}
+
+                      {hasAnyImage && (
+                        <StyledTableCell align="center">
+                          {row?.image === "null" || !row.image ? (
+                            "-"
+                          ) : (
+                            <img
+                              src={url + "/files/" + row?.image}
+                              alt={`Pic ${row.id}`}
+                              style={{ maxWidth: "150px" }}
+                            />
+                          )}
+                        </StyledTableCell>
+                      )}
+                    </TableRow>
+                  ))}
+                </React.Fragment>
+              ),
+            )}
           </TableBody>
         </Table>
         {/* </TableContainer> */}
@@ -465,7 +546,7 @@ export const InvoicePage = () => {
                       (c) => c.value === formData?.currency_type,
                     )?.label
                   }{" "}
-                  {formData?.price}
+                  {formatPrice(formData?.price)}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -494,7 +575,7 @@ export const InvoicePage = () => {
                       (c) => c.value === formData?.currency_type,
                     )?.label
                   }{" "}
-                  {totalPrice}
+                  {formatPrice(totalPrice)}
                 </TableCell>
               </TableRow>
               {formData?.discount > 0 ? (
@@ -550,7 +631,7 @@ export const InvoicePage = () => {
                           (c) => c.value === formData?.currency_type,
                         )?.label
                       }{" "}
-                      {totalPrice - (totalPrice / 100) * 0}
+                      {formatPrice(totalPrice - (totalPrice / 100) * 0)}
                     </TableCell>
                   </TableRow>
                 </>

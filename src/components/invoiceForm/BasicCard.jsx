@@ -46,6 +46,7 @@ export const BasicCard = ({
   quantity,
   price,
   description,
+  category,
   payment,
   fixedPrice,
   dimension,
@@ -129,6 +130,9 @@ export const BasicCard = ({
                 <Typography gutterBottom variant="h6" component="div">
                   <strong>Description: </strong> {description}
                 </Typography>
+                <Typography gutterBottom variant="h6" component="div">
+                  <strong>Category: </strong> {category}
+                </Typography>
                 <Typography variant="h6" component="div">
                   <strong>Price: </strong>{" "}
                   {
@@ -146,7 +150,9 @@ export const BasicCard = ({
                 <Typography gutterBottom variant="h6" component="div">
                   <strong>Dimension: </strong> {dimension || "   --"}
                 </Typography>
-
+                <Typography gutterBottom variant="h6" component="div">
+                  <strong>Category: </strong> {category}
+                </Typography>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                   <Typography variant="h6" component="div">
                     <strong>Rate: </strong>
