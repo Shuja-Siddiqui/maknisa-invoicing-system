@@ -123,8 +123,8 @@ export const InvoicePage = () => {
   //   }
   // }, [printable]);
   const formatPrice = (value) => {
-  return new Intl.NumberFormat().format(value);
-};
+    return new Intl.NumberFormat().format(value);
+  };
 
   useLayoutEffect(() => {
     fetchData();
@@ -133,7 +133,6 @@ export const InvoicePage = () => {
   const hasAnyImage = Object.values(groupedItems || {})
     .flat()
     .some((item) => item.image && item.image.trim());
-
 
   return (
     <Container sx={{ marginTop: "30px" }}>
@@ -488,7 +487,7 @@ export const InvoicePage = () => {
                         {index + 1}
                       </StyledTableCell>
 
-                      <StyledTableCell align="center">
+                      <StyledTableCell align="start">
                         {row.description}
                       </StyledTableCell>
 
