@@ -122,11 +122,18 @@ export const InvoicePage = () => {
   //     setTimeout(() => window.print(), 300);
   //   }
   // }, [printable]);
+  const formatPrice = (value) => {
+  return new Intl.NumberFormat().format(value);
+};
 
   useLayoutEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const hasAnyImage = Object.values(groupedItems || {})
+    .flat()
+    .some((item) => item.image && item.image.trim());
+
 
   return (
     <Container sx={{ marginTop: "30px" }}>
@@ -400,12 +407,14 @@ export const InvoicePage = () => {
                   </StyledTableCell>
                 </>
               )}
-              <StyledTableCell
-                align="center"
-                sx={{ fontWeight: "bolder", fontSize: "18px" }}
-              >
-                Product
-              </StyledTableCell>
+              {hasAnyImage && (
+                <StyledTableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", fontSize: "18px" }}
+                >
+                  Product
+                </StyledTableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -463,12 +472,12 @@ export const InvoicePage = () => {
                 <React.Fragment key={catIndex}>
                   {/* 🔹 Category Row */}
                   <TableRow>
-                    <StyledTableCell 
+                    <StyledTableCell
                       colSpan={formData?.payment !== "FixedPayment" ? 7 : 3}
                       align="center"
                       sx={{ fontWeight: "bold", background: "#f5f5f5" }}
                     >
-                       {category}
+                      {category}
                     </StyledTableCell>
                   </TableRow>
 
@@ -490,7 +499,7 @@ export const InvoicePage = () => {
                           </StyledTableCell>
 
                           <StyledTableCell align="center">
-                            {row.rate || "-"}
+                            {formatPrice(row.rate || "-")}
                           </StyledTableCell>
 
                           <StyledTableCell align="center">
@@ -498,22 +507,24 @@ export const InvoicePage = () => {
                           </StyledTableCell>
 
                           <StyledTableCell align="center">
-                            {row.quantity * row.rate}
+                            {formatPrice(row.quantity * row.rate)}
                           </StyledTableCell>
                         </>
                       )}
 
-                      <StyledTableCell align="center">
-                        {row?.image === "null" || !row.image ? (
-                          "-"
-                        ) : (
-                          <img
-                            src={url + "/files/" + row?.image}
-                            alt={`Pic ${row.id}`}
-                            style={{ maxWidth: "150px" }}
-                          />
-                        )}
-                      </StyledTableCell>
+                      {hasAnyImage && (
+                        <StyledTableCell align="center">
+                          {row?.image === "null" || !row.image ? (
+                            "-"
+                          ) : (
+                            <img
+                              src={url + "/files/" + row?.image}
+                              alt={`Pic ${row.id}`}
+                              style={{ maxWidth: "150px" }}
+                            />
+                          )}
+                        </StyledTableCell>
+                      )}
                     </TableRow>
                   ))}
                 </React.Fragment>
@@ -535,7 +546,7 @@ export const InvoicePage = () => {
                       (c) => c.value === formData?.currency_type,
                     )?.label
                   }{" "}
-                  {formData?.price}
+                  {formatPrice(formData?.price)}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -564,7 +575,7 @@ export const InvoicePage = () => {
                       (c) => c.value === formData?.currency_type,
                     )?.label
                   }{" "}
-                  {totalPrice}
+                  {formatPrice(totalPrice)}
                 </TableCell>
               </TableRow>
               {formData?.discount > 0 ? (
@@ -620,7 +631,7 @@ export const InvoicePage = () => {
                           (c) => c.value === formData?.currency_type,
                         )?.label
                       }{" "}
-                      {totalPrice - (totalPrice / 100) * 0}
+                      {formatPrice(totalPrice - (totalPrice / 100) * 0)}
                     </TableCell>
                   </TableRow>
                 </>
