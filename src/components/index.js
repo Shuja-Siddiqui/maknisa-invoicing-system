@@ -6,3 +6,4 @@ export * from "./invoices";
 export * from "./invoiceDrafts";
 export * from "./invoicePage";
 export * from "./UpdatePasswordModal";
+export * from "./user-management";

@@ -6,6 +6,7 @@ import {
   AllDrafts,
   AllInvoices,
   DashboardWrapper,
+  UserManagement,
 } from "./pages";
 import { InvoicePage } from "./components";
 import { UpdatePassword } from "./components/updatePassword";
@@ -22,6 +23,7 @@ function App() {
     };
     fn();
   }, []);
+  const user = JSON.parse(localStorage.getItem("@userDetails"))
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
@@ -32,6 +34,10 @@ function App() {
       <Route path="/drafts" element={<AllDrafts />} />
       <Route path="/print-invoice" element={<InvoicePage />} />
       <Route path="/update-password" element={<UpdatePassword />} />
+      {
+        user?.role === "Admin" &&
+        <Route path="/user-management" element={<UserManagement />} />
+      }
     </Routes>
   );
 }
