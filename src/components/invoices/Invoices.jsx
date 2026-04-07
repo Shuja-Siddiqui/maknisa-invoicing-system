@@ -91,18 +91,21 @@ export const Invoices = () => {
   };
 
   const handleStatus = ({ invoiceStatus, statusId }) => {
-    updateStatus({ invoiceStatus, statusId })
-      .then((res) => {
-        // Manually update the status in the data array without refreshing
-        const updatedData = data.map((item) => {
-          if (item._id === statusId) {
-            return { ...item, Status: invoiceStatus };
-          }
-          return item;
-        });
-        setData(updatedData);
-      })
-      .catch((error) => console.log(error));
+    const userConfirmed = window.confirm(`Are you sure you want to ${invoiceStatus} the invoice`);
+    if (userConfirmed) {
+      updateStatus({ invoiceStatus, statusId })
+        .then((res) => {
+          // Manually update the status in the data array without refreshing
+          const updatedData = data.map((item) => {
+            if (item._id === statusId) {
+              return { ...item, Status: invoiceStatus };
+            }
+            return item;
+          });
+          setData(updatedData);
+        })
+        .catch((error) => console.log(error));
+    }
   };
 
   // ─── Derived stats ──────────────────────────────────────────────────────────

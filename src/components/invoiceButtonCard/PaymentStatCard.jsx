@@ -141,13 +141,13 @@ export const PaymentStatCard = ({
 
       {/* 💰 Multi Currency Values */}
       <Box sx={{ mb: 1 }}>
-        {Object.entries(value).map(([currency, amount]) => {
+        {Object.entries(value||{}).map(([currency, amount]) => {
           const meta = getCurrencyMeta(currency);
 
           return (
-            <Box sx={{ display: "flex", width: "100%" }}>
+            <Box     key={currency} sx={{ display: "flex", width: "100%" }}>
               <Typography
-                key={currency}
+             
                 sx={{
                   fontSize: 16,
                   fontWeight: 700,
@@ -159,7 +159,7 @@ export const PaymentStatCard = ({
                 {meta.label}
               </Typography>
               <Typography
-                key={currency}
+        
                 sx={{
                   fontSize: 16,
                   fontWeight: 700,
