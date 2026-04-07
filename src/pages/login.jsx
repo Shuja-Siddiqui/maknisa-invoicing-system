@@ -12,7 +12,7 @@ const StyledLoginPage = styled("div")(({ theme }) => ({
   alignItems: "center",
   minHeight: "100vh",
   flexDirection: "column",
-  background: "black"
+  background: "black",
 }));
 
 export const StyledButton = styled(Button)(({ theme }) => ({
@@ -34,12 +34,19 @@ export const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     const loginData = {
-      username: username,
+      email: username,
       password: password,
     };
     try {
       const userData = await login(loginData);
       localStorage.setItem("@token", userData.token);
+      const saveData = {
+        name: userData.user.name,
+        role: userData.user.role,
+        _id: userData.user._id,
+        email: userData.user.email,
+      };
+      localStorage.setItem("@userDetails", JSON.stringify(saveData));
       navigate("/dashboard");
     } catch (error) {
       console.error("Login Error:", error);
@@ -97,10 +104,10 @@ export const Login = () => {
       >
         <form onSubmit={handleLogin}>
           <StyledTextField
-            placeholder="Username"
+            placeholder="Email"
             variant="outlined"
             fullwidth="true"
-            sx={{ mb: 2, background:"white" }}
+            sx={{ mb: 2, background: "white" }}
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -117,7 +124,7 @@ export const Login = () => {
               variant="outlined"
               type="password"
               fullwidth="true"
-              sx={{ background:"white" }}
+              sx={{ background: "white" }}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -130,7 +137,7 @@ export const Login = () => {
             <StyledButton
               variant="contained"
               fullwidth="true"
-              sx={{ mb: 2}}
+              sx={{ mb: 2 }}
               type="submit"
             >
               Login

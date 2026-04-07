@@ -247,8 +247,9 @@ export const InvoiceForm = () => {
   };
 
   const saveDraftDebounced = async () => {
+    const user = JSON.parse(localStorage.getItem("@userDetails"));
     try {
-      await updateInvoice({ ...formData });
+      await updateInvoice({ ...formData, createdBy: user.name });
       clearTimeout(debounceTimer); // Clear the debounce timer after saving
     } catch (err) {
       console.error(err);
@@ -256,8 +257,9 @@ export const InvoiceForm = () => {
   };
 
   const handleSubmit = async () => {
+    const user = JSON.parse(localStorage.getItem("@userDetails"));
     try {
-      await genrateInvoice({ ...formData });
+      await genrateInvoice({ ...formData, createdBy: user.name });
       navigate("/print-invoice");
     } catch (err) {
       console.error(err);

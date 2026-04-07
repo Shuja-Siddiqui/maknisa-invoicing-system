@@ -1,5 +1,5 @@
-import React from "react";
-import { Card, Box, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const O = "#F98E0A";
 const O10 = "rgba(249,142,10,0.10)";
@@ -17,59 +17,50 @@ const GREEN_BG = "rgba(22,163,74,0.10)";
 const RED = "#DC2626";
 const RED_BG = "rgba(220,38,38,0.10)";
 
-// export const StatusCard = ({ text, number, bgcolor, icon , op }) => {
-//   return (
-//     <Card
-//       sx={{
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         cursor: "pointer",
-//         background: "white",
-//         width: { xl: "20%", lg: "20%", md: "20%", sm: "30%", xs: "30%" },
-//         height: { xl: "1%", lg: "1%", md: "1%", sm: "100%", xs: "100%" },
-//         color: "#F98E0A",
-//         border: "1px solid black",
-//       }}
-//     >
-//       <Box sx={{ position: "relative", padding: "20px", textAlign: "center" }}>
-//         {/* Icon in the background */}
-//         <Box
-//           sx={{
-//             color:  bgcolor,
-//             position: "absolute", // Place icon in the background
-//             top: "50%", // Center vertically
-//             left: "50%", // Center horizontally
-//             transform: "translate(-50%, -50%)", // Adjust position to center
-//             opacity: op || 0.5, // Adjust the opacity to make it look like a background
-//             zIndex: 1, // Keep it behind the text
-//           }}
-//         >
-//           {icon}
-//         </Box>
+const paymentCurrencies = [
+  {
+    value: "PKR",
+    label: "Rs",
+  },
+  {
+    value: "USD",
+    label: "$",
+  },
+  {
+    value: "EUR",
+    label: "€",
+  },
+  {
+    value: "BTC",
+    label: "฿",
+  },
+  {
+    value: "JPY",
+    label: "¥",
+  },
+];
 
-//         {/* Typography content */}
-//         <Box sx={{ position: "relative", zIndex: 2 }}>
-//           <Typography>{text}</Typography>
-//           <Typography sx={{ fontSize: "30px" }}>{number}</Typography>
-//         </Box>
-//       </Box>
-//     </Card>
-//   );
-// };
-// ─── Stat Card ────────────────────────────────────────────────────────────────
-export const StatusCard = ({ label, value, sub, icon, variant = "default" }) => {
+export const PaymentStatCard = ({
+  label,
+  value = {},
+  sub,
+  icon,
+  variant = "default",
+}) => {
   const isSolid = variant === "orange";
   const isDark = variant === "dark";
   const isRed = variant === "rejected";
+
   const bg = isSolid
     ? O
     : isDark
       ? BLACK
       : isRed
-        ? " rgba(255, 188, 100, 0.95)"
+        ? "rgba(255, 0, 0, 0.95)"
         : WHITE;
+
   const textMain = isSolid ? BLACK : isDark ? WHITE : isRed ? WHITE : G900;
+
   const textSub = isSolid
     ? "rgba(0,0,0,0.50)"
     : isDark
@@ -77,6 +68,7 @@ export const StatusCard = ({ label, value, sub, icon, variant = "default" }) => 
       : isRed
         ? WHITE
         : G400;
+
   const iconBg = isSolid
     ? "rgba(0,0,0,0.12)"
     : isDark
@@ -84,7 +76,9 @@ export const StatusCard = ({ label, value, sub, icon, variant = "default" }) => 
       : isRed
         ? WHITE
         : O10;
-  const iconClr = isSolid ? BLACK : isRed ? " rgba(255, 0, 0, 0.95)" : O;
+
+  const iconClr = isSolid ? BLACK : isRed ? "rgba(255, 0, 0, 0.95)" : O;
+
   const border = isSolid
     ? "none"
     : `1px solid ${isDark ? "rgba(255,255,255,0.08)" : G200}`;
@@ -112,6 +106,7 @@ export const StatusCard = ({ label, value, sub, icon, variant = "default" }) => 
         },
       }}
     >
+      {/* Decorative circle */}
       <Box
         sx={{
           position: "absolute",
@@ -120,10 +115,13 @@ export const StatusCard = ({ label, value, sub, icon, variant = "default" }) => 
           width: 80,
           height: 80,
           borderRadius: "50%",
-          border: `20px solid ${isSolid ? "rgba(0,0,0,0.07)" : isDark ? O10 : isRed ? " rgba(252, 179, 84, 0.95)" : O10}`,
-          pointerEvents: "none",
+          border: `20px solid ${
+            isSolid ? "rgba(0,0,0,0.07)" : isDark ? O10 : isRed ? O : O10
+          }`,
         }}
       />
+
+      {/* Icon */}
       <Box
         sx={{
           width: 36,
@@ -140,18 +138,44 @@ export const StatusCard = ({ label, value, sub, icon, variant = "default" }) => 
       >
         {icon}
       </Box>
-      <Typography
-        sx={{
-          fontSize: 28,
-          fontWeight: 800,
-          color: textMain,
-          lineHeight: 1,
-          mb: 0.4,
-          letterSpacing: "-0.03em",
-        }}
-      >
-        {value}
-      </Typography>
+
+      {/* 💰 Multi Currency Values */}
+      <Box sx={{ mb: 1 }}>
+        {Object.entries(value||{}).map(([currency, amount]) => {
+          const meta = getCurrencyMeta(currency);
+
+          return (
+            <Box     key={currency} sx={{ display: "flex", width: "100%" }}>
+              <Typography
+             
+                sx={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: textMain,
+                  width: "100%",
+                  lineHeight: 1.4,
+                }}
+              >
+                {meta.label}
+              </Typography>
+              <Typography
+        
+                sx={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: textMain,
+                  lineHeight: 1.4,
+                  width: "100%",
+                }}
+              >
+                {amount}
+              </Typography>
+            </Box>
+          );
+        })}
+      </Box>
+
+      {/* Label */}
       <Typography
         sx={{
           fontSize: 11,
@@ -165,7 +189,17 @@ export const StatusCard = ({ label, value, sub, icon, variant = "default" }) => 
       >
         {label}
       </Typography>
+
+      {/* Sub */}
       <Typography sx={{ fontSize: 11, color: textSub }}>{sub}</Typography>
     </Box>
+  );
+};
+
+const getCurrencyMeta = (currency) => {
+  return (
+    paymentCurrencies.find((c) => c.value === currency) || {
+      label: currency,
+    }
   );
 };

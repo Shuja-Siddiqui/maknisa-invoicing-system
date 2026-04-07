@@ -25,6 +25,36 @@ export const login = (data) => {
       throw err;
     });
 };
+export const registerUser = (data) => {
+  return axios
+    .post(url + "/auths/", data)
+    .then((res) => {
+      return res.data?.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+export const updateUser = (data, id) => {
+  return axios
+    .put(url + `/auths/${id}`, data)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+export const deleteUser = (id) => {
+  return axios
+    .delete(url + `/auths/${id}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
 export const forgetPass = (data) => {
   return axios
     .post(url + "/auths/forget-password", data)
@@ -49,6 +79,20 @@ export const updatePassword = (data) => {
 
     .then((res) => {
       return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+export const getUser = () => {
+  const token = localStorage.getItem('@token');
+  const headers = {
+    Authorization: `JWT ${token}`,
+  };
+  return axios
+    .get(`${url}/auths/`, { headers })
+    .then((res) => {
+      return res?.data?.users;
     })
     .catch((err) => {
       throw err;
