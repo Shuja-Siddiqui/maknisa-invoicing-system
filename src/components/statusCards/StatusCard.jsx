@@ -67,7 +67,7 @@ export const StatusCard = ({ label, value, sub, icon, variant = "default" }) => 
     : isDark
       ? BLACK
       : isRed
-        ? " rgba(255, 0, 0, 0.95)"
+        ? " rgba(255, 188, 100, 0.95)"
         : WHITE;
   const textMain = isSolid ? BLACK : isDark ? WHITE : isRed ? WHITE : G900;
   const textSub = isSolid
@@ -120,7 +120,7 @@ export const StatusCard = ({ label, value, sub, icon, variant = "default" }) => 
           width: 80,
           height: 80,
           borderRadius: "50%",
-          border: `20px solid ${isSolid ? "rgba(0,0,0,0.07)" : isDark ? O10 : isRed ? O : O10}`,
+          border: `20px solid ${isSolid ? "rgba(0,0,0,0.07)" : isDark ? O10 : isRed ? " rgba(252, 179, 84, 0.95)" : O10}`,
           pointerEvents: "none",
         }}
       />

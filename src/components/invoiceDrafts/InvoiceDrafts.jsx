@@ -115,7 +115,7 @@ export const InvoiceDrafts = () => {
       <InvoiceTable
         data={data}
         headings={[
-          "_id",
+          "invoice_id",
           "Client_Name",
           "House_No",
           "Location",
